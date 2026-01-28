@@ -6,8 +6,6 @@ export default function AuthenticationContext({children}){
     useEffect(()=>{
 
         getUserId();
-
-        console.log("hii");
     
     },[])
     

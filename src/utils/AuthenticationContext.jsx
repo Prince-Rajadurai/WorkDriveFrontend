@@ -7,7 +7,6 @@ export default function AuthenticationContext({children}){
 
         getUserId();
 
-        console.log("vadakkan!");
     
     },[])
     

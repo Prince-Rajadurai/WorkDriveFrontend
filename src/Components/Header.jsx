@@ -1,7 +1,17 @@
 import { mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
+import { useContext, useEffect, useState } from 'react';
+import { authContext } from '../utils/AuthenticationContext';
 
 export default function Header(){
+
+    const {userId , userName} = useContext(authContext);
+
+    const[name , setName] = useState("");
+
+    useEffect(()=>{
+        setName(userName[0].toUpperCase());
+    },[]);
 
     return(
         <>
@@ -16,6 +26,9 @@ export default function Header(){
                     <div className="visiting-option">
                         <Icon path={mdiFolderOutline} size={1} />
                         <h1>My Folder</h1>
+                    </div>
+                    <div className="userName">
+                        <h1>{name}</h1>
                     </div>
                 </div>
             </div>

@@ -1,16 +1,13 @@
 import { useState } from 'react'
 import './App.css'
-import AuthenticationContext from './utils/AuthenticationContext'
-import Header from './Components/Header'
+import Home from './Pages/Home'
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
     <>
-      <AuthenticationContext>
-          <Header></Header>
-      </AuthenticationContext>
+      <Home></Home>
     </>
   )
 }

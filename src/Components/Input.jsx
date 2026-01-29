@@ -1,4 +1,4 @@
-import './Input.css';
+import './../Style/Input.css';
 import Button from './Button';
 
 export default function Input({ children, placeholder, onClick, cancel }) {

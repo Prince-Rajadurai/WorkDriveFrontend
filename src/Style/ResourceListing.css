@@ -16,18 +16,6 @@
     background-color: var(--white1);
 }
 
-.mainLink {
-    display: flex;
-    align-items: center;
-    border-bottom: 1px solid var(--white2);
-    padding: 6px;
-}
-
-.treeLinks {
-    display: flex;
-    align-items: center;
-}
-
 .tree {
     height: 40px;
     width: 40px;

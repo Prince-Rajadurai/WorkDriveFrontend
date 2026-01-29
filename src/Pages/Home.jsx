@@ -2,6 +2,7 @@ import Header from "../Components/Header";
 import SideNavPar from "../Components/SideNavPar";
 import AuthenticationContext from "../utils/AuthenticationContext";
 import '../Style/Home.css'
+import FileHeader from "../Components/FileHeader";
 
 export default function Home(){
 
@@ -12,6 +13,7 @@ export default function Home(){
                 <Header></Header>
                 <div className="container">
                     <SideNavPar></SideNavPar>
+                    <FileHeader></FileHeader>
                 </div>
             </div>
         </AuthenticationContext>

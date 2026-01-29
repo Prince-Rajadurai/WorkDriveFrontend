@@ -64,22 +64,7 @@ export default function ResourceListing() {
     }
 
     return (
-        <div className="container">
-
-            <div className="mainLink">
-                <div className="treeLinks">
-                    <div className="tree" ref={treeRef} onClick={() => setShowTree(true)}>
-                        <Icon path={mdiFileTree} size={1} />
-                    </div>
-                </div>
-
-                <div className="breadCrumb">
-                    <span onClick={goToRootFolder}>My Folder</span>
-                    {breadCrumbLinks.map((resource, index) => (
-                        <span key={resource.document_id}>{" > "}<span onClick={() => goToBreadCrumbLink(index)}>{resource.document_name}</span></span>
-                    ))}
-                </div>
-            </div>
+        <div className="fileResource">
 
             <div className="heading grid-row heading-row">
                 <span className="name">Name</span>

@@ -1,0 +1,58 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.headerParent{
+    width: 100vw;
+    height: 5vh;
+}
+.header{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.logo-image{
+    width: 20%;
+    height: 100%;
+    background-color: rgb(46, 46, 46);
+    display: flex;
+    align-items: center;
+    padding: 0px 10px;
+    gap: 6px;
+    color: rgb(223, 223, 223);
+    border-bottom: 2px solid rgb(0, 0, 0);
+}
+.visiting-option{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    padding: 0px 30px;
+    gap: 6px;
+    border-bottom: 1px solid rgb(212, 212, 212);
+}
+.userName{
+    width: 40%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding: 0px 30px;
+    color: gray;
+    border-bottom: 1px solid rgb(212, 212, 212);
+}
+.userName h3{
+    padding: 7px 12px;
+    border: 1px solid gray;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: .2s;
+}
+.userName h3:hover{
+    background-color: rgb(197, 197, 197);
+    color: rgb(73, 73, 73);
+}

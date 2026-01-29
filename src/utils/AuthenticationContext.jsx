@@ -3,12 +3,12 @@ import { createContext, useEffect } from "react";
 export const authContext = createContext();
 
 export default function AuthenticationContext({children}){
-    useEffect(()=>{
+    // useEffect(()=>{
 
-        getUserId();
+    //     getUserId();
 
     
-    },[])
+    // },[])
     
     var userDetails = {userId : "" , userName : ""};
     

@@ -2,15 +2,13 @@ import { useState } from 'react'
 import './App.css'
 import AuthenticationContext from './utils/AuthenticationContext'
 import Header from './Components/Header'
+import NewButton from './Components/NewButton'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <AuthenticationContext>
-          <Header></Header>
-      </AuthenticationContext>
+       
     </>
   )
 }

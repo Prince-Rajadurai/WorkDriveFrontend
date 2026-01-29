@@ -1,0 +1,39 @@
+button{
+    cursor: pointer;
+}
+.dropdown {
+    padding: 5%;
+    margin: 2.5% 0%;
+    width: 100%;
+    background-color: white;
+}
+
+.dropdownMenu {
+    display: none;
+    padding: 5%;
+    box-shadow: 0 0 2px black;
+    background-color: white;
+    flex-direction: column;
+}
+
+.newButtonBox:hover .dropdownMenu {
+    display: flex;
+}
+
+.newButtonBox{
+    width: 12.5%;
+    margin: 2%;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+#newButton{
+    margin: 10% 20%;
+    padding: 5% 15%;
+    font-weight: 900;
+    border: none;
+    border-radius: 2px;
+    color: white;
+    background-color: #2C66DD;
+}

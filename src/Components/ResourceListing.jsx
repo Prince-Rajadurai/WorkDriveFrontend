@@ -64,7 +64,7 @@ export default function ResourceListing() {
     }
 
     return (
-        <div className="container">
+        <div className="fileResource">
 
             <div className="mainLink">
                 <div className="treeLinks">

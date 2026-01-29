@@ -9,10 +9,11 @@ export default function NewButton() {
    const[code , setCode] = useState(0);
    const[show , setShow] = useState(false);
    const[msg , setMsg] = useState("");
-   const[filename , useFilename] = useState("");
+   const[resourceName , setResourceName] = useState("");
 
 
    async function createFile(filename , path , change , folderId){
+
 
       let response = await fetch("http://localhost:8080/WorkDrive/creation/CreateFileServlet" , {
          method : "POST",
@@ -21,20 +22,20 @@ export default function NewButton() {
       });
       let data = await response.json();
 
-      if(data.statusCode == 200){
+      if(data.StatusCode == 200){
          setCode(200);
          setMsg("✅ File created sucessfully");
          setShow(true);
          setTimeout(()=>{setShow(false)},2000)
       }
-      if(data.statusCode == 400){
+      if(data.StatusCode == 400){
          setCode(400);
          setMsg("❌ File creation Failed");
          setShow(true);
          setTimeout(()=>{setShow(false)},2000)
       }
       else{
-         console.log(data.statusCode);
+         console.log(data.StatusCode);
       }
 
    }
@@ -48,15 +49,20 @@ export default function NewButton() {
          headers: {
             "Content-Type": "application/json"
          },
+         credentials: "include",
          body: JSON.stringify({
-            resourceName: folderName,
-            parentId: parentId,
+            resourceName:folderName,
+            parentId,
          })
       });
 
       const data = await response.json();
 
       console.log("Server response:", data);
+   }
+
+   function getValue(name){
+      setResourceName(name);
    }
 
    const [showFolderInput, setShowFolderinput] = useState(false);
@@ -77,9 +83,9 @@ export default function NewButton() {
 
          <Popup result={code} msg={msg} show={show}></Popup>
 
-         {showFolderInput && <Input placeholder="Enter the Folder Name" onClick={createFolder} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
+         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,null)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" onClick={()=>{createFile()}} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,"/prd",false,"804407542896656384")}} cancel={()=>setShowFileinput(false)}>File</Input>}
       </>
    );
 }

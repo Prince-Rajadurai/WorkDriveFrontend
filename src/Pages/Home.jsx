@@ -3,6 +3,7 @@ import SideNavPar from "../Components/SideNavPar";
 import AuthenticationContext from "../utils/AuthenticationContext";
 import '../Style/Home.css'
 import FileHeader from "../Components/FileHeader";
+import ResourceListing from "../Components/ResourceListing";
 
 export default function Home(){
 
@@ -14,6 +15,7 @@ export default function Home(){
                 <div className="container">
                     <SideNavPar></SideNavPar>
                     <FileHeader></FileHeader>
+                    <ResourceListing></ResourceListing>
                 </div>
             </div>
         </AuthenticationContext>

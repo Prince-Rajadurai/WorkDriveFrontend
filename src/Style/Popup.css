@@ -1,0 +1,46 @@
+.success-msg{
+    width: 350px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: -30rem;
+    transition: .3s;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border-radius: 5px;
+    border-top: 5px solid green;
+    background-color: white;
+}
+
+.msg{
+    font-weight: bolder;
+    font-size: 17px;
+    color: gray;
+}
+
+.response-message p{
+    font-size: 19px;
+    font-weight: 300;
+}
+
+#show{
+    right: .5rem;
+}
+
+.failed-msg{
+    width: 350px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    right: -30rem;
+    transition: .3s;
+    box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
+    border-radius: 5px;
+    border-top: 5px solid red;
+    background-color: white;
+}

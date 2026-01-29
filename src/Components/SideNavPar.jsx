@@ -1,11 +1,15 @@
+import '../Style/SideNavPar.css'
+import { mdiFolderOutline } from '@mdi/js';
+import Icon from '@mdi/react';
 
 export default function SideNavPar(){
     
     return(
         <>
-            <div className="navPArent">
+            <div className="side-nav-parent">
                 <div className="my-folder">
-                    <h1>My folder</h1>
+                    <Icon path={mdiFolderOutline} size={1} />
+                    <p>My Folders</p>
                 </div>
             </div>
         </>

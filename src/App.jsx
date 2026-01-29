@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import AuthenticationContext from './utils/AuthenticationContext'
 import Header from './Components/Header'

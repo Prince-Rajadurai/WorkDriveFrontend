@@ -1,16 +1,17 @@
 import { createContext, useEffect } from "react";
 
-export const authContext = createContext();
+export const AuthContext = createContext();
 
 export default function AuthenticationContext({children}){
     // useEffect(()=>{
 
     //     getUserId();
 
+    //     getUserId();
     
     // },[])
     
-    var userDetails = {userId : "" , userName : ""};
+    var userDetails = {userId : "123" , userName : "Ram"};
     
     async function getUserId(){
     
@@ -22,7 +23,9 @@ export default function AuthenticationContext({children}){
         }
     
     }
+    return (
     <>
-        <authContext.Provider value={userDetails}>{children}</authContext.Provider>
+        <AuthContext.Provider value={userDetails}>{children}</AuthContext.Provider>
     </>
+    );
 }

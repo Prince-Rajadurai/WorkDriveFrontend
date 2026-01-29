@@ -2,6 +2,10 @@ import './../Style/Input.css';
 import Button from './Button';
 
 export default function Input({ children, placeholder, onClick, cancel }) {
+    function createResource(){
+        onClick();
+        cancel();
+    }
     return (
         <div id='outerContainer'>
             <div className='innerContainer'>
@@ -12,7 +16,7 @@ export default function Input({ children, placeholder, onClick, cancel }) {
                 </div>
                 <div className='buttons'>
                     <Button className="inputButton" onClick={cancel}>Cancel</Button>
-                    <Button className="inputButton" id="createButton" onClick={onClick}>Create</Button>
+                    <Button className="inputButton" id="createButton" onClick={createResource}>Create</Button>
                 </div>
 
             </div>

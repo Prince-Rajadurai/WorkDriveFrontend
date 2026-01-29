@@ -9,5 +9,5 @@ async function post(url, payload) {
     return response.json();
 }
 
-export const getFolder = (resourceId) => post("/FolderGetServlet", {resourceId});
-export const getFiles = (folderId) => post("/FileGetServlet", {folderId});
+export const getFolder = (parentId) => post("/FolderGetServlet", {parentId});
+export const getFiles = (folderId) => post("/ShowFiles", {folderId});

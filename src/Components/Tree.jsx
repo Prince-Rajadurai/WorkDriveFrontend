@@ -1,7 +1,11 @@
 import Icon from "@mdi/react";
 import { mdiFolderOutline, mdiChevronDown, mdiChevronRight } from "@mdi/js";
+import { FolderIdContext } from "../utils/FolderContext";
+import { useContext } from "react";
 
 export default function Tree({ parentId, data, expandedFolders, toggleFolder, onFolderSelect, level = 0 }) {
+    const { folderDetails } = useContext(FolderIdContext);
+    const { folderId : currentFolderId } = folderDetails;
     const folders = (data[parentId] || []).filter(
         item => item.document_type === "FOLDER"
     );
@@ -15,58 +19,27 @@ export default function Tree({ parentId, data, expandedFolders, toggleFolder, on
                     item => item.document_type === "FOLDER"
                 );
 
+                const isActive = currentFolderId === folder.document_id;
+
                 return (
                     <div key={folder.document_id}>
-                        <div
-                            className="treeRow"
-                            style={{ paddingLeft: `${level * 16}px` }}
-                            onClick={() => onFolderSelect(folder)}
-                        >
+                        <div className={`treeRow ${isActive ? "active" : ""}`} style={{ paddingLeft: `${level * 12}px` }} onClick={() => onFolderSelect(folder)} >
                             {hasChildren ? (
                                 <span
-                                    className="treeArrow"
-                                    onClick={(e) => {
+                                    className="treeArrow" onClick={(e) => {
                                         e.stopPropagation();
-                                        toggleFolder(folder.document_id);
-                                    }}
-                                >
-                                    <Icon
-                                        path={
-                                            expandedFolders[folder.document_id]
-                                                ? mdiChevronDown
-                                                : mdiChevronRight
-                                        }
-                                        size={0.8}
-                                    />
+                                        toggleFolder(folder.document_id); 
+                                    }} >
+                                    <Icon path={ expandedFolders[folder.document_id] ? mdiChevronDown : mdiChevronRight } size={0.8}/>
                                 </span>
                             ) : (
                                 <span className="treeArrowPlaceholder" />
                             )}
-
-                            <Icon
-                                path={mdiFolderOutline}
-                                size={0.9}
-                                color="#1E52BB"
-                            />
-
-                            <span
-                                className="treeFolderName"
-                                onClick={() => onFolderSelect(folder)}
-                            >
-                                {folder.document_name}
-                            </span>
+                            <Icon path={mdiFolderOutline} size={0.9} color="#1E52BB" />
+                            <span className="treeFolderName">{folder.document_name}</span>
                         </div>
 
-                        {expandedFolders[folder.document_id] && (
-                            <Tree
-                                parentId={folder.document_id}
-                                data={data}
-                                expandedFolders={expandedFolders}
-                                toggleFolder={toggleFolder}
-                                onFolderSelect={onFolderSelect}
-                                level={level + 1}
-                            />
-                        )}
+                        {expandedFolders[folder.document_id] && ( <Tree parentId={folder.document_id} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolder} onFolderSelect={onFolderSelect} level={level + 1}/> )}
                     </div>
                 );
             })}

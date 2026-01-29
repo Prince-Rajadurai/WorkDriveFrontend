@@ -63,6 +63,7 @@
     display: grid;
     grid-template-columns: 4fr 2fr 2fr 1fr;
     align-items: center;
+    text-align: center;
     padding: 0.4rem;
 }
 

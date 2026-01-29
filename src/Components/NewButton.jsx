@@ -1,7 +1,7 @@
+import { useState } from "react";
 import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
-import { useState } from "react";
 import Popup from "./Popup.jsx";
 
 export default function NewButton() {
@@ -9,13 +9,34 @@ export default function NewButton() {
    const[code , setCode] = useState(0);
    const[show , setShow] = useState(false);
    const[msg , setMsg] = useState("");
+   const[filename , useFilename] = useState("");
 
 
-   function createFile() {
-        setCode(200);
-        setMsg("✅ File created sucessfully");
-        setShow(true);
-        setTimeout(()=>{setShow(false)},2000)
+   async function createFile(filename , path , change , folderId){
+
+      let response = await fetch("http://localhost:8080/WorkDrive/creation/CreateFileServlet" , {
+         method : "POST",
+         headers : {"Content-Type" : "application/json"},
+         body : JSON.stringify({filename , path , change , folderId })
+      });
+      let data = await response.json();
+
+      if(data.statusCode == 200){
+         setCode(200);
+         setMsg("✅ File created sucessfully");
+         setShow(true);
+         setTimeout(()=>{setShow(false)},2000)
+      }
+      if(data.statusCode == 400){
+         setCode(400);
+         setMsg("❌ File creation Failed");
+         setShow(true);
+         setTimeout(()=>{setShow(false)},2000)
+      }
+      else{
+         console.log(data.statusCode);
+      }
+
    }
 
    async function createFolder(folderName,parentId) {
@@ -58,7 +79,7 @@ export default function NewButton() {
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" onClick={createFolder} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" onClick={createFile} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" onClick={()=>{createFile()}} cancel={()=>setShowFileinput(false)}>File</Input>}
       </>
    );
 }

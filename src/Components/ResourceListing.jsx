@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdiFileTree, mdiFileOutline, mdiFolderOutline } from '@mdi/js';
-import './ResourceListing.css';
+import '../Style/ResourceListing.css';
 import Tree from "./Tree";
 import { getFolder, getFiles } from "../api/workdriveapi";
 

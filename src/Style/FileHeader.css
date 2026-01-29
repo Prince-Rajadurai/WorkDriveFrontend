@@ -1,9 +1,9 @@
 #fileHeader{
     width: 84%;
-    height: 6vh;
+    height: 5vh;
     padding: 10px;
-    background-color: rebeccapurple;
     display: flex;
+    border-bottom: 1px solid rgb(216, 216, 216);
 }
 #tree-structure-view{
     width: 70%;

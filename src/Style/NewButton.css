@@ -33,7 +33,7 @@ button{
 .newButtonBox{
     position: absolute;
     width: 200px;
-    top: 5.7vh;
+    top: 5.6vh;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -48,6 +48,6 @@ button{
     color: white;
     background-color: #2C66DD;
     width: 100px;
-    padding: 1rem 1.5rem;
+    padding: .7rem 1.5rem;
     margin-bottom: 1rem;
 }

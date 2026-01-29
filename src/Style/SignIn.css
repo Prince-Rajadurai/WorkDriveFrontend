@@ -1,0 +1,110 @@
+
+.layout {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f5f6fa;
+}
+
+.signInContainer {
+    width: 550px;
+    height: 700px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    background-color: white;
+    border-radius: 1rem;
+    color: black;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+}
+
+.signInContainer h1 {
+    margin: 1rem;
+    height: fit-content;
+    width: 100%;
+}
+
+.signInContainer p {
+    font-size: 1.5rem;
+    margin: 1rem;
+    height: fit-content;
+    width: 100%;
+    color: #3d4358;
+}
+
+.signInContainer .error {
+    font-size: 1rem;
+    margin: 1rem;
+    height: fit-content;
+    color: red;
+}
+
+.forgotpassword {
+    font-size: 1rem;
+    margin: 1rem;
+    height: fit-content;
+    width: 100%;
+    color: #1E52BB;
+}
+
+.forgotpassword:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.signInContainer hr {
+    width: 100%;
+    height: fit-content;
+    color: rgb(169, 169, 169);
+}
+
+.signInContainer .signUpParagraph {
+    color: rgb(169, 169, 169);
+    font-size: 1.25rem;
+    height: fit-content;
+}
+
+.signInContainer .signUpLink {
+    font-size: 1.25rem;
+    height: fit-content;
+    width: fit-content;
+}
+
+.signInForm {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    margin: 1rem;
+    width: 450px;
+    height: fit-content;
+}
+
+.signInForm label {
+    font-size: 1.25rem;
+    width: 100%;
+    text-align: left;
+    margin: 0.3rem;
+    color: #697182;
+    height: fit-content;
+}
+
+.signInForm input {
+    height: fit-content;
+    width: 100%;
+    border: 1px solid rgb(122, 119, 119);
+    border-radius: 5px;
+    font-size: 20px;
+    padding: 10px;
+    margin: 0.3rem;
+    color: black;
+    background-color: white;
+}
+
+.signInForm input::placeholder {
+    color: rgb(169, 169, 169);
+}

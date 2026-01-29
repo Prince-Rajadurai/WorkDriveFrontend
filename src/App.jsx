@@ -1,18 +1,20 @@
 import './App.css'
-import AuthenticationContext from './utils/AuthenticationContext'
-import Header from './Components/Header'
-import NewButton from './Components/NewButton'
-import FileHeader from './Components/FileHeader'
-import ResourceListing from './Components/ResourceListing'
 import Home from './Pages/Home'
-import Popup from './Components/Popup'
+import SignIn from './Pages/SignIn'
+import SignUpPage from './Pages/SignUp'
+
+import { Routes, Route } from "react-router-dom";
 
 function App() {
 
   return (
     <>
-       
-      <Home></Home>
+       <Routes>
+        <Route path="/signup" element={<SignUpPage />} />
+        <Route path="/" element={<SignIn/>} />
+        {/* <Route path="/edit" element={<EditPage />} /> */}
+        <Route path="/home" element={<Home />} />
+      </Routes>
     </>
   )
 }

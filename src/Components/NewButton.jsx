@@ -18,7 +18,7 @@ export default function NewButton() {
         setTimeout(()=>{setShow(false)},2000)
    }
 
-   async function createFolder(folderName) {
+   async function createFolder(folderName,parentId) {
 
       if (!folderName) return;
 
@@ -29,7 +29,7 @@ export default function NewButton() {
          },
          body: JSON.stringify({
             resourceName: folderName,
-            parentId: null
+            parentId: parentId,
          })
       });
 

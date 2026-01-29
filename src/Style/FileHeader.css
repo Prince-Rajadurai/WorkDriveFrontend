@@ -1,0 +1,22 @@
+#fileHeader{
+    width: 84%;
+    height: 6vh;
+    padding: 10px;
+    background-color: rebeccapurple;
+    display: flex;
+}
+#tree-structure-view{
+    width: 70%;
+    height: 100%;
+    padding: 0px 20px;
+    display: flex;
+    align-items: center;
+}
+#add-resource-new{
+    width: 30%;
+    height: 100%;
+    padding: 0px 10px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

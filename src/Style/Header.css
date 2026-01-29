@@ -35,6 +35,10 @@
     gap: 6px;
     border-bottom: 1px solid rgb(212, 212, 212);
 }
+.visiting-option p{
+    font-weight: bolder;
+    color: rgb(58, 58, 58);
+}
 .userName{
     width: 40%;
     height: 100%;

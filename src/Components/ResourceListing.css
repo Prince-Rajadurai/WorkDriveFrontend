@@ -1,0 +1,174 @@
+:root {
+    --data: #555;
+    --white1: #ffffff;
+    --white2: #ededed;
+    --white3: #f6f8f8;
+}
+
+.container {
+    position: fixed;
+    top: 6vh;
+    left: 20%;
+    width: 80%;
+    height: calc(100vh - 6vh);
+    display: flex;
+    flex-direction: column;
+    background-color: var(--white1);
+}
+
+.mainLink {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--white2);
+    padding: 6px;
+}
+
+.treeLinks {
+    display: flex;
+    align-items: center;
+}
+
+.tree {
+    height: 40px;
+    width: 40px;
+    padding: 5px;
+    margin-right: 8px;
+    border: 1px solid var(--white2);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.tree:hover {
+    background-color: var(--white2);
+}
+
+.breadCrumb {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 14px;
+    padding: 5px 8px;
+    border: 1px solid var(--white2);
+    border-radius: 4px;
+}
+
+.breadCrumb span {
+    cursor: pointer;
+}
+
+.breadCrumb:hover {
+    background-color: var(--white2);
+}
+
+.heading {
+    height: 45px;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--data);
+    border-bottom: 1px solid var(--white2);
+}
+
+.grid-row {
+    display: grid;
+    grid-template-columns: 4fr 2fr 2fr 1fr;
+    align-items: center;
+    padding: 0.4rem;
+}
+
+.resources {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.file {
+    height: 52px;
+    border-bottom: 1px solid var(--white2);
+    cursor: pointer;
+}
+
+.file:hover {
+    background-color: var(--white3);
+}
+
+.name {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-left: 2rem;
+    font-size: 15px;
+}
+
+.fileName {
+    font-size: 15px;
+}
+
+.fileCreatedAt, .fileLastModified, .fileSize {
+    font-size: 14px;
+    color: var(--data);
+}
+
+.empty {
+    flex: 1;
+    color: var(--data);
+    font-size: 16px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.empty img {
+    height: 180px;
+    width: 180px;
+    margin-bottom: 10px;
+}
+
+.dropDownBox {
+    position: fixed;
+    inset: 0;
+}
+
+.box {
+    position: absolute;
+    top: 120px;
+    left: 20.5%;
+    width: 260px;
+    max-height: 400px;
+    overflow-y: auto;
+    background: var(--white1);
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+    padding: 10px;
+}
+
+.treeLevel {
+    padding-left: 12px;
+}
+
+.treeRow {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 4px 6px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.treeRow:hover {
+    background-color: #f5f7fa;
+}
+
+.treeArrow {
+    width: 14px;
+    font-size: 12px;
+}
+
+.treeName {
+    font-size: 14px;
+    white-space: nowrap;
+}

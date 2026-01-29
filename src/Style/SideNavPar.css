@@ -24,6 +24,9 @@
     cursor: pointer;
     font-size: 15px;
 }
+.my-folder p{
+    font-weight: bolder;
+}
 .my-folder:hover{
     background-color: rgb(78, 78, 78);
 }

@@ -86,6 +86,7 @@ export default function ResourceListing() {
         try {
             const resourceResponse = await getResources(parentId);
             const resources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources.map(resource => ({ ...resource, parentId })) : [];
+            {console.log(resources)}
             setData(prev => ({ ...prev, [parentId]: resources }));
             setResources(resources);
         } catch (err) {
@@ -158,10 +159,10 @@ export default function ResourceListing() {
                     <div className="file grid-row" key={resource.document_id} onClick={() => openFolder(resource)}>
                         <div className="name">
                             {resource.document_type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} /> : <Icon path={mdiFileOutline} size={1} />}
-                            <span className="fileName">{resource.document_name}</span>
+                            <span className="fileName">{resource.filename||resource.resourceName}</span>
                         </div>
-                        <span className="fileCreatedAt">{resource.document_created_at}</span>
-                        <span className="fileLastModified">{resource.document_last_modified}</span>
+                        <span className="fileCreatedAt">{resource.createdTime || resource.createTime}</span>
+                        <span className="fileLastModified">{resource.modifiedTime}</span>
                         <span className="fileSize">{resource.document_size || "-"}</span>
                         <span className="dropdownMenu" onContextMenu={(e) => {
                             e.preventDefault();

@@ -27,7 +27,7 @@ export default function Home() {
             }
 
         } catch (err) {
-            setError("Technical Issue");
+            console.log("Technical Issue");
         }
     }
 

@@ -33,7 +33,7 @@ button{
 .newButtonBox{
     position: absolute;
     width: 200px;
-    top: 5.6vh;
+    top: 0px;
     z-index: 5;
     display: flex;
     align-items: center;

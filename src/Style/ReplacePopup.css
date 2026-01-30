@@ -1,20 +1,8 @@
-#outerContainer{
-    width: 100vw;
-    height: 100vh;
-    bottom: 1px;
-    right: 1px;
-    position:absolute;
-    z-index: 10;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(11, 11, 11, 0.5);
-}
 
-.innerContainer{
+.replaceContainer{
     background-color: white;
     width: 800px;
-    height: 250px;
+    height: 200px;
     border-radius: 5px;
     padding: 1.5%;
     display: flex;
@@ -25,27 +13,15 @@
     margin-top: 4%;
 }
 
-.head-title{
+.error-info{
     font-size: 1.75rem;
 }
 
-.label{
-    font-size: 1rem;
+.question{
+    font-size: 1.5rem;
     font-weight: 500;
     color: #727272;
 }
-
-.input-field{
-    width: 100%;
-    height:40px;
-    border: 1px solid gray;
-    border-radius: 2px;
-    font-size: 1rem;
-    font-weight: 100;
-    padding: 1%;
-    margin: .5% 0%;
-}
-
 
 .buttons{
     display: flex;
@@ -66,12 +42,12 @@
     background-color: #E7E7E7;
 }
 
-#createButton{
+#replaceButton{
     background-color: #2C66DD;
     border: none;
     color: white;
 }
 
-#createButton:hover{
+#replaceButton:hover{
     filter: brightness(110%);
 }

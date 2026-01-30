@@ -161,3 +161,8 @@
     font-size: 14px;
     white-space: nowrap;
 }
+
+.breadCrumbs {
+    border: 1px solid var(--white2);
+    padding: 5px;
+}

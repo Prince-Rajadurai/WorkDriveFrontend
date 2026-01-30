@@ -2,33 +2,85 @@ import { createContext, useContext, useState, useRef, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdiFileTree, mdiFileOutline, mdiFolderOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
-import Tree from "./Tree";
+// import Tree from "./Tree";
+import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { useFolder } from "../utils/FolderContext";
 
+// export const mockResources = {
+//     null: [
+//         {
+//             document_id: 1,
+//             document_name: "Documents",
+//             document_type: "FOLDER",
+//             document_created_at: "2024-01-01",
+//             document_last_modified: "2024-01-05"
+//         },
+//         {
+//             document_id: 2,
+//             document_name: "notes.txt",
+//             document_type: "FILE",
+//             document_created_at: "2024-01-02",
+//             document_last_modified: "2024-01-06",
+//             document_size: "12 KB"
+//         }
+//     ],
+//     1: [
+//         {
+//             document_id: 3,
+//             document_name: "Projects",
+//             document_type: "FOLDER",
+//             document_created_at: "2024-01-03",
+//             document_last_modified: "2024-01-07"
+//         },
+//         {
+//             document_id: 4,
+//             document_name: "resume.pdf",
+//             document_type: "FILE",
+//             document_created_at: "2024-01-04",
+//             document_last_modified: "2024-01-08",
+//             document_size: "220 KB"
+//         }
+//     ],
+//     3: [
+//         {
+//             document_id: 5,
+//             document_name: "workdrive.docx",
+//             document_type: "FILE",
+//             document_created_at: "2024-01-05",
+//             document_last_modified: "2024-01-09",
+//             document_size: "1.2 MB"
+//         }
+//     ]
+// };
+
 export default function ResourceListing() {
-    const {currentFolderId, setCurrentFolderId} = useFolder();
+    const { currentFolderId, setCurrentFolderId } = useFolder();
     const [data, setData] = useState({});
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [expandedFolders, setExpandedFolders] = useState({});
     const treeRef = useRef(null);
+    const useStaticData = false;
 
     const [showTree, setShowTree] = useState(false);
 
     useEffect(() => {
-        fetchFolder(currentFolderId);
-    }, [currentFolderId]);
+        console.log(currentFolderId.id);
+        fetchFolder(currentFolderId.id ?? null);
+    }, [currentFolderId.id]);
 
     async function fetchFolder(parentId) {
+        // if (useStaticData) {
+        //     const resources = mockResources[parentId] || [];
+        //     setData(prev => ({...prev, [parentId] : resources}));
+        //     setResources(resources);
+        //     return;
+        // }
         try {
-            // const folderResponse = await getFolder(parentId);
-            // const fileResponse = await getFiles(parentId);
             const resourceResponse = await getResources(parentId);
-            // const folders = Array.isArray(folderResponse) ? folderResponse : [];
-            // const files = Array.isArray(fileResponse) ? fileResponse : [];
-            const resources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
-            setData(prev => ({ ...prev, [parentId]: resources.resources }));
+            const resources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources.map(resource => ({ ...resource, parentId })) : [];
+            setData(prev => ({ ...prev, [parentId]: resources }));
             setResources(resources);
         } catch (err) {
             console.error("Error fetching rsources ", err);
@@ -37,9 +89,7 @@ export default function ResourceListing() {
 
     function openFolder(resource) {
         if (resource.document_type !== "FOLDER") return;
-        setCurrentFolderId(prev => ({
-            ...prev, id : resource.document_id
-        }));
+        setCurrentFolderId(prev => ({ id: resource.document_id }));
         setBreadCrumbLinks(prev => [...prev, resource]);
         if (data[resource.document_id]) {
             setResources(data[resource.document_id]);
@@ -49,6 +99,7 @@ export default function ResourceListing() {
     }
 
     function openFromTree(folder) {
+        setCurrentFolderId({ id : folder.document_id})
         setBreadCrumbLinks(prev => [...prev, folder]);
         if (data[folder.document_id]) {
             setResources(data[folder.document_id]);
@@ -75,6 +126,20 @@ export default function ResourceListing() {
 
     return (
         <div className="fileResource">
+
+            <FileHeader>
+                <div className="tree-header">
+                    {/* <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree} activeFolderId={currentFolderId.id}></Tree> */}
+                    <div className="breadCrumbs">
+                        <span onClick={goToRootFolder}>My Folder</span>
+                        {breadCrumbLinks.map((folder, index) => (
+                            <span key={folder.document_id}>
+                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.document_name}</span>
+                            </span>
+                        ))}
+                    </div>
+                </div>
+            </FileHeader>
 
             <div className="heading grid-row heading-row">
                 <span className="name">Name</span>
@@ -114,7 +179,7 @@ export default function ResourceListing() {
             {showTree && (
                 <div className="dropDownBox" onClick={() => setShowTree(false)}>
                     <div className="box" onClick={e => e.stopPropagation()} ref={treeRef}>
-                        <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree}></Tree>
+                        {/* <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree}></Tree> */}
                     </div>
                 </div>
             )}

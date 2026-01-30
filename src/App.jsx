@@ -10,23 +10,14 @@ function App() {
 
   return (
     <>
-      {/* <Home></Home> */}
-<<<<<<< HEAD
-       <Routes>
-=======
+      <Home></Home>
        {/* <Routes>
->>>>>>> fe77f4b (Pulling updated UI)
         <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/" element={<SignIn/>} />
+        <Route path="/" element={<SignIn/>} /> */}
         {/* <Route path="/edit" element={<EditPage />} /> */}
-<<<<<<< HEAD
-        <Route path="/home" element={<Home />} />
-      </Routes>
-=======
         {/* <Route path="/home" element={<Home />} />
       </Routes> */}
-      <ReplacePopup cancel={()=>{}}>My Folder</ReplacePopup>
->>>>>>> fe77f4b (Pulling updated UI)
+      {/* <ReplacePopup cancel={()=>{}}>My Folder</ReplacePopup> */}
     </>
   )
 }

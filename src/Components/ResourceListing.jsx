@@ -1,8 +1,8 @@
-import { createContext, useContext, useState, useRef, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Icon from '@mdi/react';
-import { mdiFileTree, mdiFileOutline, mdiFolderOutline } from '@mdi/js';
+import { mdiFileOutline, mdiFolderOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
-import Tree from "./Tree";
+// import Tree from "./Tree";
 import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { useFolder } from "../utils/FolderContext";
@@ -63,26 +63,20 @@ export default function ResourceListing() {
     // const useStaticData = true;
 
     useEffect(() => {
-        fetchFolder(null);
-    }, []);
-
-    useEffect(() => {
-        if (currentFolderId.id !== undefined) {
+        if (currentFolderId.id === null) {
+            fetchFolder(null);
+        } else if (currentFolderId.id !== undefined) {
             fetchFolder(currentFolderId.id);
         }
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId) {
-        if (data[parentId]) {
-            setResources(data[parentId]);
+        if (useStaticData) {
+            const resources = mockResources[parentId] || [];
+            setData(prev => ({...prev, [parentId] : resources}));
+            setResources(resources);
             return;
         }
-        // if (useStaticData) {
-        //     const resources = mockResources[parentId] || [];
-        //     setData(prev => ({...prev, [parentId] : resources}));
-        //     setResources(resources);
-        //     return;
-        // }
         try {
             const resourceResponse = await getResources(parentId);
             const resources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources.map(resource => ({ ...resource, parentId })) : [];
@@ -99,18 +93,16 @@ export default function ResourceListing() {
         setCurrentFolderId({ id: resource.document_id });
         setBreadCrumbLinks(prev => [...prev, resource]);
         setExpandedFolders(prev => ({ ...prev, [resource.document_id]: true }));
-        fetchFolder(resource.document_id);
     }
 
     function openFromTree(folder) {
         setCurrentFolderId({ id: folder.document_id })
         setBreadCrumbLinks(prev => [...prev, folder]);
-        setExpandedFolders(prev => ({ ...prev, [resource.document_id]: true }));
-        fetchFolder(folder.document_id);
+        setExpandedFolders(prev => ({ ...prev, [folder.document_id]: true }));
     }
 
     function goToRootFolder() {
-        setCurrentFolderId({ id : folder.document_id });
+        setCurrentFolderId({ id : null });
         setBreadCrumbLinks([]);
         setResources(data[null] || []);
     }
@@ -118,6 +110,7 @@ export default function ResourceListing() {
     function goToBreadCrumbLink(index) {
         const path = breadCrumbLinks.slice(0, index + 1);
         setBreadCrumbLinks(path);
+        setCurrentFolderId({ id : folderId });
         setResources(data[path[index].document_id] || []);
     }
 
@@ -130,7 +123,7 @@ export default function ResourceListing() {
 
             <FileHeader>
                 <div className="tree-header">
-                    <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree} activeFolderId={currentFolderId.id}></Tree>
+                    {/* <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree} activeFolderId={currentFolderId.id}></Tree> */}
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (

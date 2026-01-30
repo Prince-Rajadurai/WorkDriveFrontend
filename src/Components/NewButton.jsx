@@ -58,6 +58,22 @@ export default function NewButton() {
 
       const data = await response.json();
 
+      if(data.StatusCode == 200){
+         setCode(200);
+         setMsg("✅ Folder created sucessfully");
+         setShow(true);
+         setTimeout(()=>{setShow(false)},2000)
+      }
+      if(data.StatusCode == 400){
+         setCode(400);
+         setMsg("❌ Folder creation Failed");
+         setShow(true);
+         setTimeout(()=>{setShow(false)},2000)
+      }
+      else{
+         console.log(data.StatusCode);
+      }
+
       console.log("Server response:", data);
    }
 

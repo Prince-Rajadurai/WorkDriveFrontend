@@ -7,13 +7,20 @@ export default function Input({ children, placeholder, onClick, cancel,sendValue
         onClick();
         cancel();
     }
+
+    const pressSubmit = (e) =>{
+        if(e.key == "Enter"){
+            createResource();
+        }
+    }
+
     return (
         <div id='outerContainer'>
             <div className='innerContainer'>
                 <h1 className='head-title'>Create New {children}</h1>
                 <div>
                     <p className='label'>Name</p>
-                    <input className='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)}/>
+                    <input className='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)} onKeyDown={pressSubmit}/>
                 </div>
                 <div className='buttons'>
                     <Button className="inputButton" onClick={cancel}>Cancel</Button>

@@ -71,12 +71,12 @@ export default function ResourceListing() {
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId) {
-        if (useStaticData) {
-            const resources = mockResources[parentId] || [];
-            setData(prev => ({...prev, [parentId] : resources}));
-            setResources(resources);
-            return;
-        }
+        // if (useStaticData) {
+        //     const resources = mockResources[parentId] || [];
+        //     setData(prev => ({...prev, [parentId] : resources}));
+        //     setResources(resources);
+        //     return;
+        // }
         try {
             const resourceResponse = await getResources(parentId);
             const resources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources.map(resource => ({ ...resource, parentId })) : [];

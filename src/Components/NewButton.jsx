@@ -12,13 +12,13 @@ export default function NewButton() {
    const[resourceName , setResourceName] = useState("");
 
 
-   async function createFile(filename , path , change , folderId){
+   async function createFile(filename , change , folderId){
 
 
       let response = await fetch("http://localhost:8080/WorkDrive/creation/CreateFileServlet" , {
          method : "POST",
          headers : {"Content-Type" : "application/json"},
-         body : JSON.stringify({filename , path , change , folderId })
+         body : JSON.stringify({filename,change, folderId })
       });
       let data = await response.json();
 
@@ -85,7 +85,7 @@ export default function NewButton() {
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,null)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,"/prd",false,"804407542896656384")}} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,"804407542896656384")}} cancel={()=>setShowFileinput(false)}>File</Input>}
       </>
    );
 }

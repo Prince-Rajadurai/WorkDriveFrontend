@@ -2,19 +2,19 @@ import { createContext, useContext, useState, useRef, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdiFileTree, mdiFileOutline, mdiFolderOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
-// import Tree from "./Tree";
-import { getFolder, getFiles } from "../api/workdriveapi";
+import Tree from "./Tree";
+import { getResources } from "../api/workdriveapi";
 import { useFolder } from "../utils/FolderContext";
 
 export default function ResourceListing() {
     const {currentFolderId, setCurrentFolderId} = useFolder();
     const [data, setData] = useState({});
-    // const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
+    const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
-    // const [expandedFolders, setExpandedFolders] = useState({});
-    // const treeRef = useRef(null);
+    const [expandedFolders, setExpandedFolders] = useState({});
+    const treeRef = useRef(null);
 
-    // const [showTree, setShowTree] = useState(false);
+    const [showTree, setShowTree] = useState(false);
 
     useEffect(() => {
         fetchFolder(currentFolderId);
@@ -22,12 +22,13 @@ export default function ResourceListing() {
 
     async function fetchFolder(parentId) {
         try {
-            const folderResponse = await getFolder(parentId);
-            const fileResponse = await getFiles(parentId);
-            const folders = Array.isArray(folderResponse) ? folderResponse : [];
-            const files = Array.isArray(fileResponse) ? fileResponse : [];
-            const resources = [...folders, ...files];
-            setData(prev => ({ ...prev, [parentId]: resources }));
+            // const folderResponse = await getFolder(parentId);
+            // const fileResponse = await getFiles(parentId);
+            const resourceResponse = await getResources(parentId);
+            // const folders = Array.isArray(folderResponse) ? folderResponse : [];
+            // const files = Array.isArray(fileResponse) ? fileResponse : [];
+            const resources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
+            setData(prev => ({ ...prev, [parentId]: resources.resources }));
             setResources(resources);
         } catch (err) {
             console.error("Error fetching rsources ", err);
@@ -47,30 +48,30 @@ export default function ResourceListing() {
         }
     }
 
-    // function openFromTree(folder) {
-    //     setBreadCrumbLinks(prev => [...prev, folder]);
-    //     if (data[folder.document_id]) {
-    //         setResources(data[folder.document_id]);
-    //     } else {
-    //         fetchFolder(folder.document_id);
-    //     }
-    // }
+    function openFromTree(folder) {
+        setBreadCrumbLinks(prev => [...prev, folder]);
+        if (data[folder.document_id]) {
+            setResources(data[folder.document_id]);
+        } else {
+            fetchFolder(folder.document_id);
+        }
+    }
 
-    // function goToRootFolder() {
+    function goToRootFolder() {
 
-    //     setBreadCrumbLinks([]);
-    //     setResources(data[null] || []);
-    // }
+        setBreadCrumbLinks([]);
+        setResources(data[null] || []);
+    }
 
-    // function goToBreadCrumbLink(index) {
-    //     const path = breadCrumbLinks.slice(0, index + 1);
-    //     setBreadCrumbLinks(path);
-    //     setResources(data[path[index].document_id] || []);
-    // }
+    function goToBreadCrumbLink(index) {
+        const path = breadCrumbLinks.slice(0, index + 1);
+        setBreadCrumbLinks(path);
+        setResources(data[path[index].document_id] || []);
+    }
 
-    // function toggleFolders(folderId) {
-    //     setExpandedFolders(prev => ({ ...prev, [folderId]: !prev[folderId] }));
-    // }
+    function toggleFolders(folderId) {
+        setExpandedFolders(prev => ({ ...prev, [folderId]: !prev[folderId] }));
+    }
 
     return (
         <div className="fileResource">
@@ -110,13 +111,13 @@ export default function ResourceListing() {
                 ))}
             </div>
 
-            {/* {showTree && (
+            {showTree && (
                 <div className="dropDownBox" onClick={() => setShowTree(false)}>
                     <div className="box" onClick={e => e.stopPropagation()} ref={treeRef}>
                         <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree}></Tree>
                     </div>
                 </div>
-            )} */}
+            )}
         </div>
     );
 }

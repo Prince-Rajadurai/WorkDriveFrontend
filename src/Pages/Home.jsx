@@ -39,7 +39,7 @@ export default function Home() {
                     <Header></Header>
                     <div className="container">
                         <SideNavPar></SideNavPar>
-                        <FileHeader></FileHeader>
+                        {/* <FileHeader></FileHeader> */}
                         <ResourceListing></ResourceListing>
                     </div>
                 </div>

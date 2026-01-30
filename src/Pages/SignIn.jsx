@@ -85,9 +85,8 @@ function SignIn() {
                 <label>Password</label>
                 <input type="password" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); setError("") }} />
                 {error && <p className="error">{error}</p>}
-                <Button type="submit" backgroundColor="#1E52BB">Sign In</Button>
+                <Button type="submit" className="signInBtn">Sign In</Button>
                 {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
-                <hr />
                 <p className="signUpParagraph">Don't have an account? <span><Link to="/signup" className="signUpLink">Sign Up</Link></span></p>
             </form>
         </div>

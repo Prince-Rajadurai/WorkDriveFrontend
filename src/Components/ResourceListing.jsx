@@ -2,7 +2,7 @@ import { createContext, useContext, useState, useRef, useEffect } from "react";
 import Icon from '@mdi/react';
 import { mdiFileTree, mdiFileOutline, mdiFolderOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
-// import Tree from "./Tree";
+import Tree from "./Tree";
 import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { useFolder } from "../utils/FolderContext";
@@ -60,17 +60,23 @@ export default function ResourceListing() {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [expandedFolders, setExpandedFolders] = useState({});
-    const treeRef = useRef(null);
-    const useStaticData = false;
-
-    const [showTree, setShowTree] = useState(false);
+    // const useStaticData = true;
 
     useEffect(() => {
-        console.log(currentFolderId.id);
-        fetchFolder(currentFolderId.id ?? null);
+        fetchFolder(null);
+    }, []);
+
+    useEffect(() => {
+        if (currentFolderId.id !== undefined) {
+            fetchFolder(currentFolderId.id);
+        }
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId) {
+        if (data[parentId]) {
+            setResources(data[parentId]);
+            return;
+        }
         // if (useStaticData) {
         //     const resources = mockResources[parentId] || [];
         //     setData(prev => ({...prev, [parentId] : resources}));
@@ -89,27 +95,21 @@ export default function ResourceListing() {
 
     function openFolder(resource) {
         if (resource.document_type !== "FOLDER") return;
-        setCurrentFolderId(prev => ({ id: resource.document_id }));
+        setCurrentFolderId({ id: resource.document_id });
         setBreadCrumbLinks(prev => [...prev, resource]);
-        if (data[resource.document_id]) {
-            setResources(data[resource.document_id]);
-        } else {
-            fetchFolder(resource.document_id);
-        }
+        setExpandedFolders(prev => ({ ...prev, [resource.document_id]: true }));
+        fetchFolder(resource.document_id);
     }
 
     function openFromTree(folder) {
-        setCurrentFolderId({ id : folder.document_id})
+        setCurrentFolderId({ id: folder.document_id })
         setBreadCrumbLinks(prev => [...prev, folder]);
-        if (data[folder.document_id]) {
-            setResources(data[folder.document_id]);
-        } else {
-            fetchFolder(folder.document_id);
-        }
+        setExpandedFolders(prev => ({ ...prev, [resource.document_id]: true }));
+        fetchFolder(folder.document_id);
     }
 
     function goToRootFolder() {
-
+        setCurrentFolderId({ id : folder.document_id });
         setBreadCrumbLinks([]);
         setResources(data[null] || []);
     }
@@ -129,7 +129,7 @@ export default function ResourceListing() {
 
             <FileHeader>
                 <div className="tree-header">
-                    {/* <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree} activeFolderId={currentFolderId.id}></Tree> */}
+                    <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree} activeFolderId={currentFolderId.id}></Tree>
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
@@ -175,14 +175,6 @@ export default function ResourceListing() {
                     </div>
                 ))}
             </div>
-
-            {showTree && (
-                <div className="dropDownBox" onClick={() => setShowTree(false)}>
-                    <div className="box" onClick={e => e.stopPropagation()} ref={treeRef}>
-                        {/* <Tree parentId={null} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolders} onFolderSelect={openFromTree}></Tree> */}
-                    </div>
-                </div>
-            )}
         </div>
     );
 }

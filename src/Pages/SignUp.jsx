@@ -18,7 +18,7 @@ export default function SignUpPage() {
 
 
     useEffect(()=>{
-        sessionCheck;
+        sessionCheck();
     },[]);
     
     async function sessionCheck(){
@@ -26,7 +26,6 @@ export default function SignUpPage() {
             const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter",{method: "GET",
             credentials: "include"});
             const data = await response.json();
-            // console.log(data.message);
             if (data.message === "Session exsist") {
                 navigate("/home");
             } else {

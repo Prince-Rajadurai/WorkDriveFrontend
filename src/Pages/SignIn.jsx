@@ -10,7 +10,7 @@ function SignIn() {
     const navigate = useNavigate();
 
     useEffect(()=>{
-        sessionCheck;
+        sessionCheck();
     },[]);
     
     async function sessionCheck(){
@@ -25,6 +25,7 @@ function SignIn() {
             }
 
         } catch (err) {
+            console.log(err);
             setError("Technical Issue");
         }
     }

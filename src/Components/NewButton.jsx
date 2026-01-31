@@ -3,6 +3,7 @@ import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
+import { useFolder } from "../utils/FolderContext.jsx";
 
 export default function NewButton({fetchFolder}) {
 
@@ -10,6 +11,9 @@ export default function NewButton({fetchFolder}) {
    const[show , setShow] = useState(false);
    const[msg , setMsg] = useState("");
    const[resourceName , setResourceName] = useState("");
+   const{ currentFolderId } = useFolder();
+
+   const parentId = currentFolderId.id
 
 
    async function createFile(filename , change , folderId){
@@ -23,7 +27,7 @@ export default function NewButton({fetchFolder}) {
       let data = await response.json();
 
       if(data.StatusCode == 200){
-         fetchFolder();
+         fetchFolder(folderId);
          setCode(200);
          setMsg("✅ File created sucessfully");
          setShow(true);
@@ -61,6 +65,7 @@ export default function NewButton({fetchFolder}) {
 
 
       if(data.StatusCode == 200){
+         fetchFolder(parentId);
          setCode(200);
          setMsg("✅ Folder created sucessfully");
          setShow(true);
@@ -75,8 +80,6 @@ export default function NewButton({fetchFolder}) {
       else{
          console.log(data.StatusCode);
       }
-
-      fetchFolder();
 
 
       console.log("Server response:", data);

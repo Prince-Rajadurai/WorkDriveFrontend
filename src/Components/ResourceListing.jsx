@@ -62,9 +62,9 @@ export default function ResourceListing() {
     // const useStaticData = true;
 
     useEffect(() => {
-        if (currentFolderId.id === null) {
+        if (currentFolderId.id == null) {
             fetchFolder(null);
-        } else if (currentFolderId.id !== undefined) {
+        } else {
             fetchFolder(currentFolderId.id);
         }
     }, [currentFolderId.id]);
@@ -91,7 +91,7 @@ export default function ResourceListing() {
 
     function openFolder(resource) {
         if (resource.document_type !== "FOLDER") return;
-        setCurrentFolderId({ id: resource.document_id });
+        setCurrentFolderId({ id: resource.resourceId });
         setBreadCrumbLinks(prev => [...prev, resource]);
     }
 
@@ -109,9 +109,10 @@ export default function ResourceListing() {
 
     function goToBreadCrumbLink(index) {
         const path = breadCrumbLinks.slice(0, index + 1);
+        const folder = path[index];
         setBreadCrumbLinks(path);
-        setCurrentFolderId({ id: folderId });
-        setResources(data[path[index].document_id] || []);
+        setCurrentFolderId({ id: folder.resourceId });
+        setResources(data[path[index].resourceId] || []);
     }
 
     // function toggleFolders(folderId) {
@@ -126,8 +127,8 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
-                            <span key={folder.document_id}>
-                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.document_name}</span>
+                            <span key={folder.resourceId}>
+                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.resourceName}</span>
                             </span>
                         ))}
                     </div>

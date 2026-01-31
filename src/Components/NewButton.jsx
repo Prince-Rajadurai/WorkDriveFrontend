@@ -4,7 +4,7 @@ import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
 
-export default function NewButton() {
+export default function NewButton({fetchFolder}) {
 
    const[code , setCode] = useState(0);
    const[show , setShow] = useState(false);
@@ -23,6 +23,7 @@ export default function NewButton() {
       let data = await response.json();
 
       if(data.StatusCode == 200){
+         fetchFolder();
          setCode(200);
          setMsg("✅ File created sucessfully");
          setShow(true);
@@ -58,6 +59,7 @@ export default function NewButton() {
 
       const data = await response.json();
 
+
       if(data.StatusCode == 200){
          setCode(200);
          setMsg("✅ Folder created sucessfully");
@@ -73,6 +75,9 @@ export default function NewButton() {
       else{
          console.log(data.StatusCode);
       }
+
+      fetchFolder();
+
 
       console.log("Server response:", data);
    }

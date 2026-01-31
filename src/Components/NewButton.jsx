@@ -23,7 +23,7 @@ export default function NewButton({fetchFolder}) {
       let data = await response.json();
 
       if(data.StatusCode == 200){
-         fetchFolder();
+         // fetchFolder();
          setCode(200);
          setMsg("✅ File created sucessfully");
          setShow(true);
@@ -106,7 +106,7 @@ export default function NewButton({fetchFolder}) {
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,null)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,"804921852857155584")}} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,"805297374409785344")}} cancel={()=>setShowFileinput(false)}>File</Input>}
       </>
    );
 }

@@ -27,7 +27,6 @@ export default function NewButton({fetchFolder}) {
       let data = await response.json();
 
       if(data.StatusCode == 200){
-         // fetchFolder();
          fetchFolder(folderId);
          setCode(200);
          setMsg("✅ File created sucessfully");

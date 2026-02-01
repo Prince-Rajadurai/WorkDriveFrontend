@@ -79,7 +79,7 @@ export default function ResourceListing() {
                 if (resource.resourceId) {
                     return { id : resource.resourceId, name : resource.resourceName, type : "FOLDER", created : resource.createdTime, modified : resource.modifiedTime};
                 } else {
-                    return { name : resource.filename, type : "FILE", created : resource.createTime, modified : resource.modifiedTime};
+                    return { id : parentId , name : resource.filename, type : "FILE", created : resource.createTime, modified : resource.modifiedTime};
                 }
             })
             setResources(resources);

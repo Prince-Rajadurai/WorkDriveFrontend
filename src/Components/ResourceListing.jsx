@@ -55,18 +55,11 @@ import { useFolder } from "../utils/FolderContext";
 
 export default function ResourceListing() {
     const { currentFolderId, setCurrentFolderId } = useFolder();
-    const [data, setData] = useState({});
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
-    // const [expandedFolders, setExpandedFolders] = useState({});
-    // const useStaticData = true;
 
     useEffect(() => {
-        if (currentFolderId.id === null) {
-            fetchFolder(null);
-        } else if (currentFolderId.id !== undefined) {
-            fetchFolder(currentFolderId.id);
-        }
+        fetchFolder(currentFolderId.id);
     }, [currentFolderId.id]);
 
 
@@ -80,43 +73,38 @@ export default function ResourceListing() {
         // }
         try {
             const resourceResponse = await getResources(parentId);
-            const resource = Array.isArray(resourceResponse.resources) ? resourceResponse.resources.map(resource => ({ ...resource, parentId })) : [];
-            { console.log(resource) }
-            setData(prev => ({ ...prev }));
-            setResources(resource);
+            const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
+            { console.log(resources) }
+            const resources = rawResources.map(resource => {
+                if (resource.resourceId) {
+                    return { id : resource.resourceId, name : resource.resourceName, type : "FOLDER", created : resource.createdTime, modified : resource.modifiedTime};
+                } else {
+                    return { id : parentId , name : resource.filename, type : "FILE", created : resource.createTime, modified : resource.modifiedTime};
+                }
+            })
+            setResources(resources);
         } catch (err) {
             console.error("Error fetching rsources ", err);
         }
     }
 
     function openFolder(resource) {
-        if (resource.document_type !== "FOLDER") return;
-        setCurrentFolderId({ id: resource.document_id });
+        if (resource.type !== "FOLDER") return;
+        setCurrentFolderId({ id: resource.id });
         setBreadCrumbLinks(prev => [...prev, resource]);
     }
-
-    // function openFromTree(folder) {
-    //     setCurrentFolderId({ id: folder.document_id })
-    //     setBreadCrumbLinks(prev => [...prev, folder]);
-    //     setExpandedFolders(prev => ({ ...prev, [folder.document_id]: true }));
-    // }
 
     function goToRootFolder() {
         setCurrentFolderId({ id: null });
         setBreadCrumbLinks([]);
-        setResources(data[null] || []);
     }
 
     function goToBreadCrumbLink(index) {
         const path = breadCrumbLinks.slice(0, index + 1);
+        const folder = path[index];
         setBreadCrumbLinks(path);
-        setCurrentFolderId({ id: folderId });
-        setResources(data[path[index].document_id] || []);
+        setCurrentFolderId({ id: folder.id });
     }
-
-    // function toggleFolders(folderId) {
-    //     setExpandedFolders(prev => ({ ...prev, [folderId]: !prev[folderId] }));
-    // }
 
     return (
         <div className="fileResource">
@@ -126,8 +114,8 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
-                            <span key={folder.document_id}>
-                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.document_name}</span>
+                            <span key={folder.id}>
+                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
                     </div>
@@ -149,14 +137,14 @@ export default function ResourceListing() {
                     </div>
                 )}
                 {resources.map(resource => (
-                    <div className="file grid-row" key={resource.document_id} onClick={() => openFolder(resource)}>
+                    <div className="file grid-row" key={resource.id} onClick={() => openFolder(resource)}>
                         <div className="name">
-                            {resource.document_type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} /> : <Icon path={mdiFileOutline} size={1} />}
-                            <span className="fileName">{resource.filename || resource.resourceName}</span>
+                            {resource.type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} /> : <Icon path={mdiFileOutline} size={1} />}
+                            <span className="fileName">{resource.name}</span>
                         </div>
-                        <span className="fileCreatedAt">{resource.createdTime || resource.createTime}</span>
-                        <span className="fileLastModified">{resource.modifiedTime}</span>
-                        <span className="fileSize">{resource.document_size || "-"}</span>
+                        <span className="fileCreatedAt">{resource.created}</span>
+                        <span className="fileLastModified">{resource.modified}</span>
+                        <span className="fileSize">-</span>
                         <span className="dropdownMenu">⋮</span>
                     </div>
                 ))}
@@ -164,104 +152,3 @@ export default function ResourceListing() {
         </div>
     );
 }
-
-
-
-// import { useState, useEffect } from "react";
-// import Icon from '@mdi/react';
-// import { mdiFileOutline, mdiFolderOutline } from '@mdi/js';
-// import '../Style/ResourceListing.css';
-// import FileHeader from "./FileHeader";
-// import { getResources } from "../api/workdriveapi";
-// import { useFolder } from "../utils/FolderContext";
-
-// export default function ResourceListing() {
-//     const { currentFolderId, setCurrentFolderId } = useFolder();
-//     const [data, setData] = useState({});
-//     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
-//     const [resources, setResources] = useState([]);
-
-//     useEffect(() => {
-//         if (currentFolderId.id === null) {
-//             fetchFolder(null);
-//         } else if (currentFolderId.id !== undefined) {
-//             fetchFolder(currentFolderId.id);
-//         }
-//     }, [currentFolderId.id]);
-
-//     async function fetchFolder(parentId) {
-//         try {
-//             const resourceResponse = await getResources(parentId);
-//             const resource = Array.isArray(resourceResponse.resources) ? resourceResponse.resources.map(resource => ({ ...resource, parentId })) : [];
-//             {console.log(resource)}
-//             setData(prev => ({ ...prev }));
-//             setResources(resource);
-//         } catch (err) {
-//             console.error("Error fetching rsources ", err);
-//         }
-//     }
-
-//     function openFolder(resource) {
-//         if (resource.document_type !== "FOLDER") return;
-//         setCurrentFolderId({ id: resource.document_id });
-//         setBreadCrumbLinks(prev => [...prev, resource]);
-//     }
-
-//     function goToRootFolder() {
-//         setCurrentFolderId({ id : null });
-//         setBreadCrumbLinks([]);
-//         setResources(data[null] || []);
-//     }
-
-//     function goToBreadCrumbLink(index) {
-//         const path = breadCrumbLinks.slice(0, index + 1);
-//         setBreadCrumbLinks(path);
-//         setCurrentFolderId({ id : folderId });
-//         setResources(data[path[index].document_id] || []);
-//     }
-
-//     return (
-//         <div className="fileResource">
-
-//             <FileHeader>
-//                 <div className="tree-header">
-//                     <div className="breadCrumbs">
-//                         <span onClick={goToRootFolder}>My Folder</span>
-//                         {breadCrumbLinks.map((folder, index) => (
-//                             <span key={folder.document_id}>
-//                                 {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.document_name}</span>
-//                             </span>
-//                         ))}
-//                     </div>
-//                 </div>
-//             </FileHeader>
-
-//             <div className="heading grid-row heading-row">
-//                 <span className="name">Name</span>
-//                 <span className="createdAt">Created At</span>
-//                 <span className="lastModified">Last Modified</span>
-//                 <span className="size">Size</span>
-//             </div>
-
-//             <div className="resources">
-//                 {resources.length === 0 && (
-//                     <div className="empty">
-//                         No Items Available
-//                     </div>
-//                 )}
-//                 {resources.map(resource => (
-//                     <div className="file grid-row" key={resource.document_id} onClick={() => openFolder(resource)}>
-//                         <div className="name">
-//                             {resource.document_type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} /> : <Icon path={mdiFileOutline} size={1} />}
-//                             <span className="fileName">{resource.filename||resource.resourceName}</span>
-//                         </div>
-//                         <span className="fileCreatedAt">{resource.createdTime || resource.createTime}</span>
-//                         <span className="fileLastModified">{resource.modifiedTime}</span>
-//                         <span className="fileSize">{resource.document_size || "-"}</span>
-//                         <span className="dropdownMenu">⋮</span>
-//                     </div>
-//                 ))}
-//             </div>
-//         </div>
-//     );
-// }

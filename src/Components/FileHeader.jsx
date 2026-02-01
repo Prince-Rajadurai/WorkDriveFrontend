@@ -8,7 +8,7 @@ export default function FileHeader({children, fetchFolder}){
                 {children}
             </div>
             <div id='add-resource-new'>
-                <NewButton></NewButton>
+                <NewButton fetchFolder={fetchFolder}></NewButton>
             </div>
         </div>
     )

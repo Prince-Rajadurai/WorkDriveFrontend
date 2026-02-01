@@ -13,8 +13,6 @@ export default function NewButton({fetchFolder}) {
    const[resourceName , setResourceName] = useState("");
    const{ currentFolderId } = useFolder();
 
-   const parentId = currentFolderId.id
-
 
    async function createFile(filename , change , folderId){
 

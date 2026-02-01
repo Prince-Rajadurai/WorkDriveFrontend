@@ -61,7 +61,7 @@
 
 .grid-row {
     display: grid;
-    grid-template-columns: 4fr 2fr 2fr 1fr;
+    grid-template-columns: 4fr 2fr 2fr 1fr 40px;
     align-items: center;
     text-align: center;
     padding: 0.4rem;
@@ -165,4 +165,49 @@
 .breadCrumbs {
     border: 1px solid var(--white2);
     padding: 5px;
+}
+
+.optionsMenu {
+    position: relative;
+    display: flex;
+    justify-content: center;
+}
+
+.icon {
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.icon:hover {
+    background-color: var(--white2);
+}
+
+.operationsMenu {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    background-color: white;
+    border: 1px solid var(--white2);
+    border-radius: 4px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+    list-style: none;
+    padding: 5px 0;
+    min-width: 100px;
+}
+
+.operationsMenu li {
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.operationsMenu li:hover {
+    background-color: var(--white2);
 }

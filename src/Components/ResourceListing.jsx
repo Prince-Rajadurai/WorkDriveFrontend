@@ -57,6 +57,7 @@ export default function ResourceListing() {
     const { currentFolderId, setCurrentFolderId } = useFolder();
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
+    const [currentMenuId, setCurrentMenuId] = useState(null);
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
@@ -74,12 +75,12 @@ export default function ResourceListing() {
         try {
             const resourceResponse = await getResources(parentId);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
-            { console.log(resources) }
+            { console.log(rawResources) }
             const resources = rawResources.map(resource => {
                 if (resource.resourceId) {
-                    return { id : resource.resourceId, name : resource.resourceName, type : "FOLDER", created : resource.createdTime, modified : resource.modifiedTime};
+                    return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
                 } else {
-                    return { id : parentId , name : resource.filename, type : "FILE", created : resource.createTime, modified : resource.modifiedTime};
+                    return { id : resource.filename, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
                 }
             })
             setResources(resources);
@@ -106,6 +107,11 @@ export default function ResourceListing() {
         setCurrentFolderId({ id: folder.id });
     }
 
+    const handleClick = (e, id) => {
+        e.stopPropagation();
+        setCurrentMenuId(prev => (prev === id ? null : id));
+    }
+
     return (
         <div className="fileResource">
 
@@ -127,6 +133,7 @@ export default function ResourceListing() {
                 <span className="createdAt">Created At</span>
                 <span className="lastModified">Last Modified</span>
                 <span className="size">Size</span>
+                <span></span>
             </div>
 
             <div className="resources">
@@ -145,7 +152,15 @@ export default function ResourceListing() {
                         <span className="fileCreatedAt">{resource.created}</span>
                         <span className="fileLastModified">{resource.modified}</span>
                         <span className="fileSize">-</span>
-                        <span className="dropdownMenu">⋮</span>
+                        <div className="optionsMenu">
+                            <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
+                            {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
+                                <li onClick={() => {}}>Move</li>
+                                <li onClick={() => {}}>Copy</li>
+                                <li onClick={() => {}}>Paste</li>
+                                <li onClick={() => {}}>Rename</li>
+                            </ul>)}
+                        </div>
                     </div>
                 ))}
             </div>

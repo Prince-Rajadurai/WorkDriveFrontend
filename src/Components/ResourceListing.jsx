@@ -73,7 +73,7 @@ export default function ResourceListing() {
         // }
         try {
             const resourceResponse = await getResources(parentId);
-            const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
+            const rawResources = resourceResponse.resources || [];
             const resources = rawResources.map(resource => {
                 const isFolder = resource.type === "FOLDER";
                 // if (resource.resourceId) {
@@ -82,7 +82,7 @@ export default function ResourceListing() {
                 //     return { id: resource.id, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
                 // }
                 return {
-                    id : isFolder ? resource.resourceId : resource.id,
+                    id : resource.id,
                     name : isFolder ? resource.resourceName : resource.filename,
                     type : resource.type,
                     created : isFolder ? resource.createdTime : resource.createTime,

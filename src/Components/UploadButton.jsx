@@ -4,7 +4,7 @@ export default function UploadButton({sendValue}){
     return(
         <>
             <label htmlFor="upload_btn" className='btn-upload'>Upload File</label>
-            <input type="file" id="upload_btn" onChange={(e)=>{sendValue(e.target.value)}} hidden/>
+            <input type="file" id="upload_btn" onChange={(e)=>{sendValue(e.target.files[0])}} hidden/>
         </>
     );
 }

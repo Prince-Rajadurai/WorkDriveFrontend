@@ -46,14 +46,16 @@ export default function NewButton({fetchFolder}) {
 
    async function uploadFile(localfile , change , folderId){
 
-      let filename = localfile.split("/");
+      
+      let filename = localfile.name;
 
       let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
          method : "POST",
          headers : {"Content-Type" : "application/json"},
-         body : JSON.stringify({localfile,filename:filename[filename.length-1],change,folderId })
+         body : JSON.stringify({localfile,filename,change,folderId })
       });
       let data = await response.json();
+
 
       if(data.StatusCode == 200){
          fetchFolder(folderId);
@@ -130,15 +132,15 @@ export default function NewButton({fetchFolder}) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onClick = {uploadFile(resourceName,false,"805297374409785344")} sendValue = {getValue}></UploadButton>
+               <UploadButton onClick = {uploadFile(resourceName,false,"806082355654557696")} sendValue = {getValue}></UploadButton>
             </div>
          </div>
 
          <Popup result={code} msg={msg} show={show}></Popup>
 
-         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,null)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
+         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,currentFolderId)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,"805297374409785344")}} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,currentFolderId)}} cancel={()=>setShowFileinput(false)}>File</Input>}
       </>
    );
 }

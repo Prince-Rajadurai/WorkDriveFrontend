@@ -40,7 +40,7 @@ export default function Home() {
                     <div className="container">
                         <SideNavPar></SideNavPar>
                         {/* <FileHeader></FileHeader> */}
-                        <ResourceListing></ResourceListing>
+                        <ResourceListing currentFolderId={currentFolderId} setCurrentFolderId={setCurrentFolderId}></ResourceListing>
                     </div>
                 </div>
             </FolderContext>

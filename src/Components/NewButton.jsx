@@ -44,13 +44,14 @@ export default function NewButton({fetchFolder}) {
 
    }
 
-   async function uploadFile(filename , change , folderId){
+   async function uploadFile(localfile , change , folderId){
 
+      let filename = localfile.split("/");
 
       let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
          method : "POST",
          headers : {"Content-Type" : "application/json"},
-         body : JSON.stringify({filename,change,folderId })
+         body : JSON.stringify({localfile,filename:filename[filename.length-1],change,folderId })
       });
       let data = await response.json();
 
@@ -129,7 +130,7 @@ export default function NewButton({fetchFolder}) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onClick = {uploadFile} sendValue = {getValue}></UploadButton>
+               <UploadButton onClick = {uploadFile(resourceName,false,"805297374409785344")} sendValue = {getValue}></UploadButton>
             </div>
          </div>
 

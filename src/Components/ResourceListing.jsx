@@ -58,7 +58,6 @@ export default function ResourceListing() {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
-    // const useStaticData = true;
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
@@ -76,11 +75,20 @@ export default function ResourceListing() {
             const resourceResponse = await getResources(parentId);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resources = rawResources.map(resource => {
-                if (resource.resourceId) {
-                    return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
-                } else {
-                    return { id: resource.id, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
-                }
+                const isFolder = resource.type;
+                // if (resource.resourceId) {
+                //     return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
+                // } else {
+                //     return { id: resource.id, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
+                // }
+                return {
+                    id : isFolder ? resource.resourceId : resource.id,
+                    name : isFolder ? resource.resourceName : resource.filename,
+                    type : resource.type,
+                    created : isFolder ? resource.createdTime : resource.createTime,
+                    modified : resource.modifiedTime,
+                    size : resource.size
+                };
             });
             console.log(resources);
             setResources(resources);

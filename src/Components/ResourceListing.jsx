@@ -159,6 +159,8 @@ export default function ResourceListing() {
                                 <li onClick={() => {}}>Copy</li>
                                 <li onClick={() => {}}>Paste</li>
                                 <li onClick={() => {}}>Rename</li>
+                                <li onClick={() => {}}>Delete</li>
+                                {resource.type === "FILE" && (<li onClick={() => {}}>Download</li>)}
                             </ul>)}
                         </div>
                     </div>

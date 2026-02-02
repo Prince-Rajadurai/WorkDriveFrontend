@@ -1,10 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Icon from '@mdi/react';
 import { mdiFileOutline, mdiFolderOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
 import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
-import { useFolder } from "../utils/FolderContext";
+import { FoldContext } from "../utils/FolderContext";
 
 // export const mockResources = {
 //     null: [
@@ -53,11 +53,11 @@ import { useFolder } from "../utils/FolderContext";
 //     ]
 // };
 
-export default function ResourceListing() {
-    const { currentFolderId, setCurrentFolderId } = useFolder();
+export default function ResourceListing({currentFolderId, setCurrentFolderId}) {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
+    const [currentFolderId, setCurrentFolderId] = useContext(FoldContext);
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
@@ -147,7 +147,6 @@ export default function ResourceListing() {
             </div>
 
             <div className="resources">
-                {console.log(currentFolderId.id)}
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available

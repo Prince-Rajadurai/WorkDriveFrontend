@@ -1,4 +1,4 @@
-import '../Style/UploadButton.css'
+import '../Style/UploadButton.css';
 
 export default function UploadButton({sendValue}){
     return(

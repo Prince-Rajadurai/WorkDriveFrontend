@@ -16,11 +16,16 @@
     background-color: var(--white1);
 }
 
+.tree-header {
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 0.7rem;
+    align-items: center;
+}
+
 .tree {
     height: 40px;
     width: 40px;
-    padding: 5px;
-    gap: 8px;
     border: 1px solid var(--white2);
     border-radius: 4px;
     display: flex;
@@ -33,7 +38,24 @@
     background-color: var(--white2);
 }
 
-.breadCrumb {
+.treeStructure {
+    position: relative;
+}
+
+.treeDropdown {
+    position: absolute;
+    top: 55px;
+    left: 0;
+    width: 240px;
+    background-color: white;
+    border: 1px solid var(--white2);
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    padding: 6px;
+    z-index: 100;
+}
+
+.breadCrumbs {
     display: flex;
     align-items: center;
     gap: 4px;
@@ -41,13 +63,15 @@
     padding: 5px 8px;
     border: 1px solid var(--white2);
     border-radius: 4px;
+    height: 40px;
+    margin: 5px;
 }
 
-.breadCrumb span {
+.breadCrumbs span, .breadCrumbs .link {
     cursor: pointer;
 }
 
-.breadCrumb:hover {
+.breadCrumbs:hover {
     background-color: var(--white2);
 }
 

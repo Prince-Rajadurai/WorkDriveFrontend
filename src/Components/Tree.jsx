@@ -1,48 +1,42 @@
-import Icon from "@mdi/react";
-import { mdiFolderOutline, mdiChevronDown, mdiChevronRight } from "@mdi/js";
-import { FolderIdContext } from "../utils/FolderContext";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import { FoldContext } from "../utils/FolderContext";
+import { getResources } from "../api/workdriveapi";
+import Icon from '@mdi/react';
+import { mdiFolderOutline } from '@mdi/js';
+import '../Style/Tree.css';
 
-export default function Tree({ parentId, data, expandedFolders, toggleFolder, onFolderSelect, level = 0 }) {
-    const { folderDetails } = useContext(FolderIdContext);
-    const { folderId : currentFolderId } = folderDetails;
-    const folders = (data[parentId] || []).filter(
-        item => item.document_type === "FOLDER"
-    );
+export default function Tree() {
+    const [folders, setFolders] = useState([]);
+    const { setCurrentFolderId } = useContext(FoldContext);
 
-    if (folders.length === 0) return null;
+    useEffect(() => {
+        fetchFolders();
+    }, []);
 
-    return (
-        <div className="treeLevel">
-            {folders.map(folder => {
-                const hasChildren = (data[folder.document_id] || []).some(
-                    item => item.document_type === "FOLDER"
-                );
+    async function fetchFolders() {
+        try {
+            const result = await getResources(null);
+            const folders = result.resource.filter(r => r.type === "FOLDER");
+            setFolders(folders);
+        } catch (err) {
+            console.error("Error in fetching folders", err);
+        }
+    }
 
-                const isActive = currentFolderId === folder.document_id;
+    function openFolder(folder) {
+        setCurrentFolderId({ id : folder.id });
+    }
 
-                return (
-                    <div key={folder.document_id}>
-                        <div className={`treeRow ${isActive ? "active" : ""}`} style={{ paddingLeft: `${level * 12}px` }} onClick={() => onFolderSelect(folder)} >
-                            {hasChildren ? (
-                                <span
-                                    className="treeArrow" onClick={(e) => {
-                                        e.stopPropagation();
-                                        toggleFolder(folder.document_id); 
-                                    }} >
-                                    <Icon path={ expandedFolders[folder.document_id] ? mdiChevronDown : mdiChevronRight } size={0.8}/>
-                                </span>
-                            ) : (
-                                <span className="treeArrowPlaceholder" />
-                            )}
-                            <Icon path={mdiFolderOutline} size={0.9} color="#1E52BB" />
-                            <span className="treeFolderName">{folder.document_name}</span>
-                        </div>
-
-                        {expandedFolders[folder.document_id] && ( <Tree parentId={folder.document_id} data={data} expandedFolders={expandedFolders} toggleFolder={toggleFolder} onFolderSelect={onFolderSelect} level={level + 1}/> )}
-                    </div>
-                );
-            })}
-        </div>
-    );
+    return (<div className="tree">
+        {folders.length === 0 && (<div className="emptyTree">No folders</div>)}
+        {folders.map(folder => {
+            <div key={folder.id}>
+                <div key={folder.id} className="treeChild" onClick={() => openFolder(folder)}>
+                    <Icon path={mdiFolderOutline} size={1} />
+                    <span>{folder.resourceName}</span>
+                </div>
+            </div>
+        })}
+    </div>
+    )
 }

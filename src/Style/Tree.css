@@ -1,0 +1,22 @@
+.tree {
+    font-size: 14px;
+}
+
+.treeChild {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px;
+    cursor: pointer;
+}
+
+.treeChild:hover {
+    background-color: #D4D4D4;
+}
+
+.emptyTree {
+    font-size: 13px;
+    padding: 12px 8px;
+    color: #555;
+    text-align: center;
+}

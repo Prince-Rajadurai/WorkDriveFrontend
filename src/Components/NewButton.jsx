@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useFolder } from "../utils/FolderContext.jsx";
+import { useState, useContext } from "react";
+// import { useFolder } from "../utils/FolderContext.jsx";
 import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
 import UploadButton from "./UploadButton.jsx";
+import { FoldContext } from "../utils/FolderContext.jsx";
 
 export default function NewButton({fetchFolder}) {
 
@@ -12,8 +13,9 @@ export default function NewButton({fetchFolder}) {
    const[show , setShow] = useState(false);
    const[msg , setMsg] = useState("");
    const[resourceName , setResourceName] = useState("");
-   const{ currentFolderId } = useFolder();
+   const{ currentFolderId } = useContext(FoldContext);
 
+   console.log(currentFolderId);
 
    async function createFile(filename , change , folderId){
 
@@ -44,7 +46,7 @@ export default function NewButton({fetchFolder}) {
 
    }
 
-   async function uploadFile(filename , change , folderId){
+   async function uploadFile(localfile , change , folderId){
 
       
       let filename = localfile.name;
@@ -132,15 +134,15 @@ export default function NewButton({fetchFolder}) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onClick = {uploadFile(resourceName,false,"806082355654557696")} sendValue = {getValue}></UploadButton>
+               <UploadButton onClick = {()=>{uploadFile(resourceName,false,currentFolderId.id)}} sendValue = {getValue}></UploadButton>
             </div>
          </div>
 
          <Popup result={code} msg={msg} show={show}></Popup>
 
-         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,currentFolderId)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
+         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,currentFolderId.id)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,currentFolderId)}} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,currentFolderId.id)}} cancel={()=>setShowFileinput(false)}>File</Input>}
       </>
    );
 }

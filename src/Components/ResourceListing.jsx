@@ -53,17 +53,17 @@ import { FoldContext } from "../utils/FolderContext";
 //     ]
 // };
 
-export default function ResourceListing({currentFolderId, setCurrentFolderId}) {
+export default function ResourceListing() {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
-    const [currentFolderId, setCurrentFolderId] = useContext(FoldContext);
+    const {currentFolderId, setCurrentFolderId} = useContext(FoldContext);
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
+        console.log(currentFolderId.id);
     }, [currentFolderId.id]);
-
-
+    
     async function fetchFolder(parentId) {
         // if (useStaticData) {
         //     const resources = mockResources[parentId] || [];
@@ -73,7 +73,9 @@ export default function ResourceListing({currentFolderId, setCurrentFolderId}) {
         // }
         try {
             const resourceResponse = await getResources(parentId);
-            const rawResources = resourceResponse.resources || [];
+            console.log(resourceResponse);
+            const rawResources = resourceResponse.resource;
+            console.log(rawResources);
             const resources = rawResources.map(resource => {
                 const isFolder = resource.type === "FOLDER";
                 // if (resource.resourceId) {
@@ -151,6 +153,7 @@ export default function ResourceListing({currentFolderId, setCurrentFolderId}) {
                         No Items Available
                     </div>
                 )}
+                {console.log(resources)}
                 {resources.map(resource => (
                     <div className="file grid-row" key={resource.id} onClick={() => openFolder(resource)}>
                         <div className="name">

@@ -1,4 +1,4 @@
-label{
+.btn-upload{
     width: 200px;
     height: 40px;
     background-color: white;
@@ -11,6 +11,6 @@ label{
     align-items: center;
     justify-content: center;
 }
-label:hover{
+.btn-upload:hover{
     background-color: rgb(215, 215, 215);
 }

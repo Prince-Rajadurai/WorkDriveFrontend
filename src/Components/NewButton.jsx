@@ -44,7 +44,7 @@ export default function NewButton({fetchFolder}) {
 
    }
 
-   async function uploadFile(localfile , change , folderId){
+   async function uploadFile(filename , change , folderId){
 
       
       let filename = localfile.name;

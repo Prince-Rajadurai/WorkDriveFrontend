@@ -5,6 +5,7 @@ import '../Style/ResourceListing.css';
 import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
+import Popup from "./Popup";
 
 // export const mockResources = {
 //     null: [
@@ -58,6 +59,77 @@ export default function ResourceListing() {
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
     const {currentFolderId, setCurrentFolderId} = useContext(FoldContext);
+    const[code , setCode] = useState(0);
+    const[show , setShow] = useState(false);
+    const[msg , setMsg] = useState("");
+
+
+    async function deleteResource(resourceName , resourceType){
+        if(resourceType == "FILE"){
+            let folderId = currentFolderId.id;
+            let response = await fetch("http://localhost:8080/WorkDrive/DeleteFileServlet" , {
+                method : "POST",
+                headers : {"Content-Type" : "application/json"},
+                body : JSON.stringify({folderId , filename:resourceName})
+            });
+            let data = await response.json();
+
+            if(data.StatusCode == 200){
+                showResult(data.StatusCode , "✅ File deleted successfully" , true)
+             }
+             if(data.StatusCode >= 400){
+                showResult(data.StatusCode , "❌ File deleted Failed" , true)
+             }
+            
+        }else{
+            const response = await fetch("http://localhost:8080/WorkDrive/FolderDeleteServlet", {
+			method : "POST",
+            credentials : "include",
+			headers : {
+				"Content-Type" : "application/json"
+			},
+			body : JSON.stringify({
+				resourceId : resourceName,
+			})     
+
+		});
+
+		const data = await response.json();
+
+        if(data.StatusCode == 200){
+            showResult(data.StatusCode , "✅ Folder deleted successfully" , true)
+         }
+         if(data.StatusCode >= 400){
+            showResult(data.StatusCode , "❌ Folder deleted Failed" , true)
+         }
+
+        }
+    }
+
+    async function downloadFile( filename ,folderId , resourceType){
+
+        let response = await fetch("http://localhost:8080/WorkDrive/DownloadFileServlet" , {
+            method : "POST",
+            headers : {"Content-Type" : "application/json"},    
+            body : JSON.stringify({filename , folderId })
+        });
+        let data = await response.json();
+        if(data.StatusCode == 200){
+            showResult(data.StatusCode , "✅ File downloaded successfully" , true)
+         }
+         if(data.StatusCode >= 400){
+            showResult(data.StatusCode , "❌ File downloaded Failed" , true)
+         }
+    }
+
+
+    function showResult(Code , msg , chk){
+        fetchFolder(currentFolderId.id);
+        setCode(Code);
+        setMsg(msg);
+        setShow(chk);
+        setTimeout(()=>{setShow(false)},2000)
+    }
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
@@ -170,13 +242,14 @@ export default function ResourceListing() {
                                 <li onClick={() => {}}>Copy</li>
                                 <li onClick={() => {}}>Paste</li>
                                 <li onClick={() => {}}>Rename</li>
-                                <li onClick={() => {}}>Delete</li>
-                                {resource.type === "FILE" && (<li onClick={() => {}}>Download</li>)}
+                                <li onClick={() => {deleteResource(resource.type == "FILE" ? resource.name : resource.id , resource.type)}}>Delete</li>
+                                {resource.type == "FILE" && (<li onClick={() => {downloadFile(resource.name , currentFolderId.id , resource.type)}}>Download</li>)}
                             </ul>)}
                         </div>
                     </div>
                 ))}
             </div>
+            <Popup result={code} msg={msg} show={show}></Popup>
         </div>
     );
 }

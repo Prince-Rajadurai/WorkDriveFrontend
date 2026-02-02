@@ -15,7 +15,6 @@ export default function NewButton({fetchFolder}) {
    const[resourceName , setResourceName] = useState("");
    const{ currentFolderId } = useContext(FoldContext);
 
-   console.log(currentFolderId);
 
    async function createFile(filename , change , folderId){
 
@@ -60,20 +59,10 @@ export default function NewButton({fetchFolder}) {
 
 
       if(data.StatusCode == 200){
-         fetchFolder(folderId);
-         setCode(200);
-         setMsg("✅ File uploaded successfully");
-         setShow(true);
-         setTimeout(()=>{setShow(false)},2000)
+         showResult(data.StatusCode , "✅ File created sucessfully" , true)
       }
-      if(data.StatusCode == 400){
-         setCode(400);
-         setMsg("❌ File uploaded Failed");
-         setShow(true);
-         setTimeout(()=>{setShow(false)},2000)
-      }
-      else{
-         console.log(data.StatusCode);
+      if(data.StatusCode >= 400){
+         showResult(data.StatusCode , "❌ File creation Failed" , true)
       }
 
    }
@@ -96,27 +85,22 @@ export default function NewButton({fetchFolder}) {
 
       const data = await response.json();
 
-
       if(data.StatusCode == 200){
-         fetchFolder(parentId);
-         setCode(200);
-         setMsg("✅ Folder created sucessfully");
-         setShow(true);
-         setTimeout(()=>{setShow(false)},2000)
+         showResult(data.StatusCode , "✅ Folder created sucessfully" , true)
       }
-      if(data.StatusCode == 400){
-         setCode(400);
-         setMsg("❌ Folder creation Failed");
-         setShow(true);
-         setTimeout(()=>{setShow(false)},2000)
-      }
-      else{
-         console.log(data.StatusCode);
+      if(data.StatusCode >= 400){
+         showResult(data.StatusCode , "❌ Folder creation Failed" , true)
       }
 
-
-      console.log("Server response:", data);
    }
+
+   function showResult(Code , msg , chk){
+      fetchFolder(currentFolderId.id);
+      setCode(Code);
+      setMsg(msg);
+      setShow(chk);
+      setTimeout(()=>{setShow(false)},2000)
+  }
 
    function getValue(name){
       setResourceName(name);

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import "./../Style/NewButton.css";
+import { useFolder } from "../utils/FolderContext.jsx";
+import "./../Style/NewButton.module.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
-import { useFolder } from "../utils/FolderContext.jsx";
+import UploadButton from "./UploadButton.jsx";
 
 export default function NewButton({fetchFolder}) {
 
@@ -99,7 +100,8 @@ export default function NewButton({fetchFolder}) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
-               <Button className="dropdown" onClick={() => {}}>Upload File</Button>
+               {/* <Button className="dropdown" onClick={() => {}}>Upload File</Button> */}
+               <UploadButton className="dropdown"></UploadButton>
             </div>
          </div>
 

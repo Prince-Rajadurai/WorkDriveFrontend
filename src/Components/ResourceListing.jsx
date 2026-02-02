@@ -6,72 +6,72 @@ import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { useFolder } from "../utils/FolderContext";
 
-// export const mockResources = {
-//     null: [
-//         {
-//             document_id: 1,
-//             document_name: "Documents",
-//             document_type: "FOLDER",
-//             document_created_at: "2024-01-01",
-//             document_last_modified: "2024-01-05"
-//         },
-//         {
-//             document_id: 2,
-//             document_name: "notes.txt",
-//             document_type: "FILE",
-//             document_created_at: "2024-01-02",
-//             document_last_modified: "2024-01-06",
-//             document_size: "12 KB"
-//         }
-//     ],
-//     1: [
-//         {
-//             document_id: 3,
-//             document_name: "Projects",
-//             document_type: "FOLDER",
-//             document_created_at: "2024-01-03",
-//             document_last_modified: "2024-01-07"
-//         },
-//         {
-//             document_id: 4,
-//             document_name: "resume.pdf",
-//             document_type: "FILE",
-//             document_created_at: "2024-01-04",
-//             document_last_modified: "2024-01-08",
-//             document_size: "220 KB"
-//         }
-//     ],
-//     3: [
-//         {
-//             document_id: 5,
-//             document_name: "workdrive.docx",
-//             document_type: "FILE",
-//             document_created_at: "2024-01-05",
-//             document_last_modified: "2024-01-09",
-//             document_size: "1.2 MB"
-//         }
-//     ]
-// };
+export const mockResources = {
+    null: [
+        {
+            document_id: 1,
+            document_name: "Documents",
+            document_type: "FOLDER",
+            document_created_at: "2024-01-01",
+            document_last_modified: "2024-01-05"
+        },
+        {
+            document_id: 2,
+            document_name: "notes.txt",
+            document_type: "FILE",
+            document_created_at: "2024-01-02",
+            document_last_modified: "2024-01-06",
+            document_size: "12 KB"
+        }
+    ],
+    1: [
+        {
+            document_id: 3,
+            document_name: "Projects",
+            document_type: "FOLDER",
+            document_created_at: "2024-01-03",
+            document_last_modified: "2024-01-07"
+        },
+        {
+            document_id: 4,
+            document_name: "resume.pdf",
+            document_type: "FILE",
+            document_created_at: "2024-01-04",
+            document_last_modified: "2024-01-08",
+            document_size: "220 KB"
+        }
+    ],
+    3: [
+        {
+            document_id: 5,
+            document_name: "workdrive.docx",
+            document_type: "FILE",
+            document_created_at: "2024-01-05",
+            document_last_modified: "2024-01-09",
+            document_size: "1.2 MB"
+        }
+    ]
+};
 
 export default function ResourceListing() {
     const { currentFolderId, setCurrentFolderId } = useFolder();
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
+    const useStaticData = true;
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
     }, [currentFolderId.id]);
 
 
-
     async function fetchFolder(parentId) {
-        // if (useStaticData) {
-        //     const resources = mockResources[parentId] || [];
-        //     setData(prev => ({...prev, [parentId] : resources}));
-        //     setResources(resources);
-        //     return;
-        // }
+        if (useStaticData) {
+            const resources = mockResources[parentId] || [];
+            setData(prev => ({...prev, [parentId] : resources}));
+            setResources(resources);
+            return;
+        }
         try {
             const resourceResponse = await getResources(parentId);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
@@ -103,8 +103,8 @@ export default function ResourceListing() {
     function goToBreadCrumbLink(index) {
         const path = breadCrumbLinks.slice(0, index + 1);
         const folder = path[index];
-        setBreadCrumbLinks(path);
         setCurrentFolderId({ id: folder.id });
+        setBreadCrumbLinks(path);
     }
 
     const handleClick = (e, id) => {

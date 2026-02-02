@@ -64,7 +64,6 @@ export default function ResourceListing() {
     }, [currentFolderId.id]);
 
 
-
     async function fetchFolder(parentId) {
         // if (useStaticData) {
         //     const resources = mockResources[parentId] || [];
@@ -76,11 +75,20 @@ export default function ResourceListing() {
             const resourceResponse = await getResources(parentId);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resources = rawResources.map(resource => {
-                if (resource.resourceId) {
-                    return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
-                } else {
-                    return { id: resource.id, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
-                }
+                const isFolder = resource.type === "FOLDER";
+                // if (resource.resourceId) {
+                //     return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
+                // } else {
+                //     return { id: resource.id, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
+                // }
+                return {
+                    id : isFolder ? resource.resourceId : resource.id,
+                    name : isFolder ? resource.resourceName : resource.filename,
+                    type : resource.type,
+                    created : isFolder ? resource.createdTime : resource.createTime,
+                    modified : resource.modifiedTime,
+                    size : resource.size
+                };
             });
             console.log(resources);
             setResources(resources);
@@ -103,8 +111,8 @@ export default function ResourceListing() {
     function goToBreadCrumbLink(index) {
         const path = breadCrumbLinks.slice(0, index + 1);
         const folder = path[index];
-        setBreadCrumbLinks(path);
         setCurrentFolderId({ id: folder.id });
+        setBreadCrumbLinks(path);
     }
 
     const handleClick = (e, id) => {
@@ -159,6 +167,8 @@ export default function ResourceListing() {
                                 <li onClick={() => {}}>Copy</li>
                                 <li onClick={() => {}}>Paste</li>
                                 <li onClick={() => {}}>Rename</li>
+                                <li onClick={() => {}}>Delete</li>
+                                {resource.type === "FILE" && (<li onClick={() => {}}>Download</li>)}
                             </ul>)}
                         </div>
                     </div>

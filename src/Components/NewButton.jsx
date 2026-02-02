@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFolder } from "../utils/FolderContext.jsx";
-import "./../Style/NewButton.module.css";
+import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";

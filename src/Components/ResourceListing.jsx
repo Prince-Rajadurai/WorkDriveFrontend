@@ -58,11 +58,11 @@ export default function ResourceListing() {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
+    // const useStaticData = true;
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
     }, [currentFolderId.id]);
-
 
 
     async function fetchFolder(parentId) {
@@ -103,8 +103,8 @@ export default function ResourceListing() {
     function goToBreadCrumbLink(index) {
         const path = breadCrumbLinks.slice(0, index + 1);
         const folder = path[index];
-        setBreadCrumbLinks(path);
         setCurrentFolderId({ id: folder.id });
+        setBreadCrumbLinks(path);
     }
 
     const handleClick = (e, id) => {

@@ -74,6 +74,7 @@ export default function ResourceListing() {
         try {
             const resourceResponse = await getResources(parentId);
             const rawResources = resourceResponse.resources || [];
+            const folderId = resourceResponse.folderId;
             const resources = rawResources.map(resource => {
                 const isFolder = resource.type === "FOLDER";
                 // if (resource.resourceId) {
@@ -91,6 +92,7 @@ export default function ResourceListing() {
                 };
             });
             console.log(resources);
+            setCurrentFolderId(folderId);
             setResources(resources);
         } catch (err) {
             console.error("Error fetching rsources ", err);

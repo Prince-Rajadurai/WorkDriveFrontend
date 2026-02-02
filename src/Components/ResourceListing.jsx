@@ -75,7 +75,7 @@ export default function ResourceListing() {
             const resourceResponse = await getResources(parentId);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resources = rawResources.map(resource => {
-                const isFolder = resource.type;
+                const isFolder = resource.type === "FOLDER";
                 // if (resource.resourceId) {
                 //     return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
                 // } else {

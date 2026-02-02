@@ -129,12 +129,7 @@ export default function NewButton({fetchFolder}) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
-<<<<<<< HEAD
-               {/* <Button className="dropdown" onClick={() => {}}>Upload File</Button> */}
-               <UploadButton></UploadButton>
-=======
                <UploadButton onClick = {uploadFile} sendValue = {getValue}></UploadButton>
->>>>>>> 0630b78 (pull the code)
             </div>
          </div>
 

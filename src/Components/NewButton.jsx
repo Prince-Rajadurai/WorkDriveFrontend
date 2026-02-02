@@ -28,13 +28,42 @@ export default function NewButton({fetchFolder}) {
       if(data.StatusCode == 200){
          fetchFolder(folderId);
          setCode(200);
-         setMsg("✅ File created sucessfully");
+         setMsg("✅ File created successfully");
          setShow(true);
          setTimeout(()=>{setShow(false)},2000)
       }
       if(data.StatusCode == 400){
          setCode(400);
          setMsg("❌ File creation Failed");
+         setShow(true);
+         setTimeout(()=>{setShow(false)},2000)
+      }
+      else{
+         console.log(data.StatusCode);
+      }
+
+   }
+
+   async function uploadFile(filename , change , folderId){
+
+
+      let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
+         method : "POST",
+         headers : {"Content-Type" : "application/json"},
+         body : JSON.stringify({filename,change,folderId })
+      });
+      let data = await response.json();
+
+      if(data.StatusCode == 200){
+         fetchFolder(folderId);
+         setCode(200);
+         setMsg("✅ File uploaded successfully");
+         setShow(true);
+         setTimeout(()=>{setShow(false)},2000)
+      }
+      if(data.StatusCode == 400){
+         setCode(400);
+         setMsg("❌ File uploaded Failed");
          setShow(true);
          setTimeout(()=>{setShow(false)},2000)
       }
@@ -100,8 +129,7 @@ export default function NewButton({fetchFolder}) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
-               {/* <Button className="dropdown" onClick={() => {}}>Upload File</Button> */}
-               <UploadButton className="dropdown"></UploadButton>
+               <UploadButton onClick = {uploadFile} sendValue = {getValue}></UploadButton>
             </div>
          </div>
 

@@ -1,94 +1,22 @@
 import { useState, useEffect, useContext } from "react";
 import Icon from '@mdi/react';
-import { mdiFileOutline, mdiFolderOutline } from '@mdi/js';
+import { mdiFileOutline, mdiFolderOutline, mdiFileTreeOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
 import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
-import Popup from "./Popup";
 
 export default function ResourceListing() {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
-    const {currentFolderId, setCurrentFolderId} = useContext(FoldContext);
-    const[code , setCode] = useState(0);
-    const[show , setShow] = useState(false);
-    const[msg , setMsg] = useState("");
-
-
-    async function deleteResource(resourceName , resourceType){
-        if(resourceType == "FILE"){
-            let folderId = currentFolderId.id;
-            let response = await fetch("http://localhost:8080/WorkDrive/DeleteFileServlet" , {
-                method : "POST",
-                headers : {"Content-Type" : "application/json"},
-                body : JSON.stringify({folderId , filename:resourceName})
-            });
-            let data = await response.json();
-
-            if(data.StatusCode == 200){
-                showResult(data.StatusCode , "✅ File deleted successfully" , true)
-             }
-             if(data.StatusCode >= 400){
-                showResult(data.StatusCode , "❌ File deleted Failed" , true)
-             }
-            
-        }else{
-            const response = await fetch("http://localhost:8080/WorkDrive/FolderDeleteServlet", {
-			method : "POST",
-            credentials : "include",
-			headers : {
-				"Content-Type" : "application/json"
-			},
-			body : JSON.stringify({
-				resourceId : resourceName,
-			})     
-
-		});
-
-		const data = await response.json();
-
-        if(data.StatusCode == 200){
-            showResult(data.StatusCode , "✅ Folder deleted successfully" , true)
-         }
-         if(data.StatusCode >= 400){
-            showResult(data.StatusCode , "❌ Folder deleted Failed" , true)
-         }
-
-        }
-    }
-
-    async function downloadFile( filename ,folderId , resourceType){
-
-        let response = await fetch("http://localhost:8080/WorkDrive/DownloadFileServlet" , {
-            method : "POST",
-            headers : {"Content-Type" : "application/json"},    
-            body : JSON.stringify({filename , folderId })
-        });
-        let data = await response.json();
-        if(data.StatusCode == 200){
-            showResult(data.StatusCode , "✅ File downloaded successfully" , true)
-         }
-         if(data.StatusCode >= 400){
-            showResult(data.StatusCode , "❌ File downloaded Failed" , true)
-         }
-    }
-
-
-    function showResult(Code , msg , chk){
-        fetchFolder(currentFolderId.id);
-        setCode(Code);
-        setMsg(msg);
-        setShow(chk);
-        setTimeout(()=>{setShow(false)},2000)
-    }
+    const { currentFolderId, setCurrentFolderId } = useContext(FoldContext);
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
         console.log(currentFolderId.id);
     }, [currentFolderId.id]);
-    
+
     async function fetchFolder(parentId) {
         try {
             const resourceResponse = await getResources(parentId);
@@ -98,16 +26,16 @@ export default function ResourceListing() {
             const resources = rawResources.map(resource => {
                 const isFolder = resource.type === "FOLDER";
                 return {
-                    id : resource.id,
-                    name : isFolder ? resource.resourceName : resource.filename,
-                    type : resource.type,
-                    created : isFolder ? resource.createdTime : resource.createTime,
-                    modified : resource.modifiedTime,
-                    size : resource.size
+                    id: resource.id,
+                    name: isFolder ? resource.resourceName : resource.filename,
+                    type: resource.type,
+                    created: isFolder ? resource.createdTime : resource.createTime,
+                    modified: resource.modifiedTime,
+                    size: resource.size
                 };
             });
             console.log(resources);
-            setCurrentFolderId({ id : resourceResponse.folderId});
+            setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(resources);
         } catch (err) {
             console.error("Error fetching rsources ", err);
@@ -142,11 +70,14 @@ export default function ResourceListing() {
 
             <FileHeader fetchFolder={fetchFolder}>
                 <div className="tree-header">
+                    <div className="tree">
+                        <Icon path={mdiFileTreeOutline} size={1} />
+                    </div>
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
                             <span key={folder.id}>
-                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
+                                {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
                     </div>
@@ -180,18 +111,17 @@ export default function ResourceListing() {
                         <div className="optionsMenu">
                             <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
-                                <li onClick={() => {}}>Move</li>
-                                <li onClick={() => {}}>Copy</li>
-                                <li onClick={() => {}}>Paste</li>
-                                <li onClick={() => {}}>Rename</li>
-                                <li onClick={() => {deleteResource(resource.type == "FILE" ? resource.name : resource.id , resource.type)}}>Delete</li>
-                                {resource.type == "FILE" && (<li onClick={() => {downloadFile(resource.name , currentFolderId.id , resource.type)}}>Download</li>)}
+                                <li onClick={() => { }}>Move</li>
+                                <li onClick={() => { }}>Copy</li>
+                                <li onClick={() => { }}>Paste</li>
+                                <li onClick={() => { }}>Rename</li>
+                                <li onClick={() => { }}>Delete</li>
+                                {resource.type === "FILE" && (<li onClick={() => { }}>Download</li>)}
                             </ul>)}
                         </div>
                     </div>
                 ))}
             </div>
-            <Popup result={code} msg={msg} show={show}></Popup>
         </div>
     );
 }

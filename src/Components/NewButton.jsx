@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useFolder } from "../utils/FolderContext.jsx";
-import "./../Style/NewButton.module.css";
+import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
@@ -101,7 +101,7 @@ export default function NewButton({fetchFolder}) {
                <Button className="dropdown" onClick={()=>setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={()=>setShowFolderinput(true)}>Create Folder</Button>
                {/* <Button className="dropdown" onClick={() => {}}>Upload File</Button> */}
-               <UploadButton className="dropdown"></UploadButton>
+               <UploadButton></UploadButton>
             </div>
          </div>
 

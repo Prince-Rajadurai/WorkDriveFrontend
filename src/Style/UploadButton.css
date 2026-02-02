@@ -1,0 +1,16 @@
+label{
+    width: 200px;
+    height: 40px;
+    background-color: white;
+    transition: .2s;
+    border: none;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgb(58, 58, 58);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+label:hover{
+    background-color: rgb(215, 215, 215);
+}

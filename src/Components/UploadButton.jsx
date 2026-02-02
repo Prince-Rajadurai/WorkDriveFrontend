@@ -1,5 +1,10 @@
+import '../Style/UploadButton.css'
+
 export default function UploadButton(){
     return(
-        <input type="file" value ="Upload File" />
+        <>
+            <label htmlFor="upload_btn">Upload File</label>
+            <input type="file" id="upload_btn" hidden/>
+        </>
     );
 }

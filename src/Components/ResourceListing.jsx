@@ -74,14 +74,14 @@ export default function ResourceListing() {
         try {
             const resourceResponse = await getResources(parentId);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
-            { console.log(resources) }
             const resources = rawResources.map(resource => {
                 if (resource.resourceId) {
-                    return { id : resource.resourceId, name : resource.resourceName, type : "FOLDER", created : resource.createdTime, modified : resource.modifiedTime};
+                    return { id: resource.resourceId, name: resource.resourceName, type: "FOLDER", created: resource.createdTime, modified: resource.modifiedTime };
                 } else {
-                    return { id : parentId , name : resource.filename, type : "FILE", created : resource.createTime, modified : resource.modifiedTime};
+                    return { id: resource.id, name: resource.filename, type: "FILE", created: resource.createTime, modified: resource.modifiedTime };
                 }
-            })
+            });
+            console.log(resources);
             setResources(resources);
         } catch (err) {
             console.error("Error fetching rsources ", err);

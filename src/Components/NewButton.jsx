@@ -46,25 +46,37 @@ export default function NewButton({fetchFolder}) {
 
    }
 
+   
+
    async function uploadFile(localfile , change , folderId){
 
       
       let filename = localfile.name;
+      
+      const reader = new FileReader();
 
-      let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
-         method : "POST",
-         headers : {"Content-Type" : "application/json"},
-         body : JSON.stringify({localfile,filename,change,folderId })
-      });
-      let data = await response.json();
+      reader.onload = async function () {
 
+         console.log("hii");
+         const base64Data = reader.result.split(",")[1];
+         
+         let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
+            method : "POST",
+            headers : {"Content-Type" : "application/json"},
+            body : JSON.stringify({filename,change,folderId ,data:base64Data})
+         });
+         let data = await response.json();
 
-      if(data.StatusCode == 200){
-         showResult(data.StatusCode , "✅ File created sucessfully" , true)
-      }
-      if(data.StatusCode >= 400){
-         showResult(data.StatusCode , "❌ File creation Failed" , true)
-      }
+         if(data.StatusCode == 200){
+            showResult(data.StatusCode , "✅ File created sucessfully" , true)
+         }
+         if(data.StatusCode >= 400){
+            showResult(data.StatusCode , "❌ File creation Failed" , true)
+         }
+         
+     };
+
+     reader.readAsDataURL(file);
 
    }
 

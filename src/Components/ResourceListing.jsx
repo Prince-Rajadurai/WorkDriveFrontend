@@ -20,26 +20,53 @@ export default function ResourceListing() {
     const [renamingFolderId, setRenamingFolderId] = useState("");
     const [renameFolderInput, setRenameFolderInput] = useState(false);
     const [newName, setNewName] = useState("");
+    const [oldFilename , setOldFileName] = useState("");
+    const [type , setType] = useState("");
 
     const [tempIdStore, setTempIdStore] = useState([]);
 
 
-    function storeResourceId(id, action) {
-        setTempIdStore([id, action]);
+    function storeResourceId(id, name, action) {
+        setTempIdStore([id, name, action]);
         showResult(200, "✅ Copied Successfully", true);
     }
 
-    function pasteResource(parentId) {
+    function pasteResource(parentId, resource) {
         if (tempIdStore[0] == null) {
             showResult(400, "❌ No Resource Copied", true);
         }
         else if (tempIdStore[2] == "MOVE") {
-            moveFolder(parentId, tempIdStore[0], tempIdStore[1]);
-
+            if (moveFolder(parentId, tempIdStore[0], tempIdStore[1])) {
+                showResult(200, "✅ Resource Moved Successfully", true);
+            }else{
+                showResult(400, "❌ Failed to Move", true);
+            }
+            fetchFolder(parentId);
+            openFolder(resource);
         } else if (tempIdStore[2] == "COPY") {
 
+            fetchFolder(parentId);
         }
         setTempIdStore([]);
+    }
+
+
+    async function updateFileName( folderId , olderFileName , newFileName){
+
+        // console.log(folderId,oldFilename,newFileName);
+        let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName" , {
+            method : "POST",
+            headers : {"Content-Type" : "application/json"},    
+            body : JSON.stringify({folderId,olderFileName , newFileName})
+        });
+        let data = await response.json();
+    
+        if(data.StatusCode == 200){
+            showResult(data.StatusCode , "✅ File renamed successfully" , true)
+         }
+         if(data.StatusCode >= 400){
+            showResult(data.StatusCode , "❌ File renamed Failed" , true)
+         }
     }
 
     async function moveFolder(parentId, resourceId, resourceName) {
@@ -59,8 +86,11 @@ export default function ResourceListing() {
         });
 
         const data = await response.json();
-
-        console.log("Server response:", data);
+        if (data.StatusCode == 200) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
 
@@ -248,8 +278,8 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE") }}>Move</li>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY") }}>Copy</li>
-                                <li onClick={() => { pasteResource(resource.id) }}>Paste</li>
-                                <li onClick={() => { setRenamingFolderId(resource.id); setRenameFolderInput(true) }}>Rename</li>
+                                <li onClick={() => { pasteResource(resource.id, resource) }}>Paste</li>
+                                <li onClick={() => { setRenamingFolderId(resource.id);setOldFileName(resource.name);setType(resource.type); setRenameFolderInput(true) }}>Rename</li>
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type) }}>Delete</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type) }}>Download</li>)}
                             </ul>)}
@@ -258,7 +288,7 @@ export default function ResourceListing() {
                 ))}
             </div>
             <Popup result={code} msg={msg} show={show}></Popup>
-            {renameFolderInput && <Input placeholder="Enter the New Folder Name" sendValue={setNewName} onClick={() => { renameFolder(newName, renamingFolderId) }} cancel={() => setRenameFolderInput(false)}>Folder</Input>}
+            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(renamingFolderId , oldFilename , newName) }} cancel={() => setRenameFolderInput(false)}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );
 }

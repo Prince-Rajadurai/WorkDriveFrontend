@@ -10,7 +10,7 @@ import Input from "./Input";
 import Tree from "./Tree";
 
 export default function ResourceListing() {
-    const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
+    const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
     const { currentFolderId, setCurrentFolderId } = useContext(FoldContext);
@@ -135,15 +135,12 @@ export default function ResourceListing() {
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
-        console.log(currentFolderId.id);
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId) {
         try {
             const resourceResponse = await getResources(parentId);
-            console.log(resourceResponse);
             const rawResources = resourceResponse.resource;
-            console.log(rawResources);
             const resources = rawResources.map(resource => {
                 const isFolder = resource.type === "FOLDER";
                 return {
@@ -155,7 +152,6 @@ export default function ResourceListing() {
                     size: resource.size
                 };
             });
-            console.log(resources);
             setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(resources);
         } catch (err) {
@@ -207,10 +203,15 @@ export default function ResourceListing() {
 
             <FileHeader fetchFolder={fetchFolder}>
                 <div className="tree-header">
-                    <div className="tree" onClick={() => {setShowTree(true)}}>
+                    <div className="tree" onClick={() => { setShowTree(true) }} >
                         <Icon path={mdiFileTreeOutline} size={1} />
-                        {showTree && (<Tree></Tree>)}
                     </div>
+                    {showTree && (<>
+                        <div className="dropDownBox" onClick={() => setShowTree(false)}></div>
+                        <div className="treeDropdown">
+                            <Tree></Tree>
+                        </div>
+                    </>)}
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (

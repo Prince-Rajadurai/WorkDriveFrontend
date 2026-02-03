@@ -3,28 +3,23 @@ import Button from './Button';
 
 export default function Input({ children, placeholder, onClick, cancel,sendValue }) {
 
-    function createResource(){
-        onClick();
-        cancel();
-    }
-
     const pressSubmit = (e) =>{
         if(e.key == "Enter"){
-            createResource();
+            onClick();
         }
     }
 
     return (
         <div id='outerContainer'>
             <div className='innerContainer'>
-                <h1 className='head-title'>Create New {children}</h1>
+                <h1 className='head-title'>{children}</h1>
                 <div>
                     <p className='label'>Name</p>
                     <input className='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)} onKeyDown={pressSubmit}/>
                 </div>
                 <div className='buttons'>
                     <Button className="inputButton" onClick={cancel}>Cancel</Button>
-                    <Button className="inputButton" id="createButton" onClick={createResource}>Create</Button>
+                    <Button className="inputButton" id="createButton" onClick={onClick}>Create</Button>
                 </div>
 
             </div>

@@ -27,6 +27,7 @@ export default function NewButton({fetchFolder}) {
       let data = await response.json();
 
       if(data.StatusCode == 200){
+         setShowFileinput(false);
          fetchFolder(folderId);
          setCode(200);
          setMsg("✅ File created successfully");
@@ -86,7 +87,8 @@ export default function NewButton({fetchFolder}) {
       const data = await response.json();
 
       if(data.StatusCode == 200){
-         showResult(data.StatusCode , "✅ Folder created sucessfully" , true)
+         showResult(data.StatusCode , "✅ Folder created sucessfully" , true);
+         setShowFolderinput(false);
       }
       if(data.StatusCode >= 400){
          showResult(data.StatusCode , "❌ Folder creation Failed" , true)
@@ -124,9 +126,9 @@ export default function NewButton({fetchFolder}) {
 
          <Popup result={code} msg={msg} show={show}></Popup>
 
-         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,currentFolderId.id)} cancel={()=>setShowFolderinput(false)}>Folder</Input>}
+         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue = {getValue} onClick={()=>createFolder(resourceName,currentFolderId.id)} cancel={()=>setShowFolderinput(false)}>Create New Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,currentFolderId.id)}} cancel={()=>setShowFileinput(false)}>File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue = {getValue} onClick={()=>{createFile(resourceName,false,currentFolderId.id)}} cancel={()=>setShowFileinput(false)}>Create New File</Input>}
       </>
    );
 }

@@ -1,6 +1,6 @@
 import { useState, useEffect, useContext } from "react";
 import Icon from '@mdi/react';
-import { mdiFileOutline, mdiFolderOutline } from '@mdi/js';
+import { mdiFileOutline, mdiFolderOutline, mdiFileTreeOutline } from '@mdi/js';
 import '../Style/ResourceListing.css';
 import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
@@ -205,11 +205,14 @@ export default function ResourceListing() {
 
             <FileHeader fetchFolder={fetchFolder}>
                 <div className="tree-header">
+                    <div className="tree">
+                        <Icon path={mdiFileTreeOutline} size={1} />
+                    </div>
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
                             <span key={folder.id}>
-                                {">"} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
+                                {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
                     </div>

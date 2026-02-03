@@ -7,6 +7,7 @@ import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
 import Popup from "./Popup";
 import Input from "./Input";
+import Tree from "./Tree";
 
 export default function ResourceListing() {
     const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
@@ -130,6 +131,7 @@ export default function ResourceListing() {
         setShow(chk);
         setTimeout(() => { setShow(false) }, 2000)
     }
+    const [showTree, setShowTree] = useState(false);
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
@@ -205,8 +207,9 @@ export default function ResourceListing() {
 
             <FileHeader fetchFolder={fetchFolder}>
                 <div className="tree-header">
-                    <div className="tree">
+                    <div className="tree" onClick={() => {setShowTree(true)}}>
                         <Icon path={mdiFileTreeOutline} size={1} />
+                        {showTree && (<Tree></Tree>)}
                     </div>
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>

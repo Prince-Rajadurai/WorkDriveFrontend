@@ -7,9 +7,10 @@ import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
 import Popup from "./Popup";
 import Input from "./Input";
+import Tree from "./Tree";
 
 export default function ResourceListing() {
-    const [breadCrumbLinks, setBreadCrumbLinks] = useState([]);
+    const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
     const [resources, setResources] = useState([]);
     const [currentMenuId, setCurrentMenuId] = useState(null);
     const { currentFolderId, setCurrentFolderId } = useContext(FoldContext);
@@ -160,18 +161,16 @@ export default function ResourceListing() {
         setShow(chk);
         setTimeout(() => { setShow(false) }, 2000)
     }
+    const [showTree, setShowTree] = useState(false);
 
     useEffect(() => {
         fetchFolder(currentFolderId.id);
-        console.log(currentFolderId.id);
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId) {
         try {
             const resourceResponse = await getResources(parentId);
-            console.log(resourceResponse);
             const rawResources = resourceResponse.resource;
-            console.log(rawResources);
             const resources = rawResources.map(resource => {
                 const isFolder = resource.type === "FOLDER";
                 return {
@@ -183,7 +182,6 @@ export default function ResourceListing() {
                     size: resource.size
                 };
             });
-            console.log(resources);
             setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(resources);
         } catch (err) {
@@ -235,9 +233,15 @@ export default function ResourceListing() {
 
             <FileHeader fetchFolder={fetchFolder}>
                 <div className="tree-header">
-                    <div className="tree">
+                    <div className="tree" onClick={() => { setShowTree(true) }} >
                         <Icon path={mdiFileTreeOutline} size={1} />
                     </div>
+                    {showTree && (<>
+                        <div className="dropDownBox" onClick={() => setShowTree(false)}></div>
+                        <div className="treeDropdown">
+                            <Tree></Tree>
+                        </div>
+                    </>)}
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder}>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
@@ -276,12 +280,12 @@ export default function ResourceListing() {
                         <div className="optionsMenu">
                             <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
-                                <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE") }}>Move</li>
-                                <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY") }}>Copy</li>
-                                <li onClick={() => { pasteResource(resource.id, resource) }}>Paste</li>
-                                <li onClick={() => { setRenamingFolderId(resource.id);setOldFileName(resource.name);setType(resource.type); setRenameFolderInput(true) }}>Rename</li>
-                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type) }}>Delete</li>
-                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type) }}>Download</li>)}
+                                <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE"), setCurrentMenuId(null) }}>Move</li>
+                                <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY"), setCurrentMenuId(null) }}>Copy</li>
+                                <li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>
+                                <li onClick={() => { setRenamingFolderId(resource.id);setOldFileName(resource.name);setType(resource.type); setRenameFolderInput(true) , setCurrentMenuId(null)}}>Rename</li>
+                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type) , setCurrentMenuId(null)}}>Delete</li>
+                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type) , setCurrentMenuId(null)}}>Download</li>)}
                             </ul>)}
                         </div>
                     </div>

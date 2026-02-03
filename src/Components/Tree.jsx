@@ -7,16 +7,18 @@ import '../Style/Tree.css';
 
 export default function Tree() {
     const [folders, setFolders] = useState([]);
-    const { setCurrentFolderId } = useContext(FoldContext);
+    const { currentFolderId, setCurrentFolderId } = useContext(FoldContext);
+    const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
 
     useEffect(() => {
-        fetchFolders();
+        fetchFolders(currentFolderId.id);
     }, []);
 
-    async function fetchFolders() {
+    async function fetchFolders(parentId) {
         try {
-            const result = await getResources(null);
+            const result = await getResources(parentId);
             const folders = result.resource.filter(r => r.type === "FOLDER");
+            setCurrentFolderId({ id : result.folderId});
             setFolders(folders);
         } catch (err) {
             console.error("Error in fetching folders", err);
@@ -24,19 +26,23 @@ export default function Tree() {
     }
 
     function openFolder(folder) {
-        setCurrentFolderId({ id : folder.id });
+        setCurrentFolderId({ id: folder.id });
+        setBreadCrumbLinks(prev => [ ...prev, resource ]);
     }
 
-    return (<div className="tree">
-        {folders.length === 0 && (<div className="emptyTree">No folders</div>)}
-        {folders.map(folder => {
-            <div key={folder.id}>
-                <div key={folder.id} className="treeChild" onClick={() => openFolder(folder)}>
-                    <Icon path={mdiFolderOutline} size={1} />
-                    <span>{folder.resourceName}</span>
+    return (<div className="treeStructure">
+        {folders.length === 0 ? (
+            <div className="emptyTree">No folders</div>
+        ) : (
+            folders.map(folder => {
+                <div key={folder.id}>
+                    <div key={folder.id} className="treeChild" onClick={() => openFolder(folder)}>
+                        <Icon path={mdiFolderOutline} size={1} />
+                        <span>{folder.resourceName}</span>
+                    </div>
                 </div>
-            </div>
-        })}
+            })
+        )}
     </div>
     )
 }

@@ -21,8 +21,8 @@ export default function ResourceListing() {
     const [renamingFolderId, setRenamingFolderId] = useState("");
     const [renameFolderInput, setRenameFolderInput] = useState(false);
     const [newName, setNewName] = useState("");
-    const [oldFilename , setOldFileName] = useState("");
-    const [type , setType] = useState("");
+    const [oldFilename, setOldFileName] = useState("");
+    const [type, setType] = useState("");
 
     const [tempIdStore, setTempIdStore] = useState([]);
 
@@ -39,35 +39,60 @@ export default function ResourceListing() {
         else if (tempIdStore[2] == "MOVE") {
             if (moveFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "✅ Resource Moved Successfully", true);
-            }else{
+            } else {
                 showResult(400, "❌ Failed to Move", true);
             }
             fetchFolder(parentId);
             openFolder(resource);
         } else if (tempIdStore[2] == "COPY") {
-
+           console.log(parentId,tempIdStore);
+            if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
+                showResult(200, "✅ Resource Moved Successfully", true);
+            } else {
+                showResult(400, "❌ Failed to Move", true);
+            }
             fetchFolder(parentId);
+            openFolder(resource);
         }
         setTempIdStore([]);
     }
 
 
-    async function updateFileName( folderId , olderFileName , newFileName){
+    async function updateFileName(folderId, olderFileName, newFileName) {
 
         // console.log(folderId,oldFilename,newFileName);
-        let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName" , {
-            method : "POST",
-            headers : {"Content-Type" : "application/json"},    
-            body : JSON.stringify({folderId,olderFileName , newFileName})
+        let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ folderId, olderFileName, newFileName })
         });
         let data = await response.json();
-    
-        if(data.StatusCode == 200){
-            showResult(data.StatusCode , "✅ File renamed successfully" , true)
-         }
-         if(data.StatusCode >= 400){
-            showResult(data.StatusCode , "❌ File renamed Failed" , true)
-         }
+
+        if (data.StatusCode == 200) {
+            showResult(data.StatusCode, "✅ File renamed successfully", true)
+        }
+        if (data.StatusCode >= 400) {
+            showResult(data.StatusCode, "❌ File renamed Failed", true)
+        }
+    }
+    async function copyFolder(parentId, resourceId, resourceName) {
+
+        const response = await fetch("http://localhost:8080/WorkDrive/CopyResourceServlet", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            credentials: "include",
+            body: JSON.stringify({
+                resourceName,
+                parentId,
+                resourceId
+            })
+        });
+
+        const data = await response.json();
+
+        console.log("Server response:", data);
     }
 
     async function moveFolder(parentId, resourceId, resourceName) {
@@ -113,8 +138,8 @@ export default function ResourceListing() {
             }
 
         } else {
-            const response = await fetch("http://localhost:8080/WorkDrive/FolderDeleteServlet", {
-                method: "POST",
+            const response = await fetch("http://localhost:8080/WorkDrive/FolderServlet", {
+                method: "DELETE",
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
@@ -190,8 +215,8 @@ export default function ResourceListing() {
     }
 
     async function renameFolder(newName, resourceId) {
-        const response = await fetch("http://localhost:8080/WorkDrive/FolderUpdateServlet", {
-            method: "POST",
+        const response = await fetch("http://localhost:8080/WorkDrive/FolderServlet", {
+            method: "PUT",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ newName, resourceId })
         });
@@ -276,23 +301,23 @@ export default function ResourceListing() {
                         </div>
                         <span className="fileCreatedAt">{resource.created}</span>
                         <span className="fileLastModified">{resource.modified}</span>
-                        <span className="fileSize">-</span>
+                        <span className="fileSize">{resource.size || "-"}</span>
                         <div className="optionsMenu">
                             <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE"), setCurrentMenuId(null) }}>Move</li>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY"), setCurrentMenuId(null) }}>Copy</li>
                                 <li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>
-                                <li onClick={() => { setRenamingFolderId(resource.id);setOldFileName(resource.name);setType(resource.type); setRenameFolderInput(true) , setCurrentMenuId(null)}}>Rename</li>
-                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type) , setCurrentMenuId(null)}}>Delete</li>
-                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type) , setCurrentMenuId(null)}}>Download</li>)}
+                                <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
+                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
+                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}
                             </ul>)}
                         </div>
                     </div>
                 ))}
             </div>
             <Popup result={code} msg={msg} show={show}></Popup>
-            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(renamingFolderId , oldFilename , newName) }} cancel={() => setRenameFolderInput(false)}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
+            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(renamingFolderId, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );
 }

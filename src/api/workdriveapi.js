@@ -9,6 +9,7 @@ async function get(url) {
 }
 
 export const getResources = (parentId) => {
-    const query = parentId !== undefined && parentId !== null ? `?parentId=${parentId}` : "";
+    const empty = null;
+    const query = parentId !== undefined && parentId !== null ? `?parentId=${parentId}` : `?parentId=${empty}`;
     return get(`/ResourceRenderServlet${query}`)
 };

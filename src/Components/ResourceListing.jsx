@@ -42,8 +42,8 @@ export default function ResourceListing() {
             } else {
                 showResult(400, "❌ Failed to Move", true);
             }
-            fetchFolder(parentId);
             openFolder(resource);
+            fetchFolder(parentId);
         } else if (tempIdStore[2] == "COPY") {
            console.log(parentId,tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
@@ -51,8 +51,8 @@ export default function ResourceListing() {
             } else {
                 showResult(400, "❌ Failed to Move", true);
             }
-            fetchFolder(parentId);
             openFolder(resource);
+            fetchFolder(parentId);
         }
         setTempIdStore([]);
     }
@@ -323,7 +323,7 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE"), setCurrentMenuId(null) }}>Move</li>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY"), setCurrentMenuId(null) }}>Copy</li>
-                                <li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>
+                                {resource.type == "FILE" ?"" :<li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>}
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}

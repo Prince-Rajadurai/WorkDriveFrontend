@@ -47,7 +47,7 @@ export default function NewButton({ fetchFolder }) {
    }
 
    async function uploadFile(localfile , change , folderId){
-
+console.log("Hello");
       
       let filename = localfile.name;
 
@@ -69,7 +69,6 @@ export default function NewButton({ fetchFolder }) {
    }
 
    async function createFolder(folderName, parentId) {
-      console.log(parentId);
       if (!folderName) return;
 
       const response = await fetch("http://localhost:8080/WorkDrive/FolderServlet", {

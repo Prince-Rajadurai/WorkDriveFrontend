@@ -1,31 +1,39 @@
-import { useEffect,useState } from 'react';
+import { useEffect, useState } from 'react';
 import './../Style/SignUp.css';
 import Button from './../Components/Button';
 
+import moment from 'moment-timezone';
 import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUpPage() {
 
     const navigate = useNavigate();
+    const timezones = moment.tz.names();
 
     const [fullName, setFullName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
-    const [timeZone,setTimeZone]= useState("");
+    const [selectedTimezone, setSelectedTimezone] = useState('Asia/Kolkata'); // default value
+
+    const handleTimezoneChange = (e) => {
+        setSelectedTimezone(e.target.value);
+    };
 
     const [formError, setFormError] = useState({ field: '', message: '' });
 
 
-    useEffect(()=>{
+    useEffect(() => {
         sessionCheck();
-    },[]);
-    
-    async function sessionCheck(){
+    }, []);
+
+    async function sessionCheck() {
         try {
-            const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter",{method: "GET",
-            credentials: "include"});
+            const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter", {
+                method: "GET",
+                credentials: "include"
+            });
             const data = await response.json();
             if (data.message === "Session exsist") {
                 navigate("/home");
@@ -64,7 +72,9 @@ export default function SignUpPage() {
         if (!termsAccepted) {
             return { field: 'terms', message: "You must accept the Terms & Privacy Policy" };
         }
-
+        if (timezones.indexOf(selectedTimezone) < 0) {
+            return { field: 'timezone', message: "Time zone select tag is mismatched" }
+        }
         return { field: '', message: '' };
     }
 
@@ -93,7 +103,8 @@ export default function SignUpPage() {
                     email,
                     password,
                     confirmPassword,
-                    terms: termsAccepted
+                    terms: termsAccepted,
+                    timezone: selectedTimezone
                 })
             });
 
@@ -129,6 +140,17 @@ export default function SignUpPage() {
                         onChange={(e) => setFullName(e.target.value)}
                         style={{ borderColor: formError.field === 'fullName' ? 'red' : 'rgb(122,119,119)' }}
                     />
+                </div>
+
+                <div className='inputField'>
+                    <label htmlFor="timezone">Select Timezone: </label>
+                    <select name="timezone" id="timezone" value={selectedTimezone} onChange={handleTimezoneChange}>
+                        {timezones.map((zone) => (
+                            <option key={zone} value={zone}>
+                                {zone}
+                            </option>
+                        ))}
+                    </select>
                 </div>
 
                 <div className='inputField'>

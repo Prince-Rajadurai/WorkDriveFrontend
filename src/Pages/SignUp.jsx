@@ -13,6 +13,7 @@ export default function SignUpPage() {
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
     const [termsAccepted, setTermsAccepted] = useState(false);
+    const [timeZone,setTimeZone]= useState("");
 
     const [formError, setFormError] = useState({ field: '', message: '' });
 

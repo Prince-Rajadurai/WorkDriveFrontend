@@ -307,7 +307,7 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE"), setCurrentMenuId(null) }}>Move</li>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY"), setCurrentMenuId(null) }}>Copy</li>
-                                <li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>
+                                {resource.type == "FILE" ?"" :<li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>}
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}

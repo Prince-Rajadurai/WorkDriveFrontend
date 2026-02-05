@@ -42,8 +42,8 @@ export default function ResourceListing() {
             } else {
                 showResult(400, "❌ Failed to Move", true);
             }
-            fetchFolder(parentId);
             openFolder(resource);
+            fetchFolder(parentId);
         } else if (tempIdStore[2] == "COPY") {
            console.log(parentId,tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
@@ -51,8 +51,8 @@ export default function ResourceListing() {
             } else {
                 showResult(400, "❌ Failed to Move", true);
             }
-            fetchFolder(parentId);
             openFolder(resource);
+            fetchFolder(parentId);
         }
         setTempIdStore([]);
     }

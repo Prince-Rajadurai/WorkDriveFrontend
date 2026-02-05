@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 // import { useFolder } from "../utils/FolderContext.jsx";
+import { FoldContext } from "../utils/FolderContext.jsx";
 import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
 import UploadButton from "./UploadButton.jsx";
-import { FoldContext } from "../utils/FolderContext.jsx";
 
 export default function NewButton({fetchFolder}) {
 
@@ -45,25 +45,40 @@ export default function NewButton({fetchFolder}) {
 
    }
 
-   async function uploadFile(localfile , change , folderId){
+   async function uploadFile(file , change , folderId){
 
       
-      let filename = localfile.name;
+        let fName = file.files[0];
+        let chunkSize = 5*1024*1024;
+        let offset = 0;
+        let chunkIndex = 0;
+        let code;
 
-      let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
-         method : "POST",
-         headers : {"Content-Type" : "application/json"},
-         body : JSON.stringify({localfile,filename,change,folderId })
-      });
-      let data = await response.json();
+        while(offset<file.size){
+            let chunk = file.slice(offset , offset+chunkSize );
+            let formData = new FormData();
+            formData.append("file" , chunk);
+            formData.append("folderId" , folderId);
+            formData.append("chunkIndex" , chunkIndex);
+            formData.append("addDb" , false);
+            let res = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
+                method : "POST",
+                body : formData
+            })
 
-
-      if(data.StatusCode == 200){
-         showResult(data.StatusCode , "✅ File created sucessfully" , true)
-      }
-      if(data.StatusCode >= 400){
-         showResult(data.StatusCode , "❌ File creation Failed" , true)
-      }
+            let data = res.json();
+            code = data.StatusCode;
+            offset += chunkSize;
+            chunkIndex++;
+        }
+        let form = new FormData();
+        form.append("file" , chunk);
+        form.append("folderId" , folderId);
+        form.append("addDb" , true);
+            let res = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
+                method : "POST",
+                body : form
+         })
 
    }
 

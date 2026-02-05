@@ -1,11 +1,11 @@
-import { useState, useContext } from "react";
+import { useContext, useState } from "react";
 // import { useFolder } from "../utils/FolderContext.jsx";
+import { FoldContext } from "../utils/FolderContext.jsx";
 import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
 import UploadButton from "./UploadButton.jsx";
-import { FoldContext } from "../utils/FolderContext.jsx";
 
 export default function NewButton({ fetchFolder }) {
 
@@ -46,54 +46,25 @@ export default function NewButton({ fetchFolder }) {
 
    }
 
+   async function uploadFile(localfile , change , folderId){
 
-
-   async function uploadFile(file, change, folderId) {
-
-      let fName = file.name;
-      // let chunkSize = 1100 * 1024 * 1024;
-      // let offset = 0;
-      // let chunkIndex = 0;
-      // let code;
-
-      // while (offset < file.size) {
-      //    let chunk = file.slice(offset, offset + chunkSize);
-      //    let formData = new FormData();
-      //    console.log(chunk , chunkIndex , folderId , fName);
-      //    formData.append("file", chunk);
-      //    formData.append("filename", fName);
-      //    formData.append("folderId", folderId);
-      //    formData.append("chunkIndex", chunkIndex);
-      //    formData.append("addDb", false);
-      //    await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
-      //       method: "POST",
-      //       body: formData
-      //    })
-      //    offset += chunkSize;
-      //    chunkIndex++;
-      // }
-      let form = new FormData();
-      form.append("file", file);
-      form.append("filename", fName);
-      form.append("folderId", folderId);
-      setCode(200);
-      setMsg(" ⬇ File Uploading ...");
-      setShow(true);
-      let res = await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
-         method: "POST",
-         body: form
-      })
-
-      let data = await res.json();
       
-      if (data.StatusCode == 200) {
-         showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
-         setShowFolderinput(false);
-      }
-      if (data.StatusCode >= 400) {
-         showResult(data.StatusCode, "❌ File upload Failed", true)
-      }
+      let filename = localfile.name;
 
+      let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
+         method : "POST",
+         headers : {"Content-Type" : "application/json"},
+         body : JSON.stringify({localfile,filename,change,folderId })
+      });
+      let data = await response.json();
+
+
+      if(data.StatusCode == 200){
+         showResult(data.StatusCode , "✅ File created sucessfully" , true)
+      }
+      if(data.StatusCode >= 400){
+         showResult(data.StatusCode , "❌ File creation Failed" , true)
+      }
 
    }
 

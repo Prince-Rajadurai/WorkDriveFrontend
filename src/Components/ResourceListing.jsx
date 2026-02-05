@@ -210,7 +210,7 @@ export default function ResourceListing() {
             setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(resources);
         } catch (err) {
-            console.error("Error fetching rsources ", err);
+            console.log("Error fetching rsources ", err);
         }
     }
 

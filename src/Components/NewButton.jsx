@@ -51,37 +51,40 @@ export default function NewButton({ fetchFolder }) {
    async function uploadFile(file, change, folderId) {
 
       let fName = file.name;
-      let chunkSize = 5 * 1024 * 1024;
-      let offset = 0;
-      let chunkIndex = 0;
-      let code;
+      // let chunkSize = 1100 * 1024 * 1024;
+      // let offset = 0;
+      // let chunkIndex = 0;
+      // let code;
 
-      while (offset < file.size) {
-         let chunk = file.slice(offset, offset + chunkSize);
-         let formData = new FormData();
-         console.log(chunk , chunkIndex , folderId , fName);
-         formData.append("file", chunk);
-         formData.append("filename", fName);
-         formData.append("folderId", folderId);
-         formData.append("chunkIndex", chunkIndex);
-         formData.append("addDb", false);
-         await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
-            method: "POST",
-            body: formData
-         })
-         offset += chunkSize;
-         chunkIndex++;
-      }
+      // while (offset < file.size) {
+      //    let chunk = file.slice(offset, offset + chunkSize);
+      //    let formData = new FormData();
+      //    console.log(chunk , chunkIndex , folderId , fName);
+      //    formData.append("file", chunk);
+      //    formData.append("filename", fName);
+      //    formData.append("folderId", folderId);
+      //    formData.append("chunkIndex", chunkIndex);
+      //    formData.append("addDb", false);
+      //    await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
+      //       method: "POST",
+      //       body: formData
+      //    })
+      //    offset += chunkSize;
+      //    chunkIndex++;
+      // }
       let form = new FormData();
+      form.append("file", file);
       form.append("filename", fName);
       form.append("folderId", folderId);
-      form.append("addDb", true);
+      setCode(200);
+      setMsg(" ⬇ File Uploading ...");
+      setShow(true);
       let res = await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
          method: "POST",
          body: form
       })
 
-      let data = res.json();
+      let data = await res.json();
       
       if (data.StatusCode == 200) {
          showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
@@ -95,7 +98,7 @@ export default function NewButton({ fetchFolder }) {
    }
 
    async function createFolder(folderName, parentId) {
-
+      console.log(parentId);
       if (!folderName) return;
 
       const response = await fetch("http://localhost:8080/WorkDrive/FolderServlet", {

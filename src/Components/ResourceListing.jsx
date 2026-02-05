@@ -1,12 +1,12 @@
-import { useState, useEffect, useContext } from "react";
+import { mdiFileOutline, mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import { mdiFileOutline, mdiFolderOutline, mdiFileTreeOutline } from '@mdi/js';
+import { useContext, useEffect, useState } from "react";
 import '../Style/ResourceListing.css';
-import FileHeader from "./FileHeader";
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
-import Popup from "./Popup";
+import FileHeader from "./FileHeader";
 import Input from "./Input";
+import Popup from "./Popup";
 import Tree from "./Tree";
 
 export default function ResourceListing() {
@@ -42,8 +42,8 @@ export default function ResourceListing() {
             } else {
                 showResult(400, "❌ Failed to Move", true);
             }
-            fetchFolder(parentId);
             openFolder(resource);
+            fetchFolder(parentId);
         } else if (tempIdStore[2] == "COPY") {
            console.log(parentId,tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
@@ -51,16 +51,16 @@ export default function ResourceListing() {
             } else {
                 showResult(400, "❌ Failed to Move", true);
             }
-            fetchFolder(parentId);
             openFolder(resource);
+            fetchFolder(parentId);
         }
         setTempIdStore([]);
     }
 
 
-    async function updateFileName(folderId, olderFileName, newFileName) {
+    async function updateFileName(folderId , olderFileName, newFileName) {
 
-        // console.log(folderId,oldFilename,newFileName);
+        // console.log("fileId ===> "+fileId+" === folderId ===> "+folderId);
         let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -69,6 +69,7 @@ export default function ResourceListing() {
         let data = await response.json();
 
         if (data.StatusCode == 200) {
+            setRenameFolderInput(false)
             showResult(data.StatusCode, "✅ File renamed successfully", true)
         }
         if (data.StatusCode >= 400) {
@@ -163,20 +164,35 @@ export default function ResourceListing() {
     }
 
     async function downloadFile(filename, folderId) {
-
-        let response = await fetch("http://localhost:8080/WorkDrive/DownloadFileServlet", {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ filename, folderId })
-        });
-        let data = await response.json();
-        if (data.StatusCode == 200) {
-            showResult(data.StatusCode, "✅ File downloaded successfully", true)
-        }
-        if (data.StatusCode >= 400) {
-            showResult(data.StatusCode, "❌ File downloaded Failed", true)
+        try {
+            const response = await fetch("http://localhost:8080/WorkDrive/DownloadFileServlet", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ filename, folderId })
+            });
+    
+            if (!response.ok) {
+                showResult(response.status, "❌ File download failed", true);
+                return;
+            }
+    
+            const blob = await response.blob();
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = filename; 
+            document.body.appendChild(a);
+            a.click();
+            a.remove();
+            window.URL.revokeObjectURL(url);
+            showResult(200, "✅ File downloaded successfully", true);
+    
+        } catch (err) {
+            console.error("Download error:", err);
+            showResult(500, "❌ File download failed", true);
         }
     }
+    
 
 
     function showResult(Code, msg, chk) {
@@ -317,7 +333,7 @@ export default function ResourceListing() {
                 ))}
             </div>
             <Popup result={code} msg={msg} show={show}></Popup>
-            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(renamingFolderId, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
+            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );
 }

@@ -46,25 +46,33 @@ export default function NewButton({ fetchFolder }) {
 
    }
 
-   async function uploadFile(localfile , change , folderId){
-console.log("Hello");
+
+
+   async function uploadFile(file, change, folderId) {
+
+      let fName = file.name;
+      let form = new FormData();
+      form.append("file", file);
+      form.append("filename", fName);
+      form.append("folderId", folderId);
+      setCode(200);
+      setMsg(" ⬇ File Uploading ...");
+      setShow(true);
+      let res = await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
+         method: "POST",
+         body: form
+      })
+
+      let data = await res.json();
       
-      let filename = localfile.name;
-
-      let response = await fetch("http://localhost:8080/WorkDrive/creation/UploadFileServlet" , {
-         method : "POST",
-         headers : {"Content-Type" : "application/json"},
-         body : JSON.stringify({localfile,filename,change,folderId })
-      });
-      let data = await response.json();
-
-
-      if(data.StatusCode == 200){
-         showResult(data.StatusCode , "✅ File created sucessfully" , true)
+      if (data.StatusCode == 200) {
+         showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
+         setShowFolderinput(false);
       }
-      if(data.StatusCode >= 400){
-         showResult(data.StatusCode , "❌ File creation Failed" , true)
+      if (data.StatusCode >= 400) {
+         showResult(data.StatusCode, "❌ File upload Failed", true)
       }
+
 
    }
 

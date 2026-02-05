@@ -1,18 +1,25 @@
 import { mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState } from 'react';
-import { AuthContext } from '../utils/AuthenticationContext';
-import '../Style/Header.css'
+import { useEffect, useState } from 'react';
+import '../Style/Header.css';
 
 export default function Header(){
 
-    const {userId , userName} = useContext(AuthContext);
 
     const[name , setName] = useState("");
 
     useEffect(()=>{
-        setName(userName[0].toUpperCase());
+        getUserName();
     },[]);
+
+    async function getUserName(){
+        let response = await fetch("http://localhost:8080/WorkDrive/RenderUserMail" , {method: "GET",
+        credentials: "include"});
+        let data = await response.json();
+        let userMail = data.message;
+        console.log(userMail);
+        setName(userMail.split("")[0].toUpperCase());
+    }
 
     return(
         <>

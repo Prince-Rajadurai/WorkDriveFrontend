@@ -9,7 +9,6 @@ async function get(url) {
 }
 
 export const getResources = (parentId) => {
-    const empty = null;
-    const query = parentId !== undefined && parentId !== null ? `?parentId=${parentId}` : `?parentId=${empty}`;
+    const query = parentId !== undefined && parentId !== null ? `?parentId=${parentId}` : "";
     return get(`/ResourceRenderServlet${query}`)
 };

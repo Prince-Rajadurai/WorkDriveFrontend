@@ -21,3 +21,19 @@
     color: #555;
     text-align: center;
 }
+
+.treeLevel {
+    padding-left: 14px;
+}
+
+.treeArrow {
+    width: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.treeName {
+    cursor: pointer;
+    user-select: none;
+}

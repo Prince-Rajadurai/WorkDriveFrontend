@@ -12,7 +12,7 @@ export default function Tree() {
 
     useEffect(() => {
         fetchFolders(currentFolderId.id);
-    }, []);
+    }, [currentFolderId.id]);
 
     async function fetchFolders(parentId) {
         try {
@@ -27,7 +27,7 @@ export default function Tree() {
 
     function openFolder(folder) {
         setCurrentFolderId({ id: folder.id });
-        setBreadCrumbLinks(prev => [ ...prev, resource ]);
+        setBreadCrumbLinks(prev => [ ...prev, { id : folder.id, name: folder.resourceName, type: "FOLDER"} ]);
     }
 
     return (<div className="treeStructure">
@@ -35,12 +35,12 @@ export default function Tree() {
             <div className="emptyTree">No folders</div>
         ) : (
             folders.map(folder => {
-                <div key={folder.id}>
+                return (
                     <div key={folder.id} className="treeChild" onClick={() => openFolder(folder)}>
                         <Icon path={mdiFolderOutline} size={1} />
                         <span>{folder.resourceName}</span>
                     </div>
-                </div>
+                );
             })
         )}
     </div>

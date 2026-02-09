@@ -18,6 +18,10 @@ export default function ResourceListing() {
     const [code, setCode] = useState(0);
     const [show, setShow] = useState(false);
     const [msg, setMsg] = useState("");
+    const [copyFileName , setCopyFileName] = useState("");
+    const [oldFolderId , setOldFolderId] = useState("");
+    const [copyType , setCopyType] = useState("");
+    const [actionType , setActionType] = useState("");
 
     const [renamingFolderId, setRenamingFolderId] = useState("");
     const [renameFolderInput, setRenameFolderInput] = useState(false);
@@ -32,6 +36,8 @@ export default function ResourceListing() {
 
 
     function storeResourceId(id, name, action) {
+
+        setCopyType("FOLDER");
         setTempIdStore([id, name, action]);
         showResult(200, "✅ Copied Successfully", true);
     }
@@ -250,6 +256,64 @@ export default function ResourceListing() {
         } else {
             showResult(data.StatusCode, "❌ Folder rename failed", true);
         }
+    }
+
+    function storedFileDetails(filename , oldFolder , fileId){
+
+        setActionType("COPY");
+        showResult(200, "✅ File copied successfully", true)
+        setCopyFileName(filename);
+        setOldFolderId(oldFolder);
+        setCopyType("FILE");
+
+    }
+    
+    function movestoredFileDetails(filename , oldFolder ){
+
+        setActionType("MOVE");
+        showResult(200, "✅ File details copied successfully", true)
+        setCopyFileName(filename);
+        setOldFolderId(oldFolder);
+        setCopyType("FILE");
+
+    }
+
+    async function moveFile(newFolderId){
+        const response = await fetch("http://localhost:8080/WorkDrive/MoveFileServlet", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ filename:copyFileName, oldFolderId , newFolderId })
+        });
+
+        
+        const data = await response.json();
+
+        if (data.StatusCode == 200) {
+            showResult(data.StatusCode, "✅ File moved successfully", true)
+        }
+        if (data.StatusCode >= 400) {
+            showResult(data.StatusCode, "❌ File moved Failed", true)
+        }
+    }
+
+    async function copyFile(newFolderId){
+
+        const response = await fetch("http://localhost:8080/WorkDrive/CopyFileServlet", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ filename:copyFileName, oldFolderId , newFolderId })
+        });
+
+        
+        const data = await response.json();
+
+        if (data.StatusCode == 200) {
+            showResult(data.StatusCode, "✅ File paste successfully", true)
+        }
+        if (data.StatusCode >= 400) {
+            showResult(data.StatusCode, "❌ File paste Failed", true)
+        }
+
     }
 
     function openFolder(resource) {

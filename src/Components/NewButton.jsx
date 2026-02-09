@@ -67,10 +67,12 @@ export default function NewButton({ fetchFolder }) {
       let data = await res.json();
 
       if (data.StatusCode == 200) {
+         console.log("Hello from upload file success");
          showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
+         console.log("Hello from upload file error");
          showResult(data.StatusCode, "❌ File upload Failed", true)
       }
 

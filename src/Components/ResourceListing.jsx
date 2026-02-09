@@ -18,10 +18,10 @@ export default function ResourceListing() {
     const [code, setCode] = useState(0);
     const [show, setShow] = useState(false);
     const [msg, setMsg] = useState("");
-    const [copyFileName , setCopyFileName] = useState("");
-    const [oldFolderId , setOldFolderId] = useState("");
-    const [copyType , setCopyType] = useState("");
-    const [actionType , setActionType] = useState("");
+    const [copyFileName, setCopyFileName] = useState("");
+    const [oldFolderId, setOldFolderId] = useState("");
+    const [copyType, setCopyType] = useState("");
+    const [actionType, setActionType] = useState("");
 
     const [renamingFolderId, setRenamingFolderId] = useState("");
     const [renameFolderInput, setRenameFolderInput] = useState(false);
@@ -31,8 +31,8 @@ export default function ResourceListing() {
 
     const [tempIdStore, setTempIdStore] = useState([]);
 
-    const [ showDetails,setShowDetails]=useState(false);
-    const [ detailsresource,setDetailsResource]=useState({});
+    const [showDetails, setShowDetails] = useState(false);
+    const [detailsresource, setDetailsResource] = useState({});
 
 
     function storeResourceId(id, name, action) {
@@ -55,7 +55,7 @@ export default function ResourceListing() {
             openFolder(resource);
             fetchFolder(parentId);
         } else if (tempIdStore[2] == "COPY") {
-           console.log(parentId,tempIdStore);
+            console.log(parentId, tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "✅ Resource Moved Successfully", true);
             } else {
@@ -68,7 +68,7 @@ export default function ResourceListing() {
     }
 
 
-    async function updateFileName(folderId , olderFileName, newFileName) {
+    async function updateFileName(folderId, olderFileName, newFileName) {
 
         // console.log("fileId ===> "+fileId+" === folderId ===> "+folderId);
         let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName", {
@@ -160,7 +160,7 @@ export default function ResourceListing() {
                 })
 
             });
-            {showDetails && <DetailsPage resource={resource} cancel={()=>setShowDetails(false)}/>}
+            { showDetails && <DetailsPage resource={resource} cancel={() => setShowDetails(false)} /> }
             const data = await response.json();
 
             if (data.StatusCode == 200) {
@@ -180,29 +180,29 @@ export default function ResourceListing() {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ filename, folderId })
             });
-    
+
             if (!response.ok) {
                 showResult(response.status, "❌ File download failed", true);
                 return;
             }
-    
+
             const blob = await response.blob();
             const url = window.URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = filename; 
+            a.download = filename;
             document.body.appendChild(a);
             a.click();
             a.remove();
             window.URL.revokeObjectURL(url);
             showResult(200, "✅ File downloaded successfully", true);
-    
+
         } catch (err) {
             console.error("Download error:", err);
             showResult(500, "❌ File download failed", true);
         }
     }
-    
+
 
 
     function showResult(Code, msg, chk) {
@@ -258,7 +258,7 @@ export default function ResourceListing() {
         }
     }
 
-    function storedFileDetails(filename , oldFolder , fileId){
+    function storedFileDetails(filename, oldFolder, fileId) {
 
         setActionType("COPY");
         showResult(200, "✅ File copied successfully", true)
@@ -267,8 +267,8 @@ export default function ResourceListing() {
         setCopyType("FILE");
 
     }
-    
-    function movestoredFileDetails(filename , oldFolder ){
+
+    function movestoredFileDetails(filename, oldFolder) {
 
         setActionType("MOVE");
         showResult(200, "✅ File details copied successfully", true)
@@ -278,14 +278,14 @@ export default function ResourceListing() {
 
     }
 
-    async function moveFile(newFolderId){
+    async function moveFile(newFolderId) {
         const response = await fetch("http://localhost:8080/WorkDrive/MoveFileServlet", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ filename:copyFileName, oldFolderId , newFolderId })
+            body: JSON.stringify({ filename: copyFileName, oldFolderId, newFolderId })
         });
 
-        
+
         const data = await response.json();
 
         if (data.StatusCode == 200) {
@@ -296,15 +296,15 @@ export default function ResourceListing() {
         }
     }
 
-    async function copyFile(newFolderId){
+    async function copyFile(newFolderId) {
 
         const response = await fetch("http://localhost:8080/WorkDrive/CopyFileServlet", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ filename:copyFileName, oldFolderId , newFolderId })
+            body: JSON.stringify({ filename: copyFileName, oldFolderId, newFolderId })
         });
 
-        
+
         const data = await response.json();
 
         if (data.StatusCode == 200) {
@@ -339,9 +339,9 @@ export default function ResourceListing() {
         setCurrentMenuId(prev => (prev === id ? null : id));
     }
 
-    function folderDetails(res){
+    function folderDetails(res) {
         setDetailsResource(res);
-      setShowDetails(true);
+        setShowDetails(true);
     }
 
     return (
@@ -369,7 +369,7 @@ export default function ResourceListing() {
                 </div>
             </FileHeader>
 
-            <div className="heading grid-row heading-row" style={{width:showDetails?"67vw":"84vw"}}>
+            <div className="heading grid-row heading-row" style={{ width: showDetails ? "67vw" : "84vw" }}>
                 <span className="name">Name</span>
                 <span className="createdAt">Created At</span>
                 <span className="lastModified">Last Modified</span>
@@ -377,7 +377,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-            <div className="resources" style={{width:showDetails?"67vw":"84vw"}}>
+            <div className="resources" style={{ width: showDetails ? "67vw" : "84vw" }}>
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -396,20 +396,27 @@ export default function ResourceListing() {
                         <div className="optionsMenu">
                             <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
+
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
-                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}>Details</li>}
+
+                                {resource.type == "FILE" ? "" : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}>Details</li>}
+
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE"), setCurrentMenuId(null) }}>Move</li>
+
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY"), setCurrentMenuId(null) }}>Copy</li>
-                                {resource.type == "FILE" ?"" :<li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>}
-                                
+
+                                {resource.type == "FILE" ? "" : <li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>}
+
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
+
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}
+
                             </ul>)}
                         </div>
                     </div>
                 ))}
             </div>
-            {showDetails && <DetailsPage resource={detailsresource} cancel={()=>setShowDetails(false)}/>};
+            {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />};
             <Popup result={code} msg={msg} show={show}></Popup>
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>

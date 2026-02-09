@@ -9,7 +9,7 @@
     position: fixed;
     top: 6vh;
     left: 16%;
-    width: 84%;
+    width: 84vw;
     height: calc(100vh - 6vh);
     display: flex;
     flex-direction: column;

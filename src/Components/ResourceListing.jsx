@@ -8,6 +8,7 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
+import DetailsPage from './Details';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -25,6 +26,9 @@ export default function ResourceListing() {
     const [type, setType] = useState("");
 
     const [tempIdStore, setTempIdStore] = useState([]);
+
+    const [ showDetails,setShowDetails]=useState(false);
+    const [ detailsresource,setDetailsResource]=useState({});
 
 
     function storeResourceId(id, name, action) {
@@ -150,7 +154,7 @@ export default function ResourceListing() {
                 })
 
             });
-
+            {showDetails && <DetailsPage resource={resource} cancel={()=>setShowDetails(false)}/>}
             const data = await response.json();
 
             if (data.StatusCode == 200) {
@@ -220,7 +224,9 @@ export default function ResourceListing() {
                     type: resource.type,
                     created: isFolder ? resource.createdTime : resource.createTime,
                     modified: resource.modifiedTime,
-                    size: resource.size
+                    size: resource.size,
+                    files: resource.files,
+                    folders: resource.folders
                 };
             });
             setCurrentFolderId({ id: resourceResponse.folderId });
@@ -269,10 +275,15 @@ export default function ResourceListing() {
         setCurrentMenuId(prev => (prev === id ? null : id));
     }
 
+    function folderDetails(res){
+        setDetailsResource(res);
+      setShowDetails(true);
+    }
+
     return (
         <div className="fileResource">
 
-            <FileHeader fetchFolder={fetchFolder}>
+            <FileHeader fetchFolder={fetchFolder} >
                 <div className="tree-header">
                     <div className="tree" onClick={() => { setShowTree(true) }} >
                         <Icon path={mdiFileTreeOutline} size={1} />
@@ -294,7 +305,7 @@ export default function ResourceListing() {
                 </div>
             </FileHeader>
 
-            <div className="heading grid-row heading-row">
+            <div className="heading grid-row heading-row" style={{width:showDetails?"67vw":"84vw"}}>
                 <span className="name">Name</span>
                 <span className="createdAt">Created At</span>
                 <span className="lastModified">Last Modified</span>
@@ -302,7 +313,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-            <div className="resources">
+            <div className="resources" style={{width:showDetails?"67vw":"84vw"}}>
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -321,10 +332,12 @@ export default function ResourceListing() {
                         <div className="optionsMenu">
                             <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
+                                <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
+                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}>Details</li>}
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "MOVE"), setCurrentMenuId(null) }}>Move</li>
                                 <li onClick={() => { storeResourceId(resource.id, resource.name, "COPY"), setCurrentMenuId(null) }}>Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { pasteResource(resource.id, resource), setCurrentMenuId(null) }}>Paste</li>}
-                                <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
+                                
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}
                             </ul>)}
@@ -332,8 +345,9 @@ export default function ResourceListing() {
                     </div>
                 ))}
             </div>
+            {showDetails && <DetailsPage resource={detailsresource} cancel={()=>setShowDetails(false)}/>};
             <Popup result={code} msg={msg} show={show}></Popup>
-            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
+            {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );
 }

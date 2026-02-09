@@ -133,9 +133,9 @@ export default function NewButton({ fetchFolder }) {
 
          <Popup result={code} msg={msg} show={show}></Popup>
 
-         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue={getValue} onClick={() => createFolder(resourceName, currentFolderId.id)} cancel={() => setShowFolderinput(false)}>Create New Folder</Input>}
+         {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue={getValue} submitBtn={"Create"} onClick={() => createFolder(resourceName, currentFolderId.id)} cancel={() => setShowFolderinput(false)}>Create New Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue={getValue} onClick={() => { createFile(resourceName, false, currentFolderId.id) }} cancel={() => setShowFileinput(false)}>Create New File</Input>}
+         {showFileInput && <Input placeholder="Enter the File Name" sendValue={getValue} submitBtn={"Create"} onClick={() => { createFile(resourceName, false, currentFolderId.id) }} cancel={() => setShowFileinput(false)}>Create New File</Input>}
       </>
    );
 }

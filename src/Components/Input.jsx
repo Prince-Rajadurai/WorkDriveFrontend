@@ -1,7 +1,7 @@
 import './../Style/Input.css';
 import Button from './Button';
 
-export default function Input({ children, placeholder, onClick, cancel,sendValue }) {
+export default function Input({ children, placeholder, onClick, cancel,sendValue, submitBtn }) {
 
     const pressSubmit = (e) =>{
         if(e.key == "Enter"){
@@ -19,7 +19,7 @@ export default function Input({ children, placeholder, onClick, cancel,sendValue
                 </div>
                 <div className='buttons'>
                     <Button className="inputButton" onClick={cancel}>Cancel</Button>
-                    <Button className="inputButton" id="createButton" onClick={onClick}>Create</Button>
+                    <Button className="inputButton" id="createButton" onClick={onClick}>{submitBtn}</Button>
                 </div>
 
             </div>

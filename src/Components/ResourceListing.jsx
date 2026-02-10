@@ -36,10 +36,9 @@ export default function ResourceListing() {
 
 
     function storeResourceId(id, name, action) {
-
         setCopyType("FOLDER");
         setTempIdStore([id, name, action]);
-        showResult(200, "✅ Copied Successfully", true);
+        showResult(200, "✅ Folder Copied Successfully", true);
     }
 
     function pasteResource(parentId, resource) {
@@ -50,19 +49,15 @@ export default function ResourceListing() {
             if (moveFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "✅ Resource Moved Successfully", true);
             } else {
-                showResult(400, "❌ Failed to Move", true);
+                showResult(400, "❌ Failed to Move Folder", true);
             }
-            openFolder(resource);
-            fetchFolder(parentId);
         } else if (tempIdStore[2] == "COPY") {
             console.log(parentId, tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
-                showResult(200, "✅ Resource Moved Successfully", true);
+                showResult(200, "✅ Resource Copied Successfully", true);
             } else {
-                showResult(400, "❌ Failed to Move", true);
+                showResult(400, "❌ Failed to Move Folder", true);
             }
-            openFolder(resource);
-            fetchFolder(parentId);
         }
         setTempIdStore([]);
     }
@@ -399,7 +394,7 @@ export default function ResourceListing() {
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
                                 {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}>Details</li>}
-                                <li onClick={() => { copyType == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}>Move</li>
+                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}>Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}>Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id, resource) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}>Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>

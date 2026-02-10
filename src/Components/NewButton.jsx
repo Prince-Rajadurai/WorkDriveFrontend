@@ -16,39 +16,6 @@ export default function NewButton({ fetchFolder }) {
    const [resourceName, setResourceName] = useState("");
    const { currentFolderId } = useContext(FoldContext);
 
-
-   async function createFile(filename, change, folderId) {
-
-
-      let response = await fetch("http://localhost:8080/WorkDrive/creation/CreateFileServlet", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ filename, change, folderId })
-      });
-      let data = await response.json();
-
-      if (data.StatusCode == 200) {
-         setShowFileinput(false);
-         fetchFolder(folderId);
-         setCode(200);
-         setMsg("✅ File created successfully");
-         setShow(true);
-         setTimeout(() => { setShow(false) }, 2000)
-      }
-      if (data.StatusCode == 400) {
-         setCode(400);
-         setMsg("❌ File creation Failed");
-         setShow(true);
-         setTimeout(() => { setShow(false) }, 2000)
-      }
-      else {
-         console.log(data.StatusCode);
-      }
-
-   }
-
-
-
    async function uploadFile(file, change, folderId) {
 
       let fName = file.name;
@@ -80,26 +47,34 @@ export default function NewButton({ fetchFolder }) {
 
       const formData = new FormData();
 
+      console.log(files);
+
       for (let file of files) {
-         formData.append("files", file, file.webkitRelativePath);
+         formData.append("files", file);
+         console.log(file);
+         console.log("files: "+file.name+" | Path"+file.webkitRelativePath);
       }
+
+      formData.append("parentId",parentId);
 
       setCode(200);
       setMsg(" ⬇ Folder Uploading ...");
       setShow(true);
+
       let res = await fetch("http://localhost:8080/WorkDrive/FolderUploadServlet", {
          method: "POST",
-         body: formData
+         credentials:"include",
+         body: formData,
       })
 
       let data = await res.json();
 
       if (data.StatusCode == 200) {
-         showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
+         showResult(data.StatusCode, "✅ Folder uploaded sucessfully", true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
-         showResult(data.StatusCode, "❌ File upload Failed", true)
+         showResult(data.StatusCode, "❌ Folder upload Failed", true)
       }
 
    }
@@ -153,7 +128,6 @@ export default function NewButton({ fetchFolder }) {
             <Button id="newButton">+ New</Button>
 
             <div className="dropdownMenu">
-               <Button className="dropdown" onClick={() => setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={() => setShowFolderinput(true)}>Create Folder</Button>
                <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} sendValue={getValue}></UploadButton>
                <FolderUpload onUpload={(files) => uploadFolder(files, false, currentFolderId.id)}></FolderUpload>
@@ -164,7 +138,6 @@ export default function NewButton({ fetchFolder }) {
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue={getValue} submitBtn={"Create"} onClick={() => createFolder(resourceName, currentFolderId.id)} cancel={() => setShowFolderinput(false)}>Create New Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue={getValue} submitBtn={"Create"} onClick={() => { createFile(resourceName, false, currentFolderId.id) }} cancel={() => setShowFileinput(false)}>Create New File</Input>}
       </>
    );
 }

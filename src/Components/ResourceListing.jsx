@@ -1,6 +1,6 @@
 import { mdiFileOutline, mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState, useRef } from "react";
 import '../Style/ResourceListing.css';
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
@@ -38,6 +38,7 @@ export default function ResourceListing() {
 
     const [cursor, setCursor] = useState(0);
     const [more, setMore] = useState(true);
+    const scrollRef = useRef(null);
 
 
     function storeResourceId(id, name, action) {
@@ -223,8 +224,8 @@ export default function ResourceListing() {
         if (!more && load) return;
     
         try {
-            const currentCursor = load ? cursor : 20;
-            const resourceResponse = await getResources(parentId, currentCursor, 20);
+            const currentCursor = load ? cursor : 21;
+            const resourceResponse = await getResources(parentId, currentCursor, 21);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resourcesArr = rawResources.map(resource => ({
                 id: resource.id,
@@ -348,6 +349,28 @@ export default function ResourceListing() {
         setShowDetails(true);
     }
 
+    useEffect(() => {
+        const handleScroll = () => {
+            if (scrollRef.current) {
+                const {scrollTop, scrollHeight, clientHeight} = scrollRef.current;
+                if (scrollHeight - scrollTop <= clientHeight) {
+                    if (more) {
+                        fetchFolder(currentFolderId.id, true);
+                    }
+                }
+            }
+        };
+        const container = scrollRef.current;
+        if (container) {
+            container.addEventListener("scroll", handleScroll);
+        }
+        return () => {
+            if (container) {
+                container.removeEventListener("scroll", handleScroll);
+            }
+        };
+    }, [more, currentFolderId.id, cursor]);
+
     return (
         <div className="fileResource">
 
@@ -363,7 +386,7 @@ export default function ResourceListing() {
                         </div>
                     </>)}
                     <div className="breadCrumbs">
-                        <span onClick={goToRootFolder}>My Folder</span>
+                        <span onClick={goToRootFolder} className='link'>My Folder</span>
                         {breadCrumbLinks.map((folder, index) => (
                             <span key={folder.id}>
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
@@ -381,7 +404,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-            <div className="resources" style={{ width: showDetails ? "67vw" : "84vw" }}>
+            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto'}}>
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -414,7 +437,7 @@ export default function ResourceListing() {
                     </div>
                 ))}
                 {more && resources.length > 0 && (
-                    <button onClick={() => fetchFolder(currentFolderId.id, true)} className='loadMoreBtn'>Load More</button>
+                    <div className='loadingContainer'>Loading...</div>
                 )}
             </div>
             {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />}

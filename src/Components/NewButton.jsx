@@ -8,6 +8,8 @@ import Popup from "./Popup.jsx";
 import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
 import FolderUpload from "./FolderUpload.jsx";
+import { FiFolderPlus } from "react-icons/fi";
+import { FaPlus } from "react-icons/fa";
 
 export default function NewButton({ fetchFolder }) {
 
@@ -152,11 +154,11 @@ export default function NewButton({ fetchFolder }) {
    return (
       <>
          <div className="newButtonBox">
-            <Button id="newButton">+  New</Button>
+            <Button id="newButton"><FaPlus/> New</Button>
 
             <div className="dropdownMenu">
-               <Button className="dropdown" onClick={() => setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} sendValue={getValue}></UploadButton>
+               <Button className="dropdown" onClick={() => setShowFolderinput(true)}><FiFolderPlus size={23}/>Create Folder</Button>
+               <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} ></UploadButton>
                <FolderUpload onUpload={(files) => uploadFolder(files, false, currentFolderId.id)}></FolderUpload>
             </div>
          </div>

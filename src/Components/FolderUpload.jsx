@@ -4,7 +4,7 @@ export default function FolderUpload({onUpload}){
     return(
         <>
             <label htmlFor="folder-upload" className="btn-upload">Upload Folder</label>
-            <input type="file" id="folder-upload" webkitdirectory="" directory="" multiple onChange={(e) => { if (!e.target.files.length) return; onUpload(e.target.files);}} hidden />
+            <input type="file" id="folder-upload" webkitdirectory="" directory="" onChange={(e) => { if (!e.target.files.length) return; onUpload(e.target.files);}} hidden />
         </>
     );
 }

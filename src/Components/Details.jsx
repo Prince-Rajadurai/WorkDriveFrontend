@@ -7,7 +7,7 @@ export default function DetailsPage({cancel, resource}) {
     return (
             
             <div className='side-container'>
-                <h1 id='details-title'><p>Details</p><button onClick={cancel}>X</button></h1>
+                <h1 id='details-title'><p>Properties</p><button onClick={cancel}>X</button></h1>
 
                 <div id='folder-name'>
                     <Icon path={mdiFolderOutline} size={1} />

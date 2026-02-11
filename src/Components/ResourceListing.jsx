@@ -137,10 +137,10 @@ export default function ResourceListing() {
             let data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "✅ File deleted successfully", true)
+                showResult(data.StatusCode, "✅ File trashed successfully", true)
             }
             if (data.StatusCode >= 400) {
-                showResult(data.StatusCode, "❌ File deleted Failed", true)
+                showResult(data.StatusCode, "❌ File trashing Failed", true)
             }
 
         } else {
@@ -159,10 +159,10 @@ export default function ResourceListing() {
             const data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "✅ Folder deleted successfully", true)
+                showResult(data.StatusCode, "✅ Folder trashed successfully", true)
             }
             if (data.StatusCode >= 400) {
-                showResult(data.StatusCode, "❌ Folder deleted Failed", true)
+                showResult(data.StatusCode, "❌ Folder trashing Failed", true)
             }
 
         }
@@ -393,11 +393,11 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}>Rename</li>
-                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}>Details</li>}
+                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}>Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}>Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}>Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id, resource) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}>Paste</li>}
-                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
+                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Trash</li>
 
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}
 

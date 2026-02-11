@@ -11,7 +11,7 @@
     top: 6vh;
     left: 16%;
     width: 84vw;
-    height: 94vh;
+    height: calc(100vh - 6vh);
     display: flex;
     flex-direction: column;
     background-color: var(--white1);
@@ -239,22 +239,4 @@
 
 .operationsMenu li:hover {
     background-color: var(--white2);
-}
-
-.loadMoreBtn {
-    background-color: var(--blue);
-    width: 10%;
-    height: 45px;
-    color: var(--white1);
-    cursor: pointer;
-    font-weight: bolder;
-    margin: auto;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 12px;
-    border: none;
-    border-radius: 2px;
 }

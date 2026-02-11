@@ -5,6 +5,7 @@ import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
+import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
 import FolderUpload from "./FolderUpload.jsx";
 
@@ -16,6 +17,13 @@ export default function NewButton({ fetchFolder }) {
    const [resourceName, setResourceName] = useState("");
    const { currentFolderId } = useContext(FoldContext);
 
+   const [showUpdateFile , setShowUpdateFile] = useState(false);
+
+   const [fileObject , setFileObject] = useState({});
+   const [getFolderId , setFolderId] = useState({});
+
+
+
    async function uploadFile(file, change, folderId) {
 
       let fName = file.name;
@@ -23,24 +31,30 @@ export default function NewButton({ fetchFolder }) {
       form.append("file", file);
       form.append("filename", fName);
       form.append("folderId", folderId);
+      form.append("replaceFile" , change);
       setCode(200);
       setMsg(" ⬇ File Uploading ...");
       setShow(true);
-      let res = await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
+      let res = await fetch("http://localhost:8080/WorkDrive/secure/UploadFileServlet", {
          method: "POST",
          body: form
       })
-
       let data = await res.json();
 
       if (data.StatusCode == 200) {
-         console.log("Hello from upload file success");
-         showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
+         showResult(data.StatusCode, "✅ "+data.message, true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
-         console.log("Hello from upload file error");
-         showResult(data.StatusCode, "❌ File upload Failed", true)
+         if(data.message == "File already exists"){
+            setShow(false);
+            setFileObject(file);
+            setFolderId(folderId);
+            setShowUpdateFile(true);
+         }
+         else{
+            showResult(data.StatusCode, "❌ File upload Failed", true)
+         }
       }
 
    }
@@ -108,6 +122,17 @@ export default function NewButton({ fetchFolder }) {
 
    }
 
+   function skipFile(){
+      setShowUpdateFile(false);
+   }
+
+   function updateFile(){
+
+      setShowUpdateFile(false);
+      uploadFile(fileObject , true , getFolderId);
+      
+   }
+
    function showResult(Code, msg, chk) {
       fetchFolder(currentFolderId.id);
       setCode(Code);
@@ -137,6 +162,7 @@ export default function NewButton({ fetchFolder }) {
          </div>
 
          <Popup result={code} msg={msg} show={show}></Popup>
+         {showUpdateFile && <UpdateFile update = {updateFile} skip = {skipFile}></UpdateFile>}
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue={getValue} submitBtn={"Create"} onClick={() => createFolder(resourceName, currentFolderId.id)} cancel={() => setShowFolderinput(false)}>Create New Folder</Input>}
 

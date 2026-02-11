@@ -7,8 +7,10 @@ async function get(url) {
     });
     return response.json();
 }
-
-export const getResources = (parentId) => {
-    const query = parentId !== undefined && parentId !== null ? `?parentId=${parentId}` : "";
-    return get(`/ResourceRenderServlet${query}`)
+export const getResources = (parentId, cursor = 0, limit = 20) => {
+    let query = `cursor=${cursor}&limit=${limit}`;
+    if (parentId !== null && parentId !== undefined) {
+        query = `parentId=${parentId}&` + query;
+    }
+    return get(`/ResourceRenderServlet?${query}`);
 };

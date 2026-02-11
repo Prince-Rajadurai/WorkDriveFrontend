@@ -9,6 +9,7 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
+import UpdateFile from './UpdateFile';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -34,6 +35,11 @@ export default function ResourceListing() {
     const [showDetails, setShowDetails] = useState(false);
     const [detailsresource, setDetailsResource] = useState({});
 
+    const [showTree, setShowTree] = useState(false);
+
+    const [cursor, setCursor] = useState(0);
+    const [more, setMore] = useState(true);
+
 
     function storeResourceId(id, name, action) {
         setCopyType("FOLDER");
@@ -52,7 +58,7 @@ export default function ResourceListing() {
                 showResult(400, "❌ Failed to Move Folder", true);
             }
         } else if (tempIdStore[2] == "COPY") {
-            console.log(parentId, tempIdStore);
+            // console.log(parentId, tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "✅ Resource Copied Successfully", true);
             } else {
@@ -65,7 +71,6 @@ export default function ResourceListing() {
 
     async function updateFileName(folderId, olderFileName, newFileName) {
 
-        // console.log("fileId ===> "+fileId+" === folderId ===> "+folderId);
         let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -98,7 +103,7 @@ export default function ResourceListing() {
 
         const data = await response.json();
 
-        console.log("Server response:", data);
+        // console.log("Server response:", data);
     }
 
     async function moveFolder(parentId, resourceId, resourceName) {
@@ -201,39 +206,43 @@ export default function ResourceListing() {
 
 
     function showResult(Code, msg, chk) {
-        fetchFolder(currentFolderId.id);
+        setCursor(0);
+        setMore(true);
+        setResources([]);
+        fetchFolder(currentFolderId.id, false);
         setCode(Code);
         setMsg(msg);
         setShow(chk);
         setTimeout(() => { setShow(false) }, 2000)
     }
-    const [showTree, setShowTree] = useState(false);
 
     useEffect(() => {
-        fetchFolder(currentFolderId.id);
+        setCursor(0);
+        setResources([]);
+        fetchFolder(currentFolderId.id, false);
     }, [currentFolderId.id]);
 
-    async function fetchFolder(parentId) {
+    async function fetchFolder(parentId, load = false) {
+        if (!more && load) return;
+    
         try {
-            const resourceResponse = await getResources(parentId);
-            const rawResources = resourceResponse.resource;
-            const resources = rawResources.map(resource => {
-                const isFolder = resource.type === "FOLDER";
-                return {
-                    id: resource.id,
-                    name: isFolder ? resource.resourceName : resource.filename,
-                    type: resource.type,
-                    created: isFolder ? resource.createdTime : resource.createTime,
-                    modified: resource.modifiedTime,
-                    size: resource.size,
-                    files: resource.files,
-                    folders: resource.folders
-                };
-            });
+            const currentCursor = load ? cursor : 20;
+            const resourceResponse = await getResources(parentId, currentCursor, 20);
+            const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
+            const resourcesArr = rawResources.map(resource => ({
+                id: resource.id,
+                name: resource.name,
+                type: resource.type,
+                created: resource.createdTime,
+                modified: resource.modifiedTime,
+                size: resource.size
+            }));
             setCurrentFolderId({ id: resourceResponse.folderId });
-            setResources(resources);
+            setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
+            setCursor(resourceResponse.nextCursor || 0);
+            setMore((resourceResponse.nextCursor || 0) !== 0);
         } catch (err) {
-            console.log("Error fetching rsources ", err);
+            console.log("Error fetching resources ", err);
         }
     }
 
@@ -311,6 +320,7 @@ export default function ResourceListing() {
 
     }
 
+
     function openFolder(resource) {
         if (resource.type !== "FOLDER") return;
         setCurrentFolderId({ id: resource.id });
@@ -378,7 +388,6 @@ export default function ResourceListing() {
                         No Items Available
                     </div>
                 )}
-                {console.log(resources)}
                 {resources.map(resource => (
                     <div className="file grid-row" key={resource.id} onClick={() => openFolder(resource)}>
                         <div className="name">
@@ -405,8 +414,11 @@ export default function ResourceListing() {
                         </div>
                     </div>
                 ))}
+                {more && resources.length > 0 && (
+                    <button onClick={() => fetchFolder(currentFolderId.id, true)} className='loadMoreBtn'>Load More</button>
+                )}
             </div>
-            {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />};
+            {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />}
             <Popup result={code} msg={msg} show={show}></Popup>
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>

@@ -152,7 +152,7 @@ export default function NewButton({ fetchFolder }) {
    return (
       <>
          <div className="newButtonBox">
-            <Button id="newButton">+ New</Button>
+            <Button id="newButton">+  New</Button>
 
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={() => setShowFolderinput(true)}>Create Folder</Button>

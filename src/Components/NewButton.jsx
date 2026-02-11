@@ -7,6 +7,7 @@ import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
 import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
+import FolderUpload from "./FolderUpload.jsx";
 
 export default function NewButton({ fetchFolder }) {
 
@@ -39,7 +40,7 @@ export default function NewButton({ fetchFolder }) {
          body: form
       })
       let data = await res.json();
-      
+
       if (data.StatusCode == 200) {
          showResult(data.StatusCode, "✅ "+data.message, true);
          setShowFolderinput(false);
@@ -56,6 +57,41 @@ export default function NewButton({ fetchFolder }) {
          }
       }
 
+   }
+
+   async function uploadFolder(files, change, parentId) {
+
+      const formData = new FormData();
+
+      console.log(files);
+
+      for (let file of files) {
+         formData.append("files", file);
+         console.log(file);
+         console.log("files: "+file.name+" | Path"+file.webkitRelativePath);
+      }
+
+      formData.append("parentId",parentId);
+
+      setCode(200);
+      setMsg(" ⬇ Folder Uploading ...");
+      setShow(true);
+
+      let res = await fetch("http://localhost:8080/WorkDrive/FolderUploadServlet", {
+         method: "POST",
+         credentials:"include",
+         body: formData,
+      })
+
+      let data = await res.json();
+
+      if (data.StatusCode == 200) {
+         showResult(data.StatusCode, "✅ Folder uploaded sucessfully", true);
+         setShowFolderinput(false);
+      }
+      if (data.StatusCode >= 400) {
+         showResult(data.StatusCode, "❌ Folder upload Failed", true)
+      }
 
    }
 
@@ -119,9 +155,9 @@ export default function NewButton({ fetchFolder }) {
             <Button id="newButton">+ New</Button>
 
             <div className="dropdownMenu">
-               <Button className="dropdown" onClick={() => setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={() => setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onUpload={(file) =>uploadFile(file, false, currentFolderId.id)}></UploadButton>
+               <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} sendValue={getValue}></UploadButton>
+               <FolderUpload onUpload={(files) => uploadFolder(files, false, currentFolderId.id)}></FolderUpload>
             </div>
          </div>
 
@@ -130,7 +166,6 @@ export default function NewButton({ fetchFolder }) {
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue={getValue} submitBtn={"Create"} onClick={() => createFolder(resourceName, currentFolderId.id)} cancel={() => setShowFolderinput(false)}>Create New Folder</Input>}
 
-         {showFileInput && <Input placeholder="Enter the File Name" sendValue={getValue} submitBtn={"Create"} onClick={() => { createFile(resourceName, false, currentFolderId.id) }} cancel={() => setShowFileinput(false)}>Create New File</Input>}
       </>
    );
 }

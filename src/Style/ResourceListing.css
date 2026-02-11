@@ -223,7 +223,7 @@
     z-index: 10;
     list-style: none;
     padding: 5px 0;
-    min-width: 100px;
+    min-width: 125px;
 }
 
 .operationsMenu li {
@@ -231,6 +231,10 @@
     text-align: left;
     font-size: 14px;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
 }
 
 .operationsMenu li:hover {

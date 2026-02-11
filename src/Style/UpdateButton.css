@@ -1,0 +1,14 @@
+.update-file-update-btn{
+    width: 100px;
+    height: 30px;
+    font-size: 15px;
+    border: none;
+    background-color: #2C66DD;
+    color: white;
+    cursor: pointer;
+    transition: .2s;
+    border-radius: 2px;
+}
+.update-file-update-btn:hover{
+    background-color: #3d77eb;
+}

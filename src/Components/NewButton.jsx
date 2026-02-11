@@ -5,6 +5,7 @@ import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
+import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
 
 export default function NewButton({ fetchFolder }) {
@@ -15,36 +16,10 @@ export default function NewButton({ fetchFolder }) {
    const [resourceName, setResourceName] = useState("");
    const { currentFolderId } = useContext(FoldContext);
 
+   const [showUpdateFile , setShowUpdateFile] = useState(false);
 
-   async function createFile(filename, change, folderId) {
-
-
-      let response = await fetch("http://localhost:8080/WorkDrive/creation/CreateFileServlet", {
-         method: "POST",
-         headers: { "Content-Type": "application/json" },
-         body: JSON.stringify({ filename, change, folderId })
-      });
-      let data = await response.json();
-
-      if (data.StatusCode == 200) {
-         setShowFileinput(false);
-         fetchFolder(folderId);
-         setCode(200);
-         setMsg("✅ File created successfully");
-         setShow(true);
-         setTimeout(() => { setShow(false) }, 2000)
-      }
-      if (data.StatusCode == 400) {
-         setCode(400);
-         setMsg("❌ File creation Failed");
-         setShow(true);
-         setTimeout(() => { setShow(false) }, 2000)
-      }
-      else {
-         console.log(data.StatusCode);
-      }
-
-   }
+   const [fileObject , setFileObject] = useState({});
+   const [getFolderId , setFolderId] = useState({});
 
 
 
@@ -55,22 +30,30 @@ export default function NewButton({ fetchFolder }) {
       form.append("file", file);
       form.append("filename", fName);
       form.append("folderId", folderId);
+      form.append("replaceFile" , change);
       setCode(200);
       setMsg(" ⬇ File Uploading ...");
       setShow(true);
-      let res = await fetch("http://localhost:8080/WorkDrive/UploadFileServlet", {
+      let res = await fetch("http://localhost:8080/WorkDrive/secure/UploadFileServlet", {
          method: "POST",
          body: form
       })
-
       let data = await res.json();
       
       if (data.StatusCode == 200) {
-         showResult(data.StatusCode, "✅ File uploaded sucessfully", true);
+         showResult(data.StatusCode, "✅ "+data.message, true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
-         showResult(data.StatusCode, "❌ File upload Failed", true)
+         if(data.message == "File already exists"){
+            setShow(false);
+            setFileObject(file);
+            setFolderId(folderId);
+            setShowUpdateFile(true);
+         }
+         else{
+            showResult(data.StatusCode, "❌ File upload Failed", true)
+         }
       }
 
 
@@ -103,6 +86,17 @@ export default function NewButton({ fetchFolder }) {
 
    }
 
+   function skipFile(){
+      setShowUpdateFile(false);
+   }
+
+   function updateFile(){
+
+      setShowUpdateFile(false);
+      uploadFile(fileObject , true , getFolderId);
+      
+   }
+
    function showResult(Code, msg, chk) {
       fetchFolder(currentFolderId.id);
       setCode(Code);
@@ -127,11 +121,12 @@ export default function NewButton({ fetchFolder }) {
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={() => setShowFileinput(true)}>Create File</Button>
                <Button className="dropdown" onClick={() => setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onUpload={(file) =>uploadFile(file, false, currentFolderId.id)} sendValue={getValue}></UploadButton>
+               <UploadButton onUpload={(file) =>uploadFile(file, false, currentFolderId.id)}></UploadButton>
             </div>
          </div>
 
          <Popup result={code} msg={msg} show={show}></Popup>
+         {showUpdateFile && <UpdateFile update = {updateFile} skip = {skipFile}></UpdateFile>}
 
          {showFolderInput && <Input placeholder="Enter the Folder Name" sendValue={getValue} submitBtn={"Create"} onClick={() => createFolder(resourceName, currentFolderId.id)} cancel={() => setShowFolderinput(false)}>Create New Folder</Input>}
 

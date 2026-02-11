@@ -1,0 +1,14 @@
+.update-file-skip-btn{
+    width: 100px;
+    height: 30px;
+    background: white;
+    border: 1px solid rgb(183, 183, 183);
+    font-size: 15px;
+    cursor: pointer;
+    transition: .2s;
+    border-radius: 2px;
+}
+
+.update-file-skip-btn:hover{
+    background-color: rgb(237, 237, 237);
+}

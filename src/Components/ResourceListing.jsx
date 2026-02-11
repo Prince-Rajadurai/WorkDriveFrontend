@@ -9,6 +9,7 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
+import UpdateFile from './UpdateFile';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -70,7 +71,6 @@ export default function ResourceListing() {
 
     async function updateFileName(folderId , olderFileName, newFileName) {
 
-        // console.log("fileId ===> "+fileId+" === folderId ===> "+folderId);
         let response = await fetch("http://localhost:8080/WorkDrive/UpdateFileName", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -315,6 +315,7 @@ export default function ResourceListing() {
         }
 
     }
+
 
     function openFolder(resource) {
         if (resource.type !== "FOLDER") return;

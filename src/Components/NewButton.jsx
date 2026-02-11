@@ -156,7 +156,7 @@ export default function NewButton({ fetchFolder }) {
 
             <div className="dropdownMenu">
                <Button className="dropdown" onClick={() => setShowFolderinput(true)}>Create Folder</Button>
-               <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} sendValue={getValue}></UploadButton>
+               <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} ></UploadButton>
                <FolderUpload onUpload={(files) => uploadFolder(files, false, currentFolderId.id)}></FolderUpload>
             </div>
          </div>

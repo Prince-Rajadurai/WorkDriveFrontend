@@ -9,7 +9,6 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import UpdateFile from './UpdateFile';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -102,8 +101,6 @@ export default function ResourceListing() {
         });
 
         const data = await response.json();
-
-        // console.log("Server response:", data);
     }
 
     async function moveFolder(parentId, resourceId, resourceName) {
@@ -302,6 +299,8 @@ export default function ResourceListing() {
 
     async function copyFile(newFolderId) {
 
+        console.log(newFolderId);
+
         const response = await fetch("http://localhost:8080/WorkDrive/CopyFileServlet", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -407,7 +406,6 @@ export default function ResourceListing() {
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}>Copy</li>
                                 {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id, resource) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}>Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}>Delete</li>
-
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}>Download</li>)}
 
                             </ul>)}
@@ -423,4 +421,4 @@ export default function ResourceListing() {
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );
-}
+}809097886787698688

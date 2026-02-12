@@ -39,6 +39,7 @@ export default function NewButton({ fetchFolder }) {
       setShow(true);
       let res = await fetch("http://localhost:8080/WorkDrive/secure/UploadFileServlet", {
          method: "POST",
+         credentials: "include",
          body: form
       })
       let data = await res.json();

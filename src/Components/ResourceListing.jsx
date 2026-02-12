@@ -1,6 +1,11 @@
 import { mdiFileOutline, mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import { useContext, useEffect, useState, useRef } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegPaste } from "react-icons/fa6";
+import { LuTableProperties } from "react-icons/lu";
+import { MdDriveFileMoveOutline, MdOutlineDriveFileRenameOutline, MdOutlineFileDownload } from "react-icons/md";
+import { RiFileCopyLine } from "react-icons/ri";
 import '../Style/ResourceListing.css';
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
@@ -9,13 +14,6 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdDriveFileMoveOutline } from "react-icons/md";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { LuTableProperties } from "react-icons/lu";
-import { RiFileCopyLine } from "react-icons/ri";
-import { FaRegPaste } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -231,7 +229,7 @@ export default function ResourceListing() {
         if (!more && load) return;
     
         try {
-            const currentCursor = load ? cursor : 21;
+            const currentCursor = load ? cursor : 0;
             const resourceResponse = await getResources(parentId, currentCursor, 21);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resourcesArr = rawResources.map(resource => ({
@@ -246,6 +244,7 @@ export default function ResourceListing() {
             setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
             setCursor(resourceResponse.nextCursor || 0);
             setMore((resourceResponse.nextCursor || 0) !== 0);
+            console.log(resources);
         } catch (err) {
             console.log("Error fetching resources ", err);
         }
@@ -291,6 +290,7 @@ export default function ResourceListing() {
         const response = await fetch("http://localhost:8080/WorkDrive/MoveFileServlet", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ filename: copyFileName, oldFolderId, newFolderId })
         });
 
@@ -312,6 +312,7 @@ export default function ResourceListing() {
         const response = await fetch("http://localhost:8080/WorkDrive/CopyFileServlet", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
+            credentials: "include",
             body: JSON.stringify({ filename: copyFileName, oldFolderId, newFolderId })
         });
 

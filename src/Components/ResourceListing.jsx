@@ -14,6 +14,15 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
+import UpdateFile from './UpdateFile';
+import Button from './Button';
+import { FaRegTrashAlt } from "react-icons/fa";
+import { MdDriveFileMoveOutline } from "react-icons/md";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { LuTableProperties } from "react-icons/lu";
+import { RiFileCopyLine } from "react-icons/ri";
+import { FaRegPaste } from "react-icons/fa6";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -45,6 +54,8 @@ export default function ResourceListing() {
     const [more, setMore] = useState(true);
     const scrollRef = useRef(null);
 
+    const [position, setPosition] = useState(null);
+
 
     function storeResourceId(id, name, action) {
         setCopyType("FOLDER");
@@ -52,7 +63,7 @@ export default function ResourceListing() {
         showResult(200, "✅ Folder Copied Successfully", true);
     }
 
-    function pasteResource(parentId, resource) {
+    function pasteResource(parentId) {
         if (tempIdStore[0] == null) {
             showResult(400, "❌ No Resource Copied", true);
         }
@@ -63,9 +74,9 @@ export default function ResourceListing() {
                 showResult(400, "❌ Failed to Move Folder", true);
             }
         } else if (tempIdStore[2] == "COPY") {
-            // console.log(parentId, tempIdStore);
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
-                showResult(200, "✅ Resource Copied Successfully", true);
+                showResult(200, "✅ Resource Pasted Successfully", true);
+                // openFolder()
             } else {
                 showResult(400, "❌ Failed to Move Folder", true);
             }
@@ -227,7 +238,7 @@ export default function ResourceListing() {
 
     async function fetchFolder(parentId, load = false) {
         if (!more && load) return;
-    
+
         try {
             const currentCursor = load ? cursor : 0;
             const resourceResponse = await getResources(parentId, currentCursor, 21);
@@ -357,6 +368,22 @@ export default function ResourceListing() {
         setShowDetails(true);
     }
 
+    function handleLeftClick(e) {
+
+        if (e.target == e.currentTarget) {
+            setCurrentMenuId(null);
+            setPosition((prev) => {
+                if(prev) return null;
+                return {
+                    x: e.pageX,
+                    y: e.pageY,
+                }
+            });
+        } else {
+            setPosition(null);
+        }
+
+    }
     useEffect(() => {
         const handleScroll = () => {
             if (scrollRef.current) {
@@ -412,7 +439,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto'}}>
+            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto'}}  onClick={handleLeftClick}>
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -435,7 +462,7 @@ export default function ResourceListing() {
                                 {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17}/>Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
-                                {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id, resource) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
+                                {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}><FaRegTrashAlt />Trash</li>
 
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
@@ -447,6 +474,12 @@ export default function ResourceListing() {
                 {more && resources.length > 0 && (
                     <div className='loadingContainer'>Loading...</div>
                 )}
+                {position && <button className="paste-button" style={{
+                    position: "fixed",
+                    left: (position.x),
+                    top: (position.y),
+                }} onClick={() => { copyType == "FOLDER" ? pasteResource(currentFolderId.id) : actionType == "COPY" ? copyFile(currentFolderId.id) : moveFile(currentFolderId.id), setCurrentMenuId(null) }}>Paste</button>}
+
             </div>
             {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />}
             <Popup result={code} msg={msg} show={show}></Popup>

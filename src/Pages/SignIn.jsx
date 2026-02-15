@@ -9,14 +9,16 @@ function SignIn() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    useEffect(()=>{
+    useEffect(() => {
         sessionCheck();
-    },[]);
-    
-    async function sessionCheck(){
+    }, []);
+
+    async function sessionCheck() {
         try {
-            const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter",{method: "GET",
-            credentials: "include"});
+            const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter", {
+                method: "GET",
+                credentials: "include"
+            });
             const data = await response.json();
             if (data.message !== "Session exsist") {
                 navigate("/");
@@ -74,19 +76,33 @@ function SignIn() {
     }
 
     return <div className="layout">
-        <div className="signInContainer">
-            <h1>Sign In</h1>
-            <p>Welcome back! Log In Continue</p>
-            <form className="signInForm" onSubmit={handleSubmit}>
-                <label>E-mail</label>
-                <input type="text" placeholder="Enter your E-mail" value={email} onChange={(e) => { setEmail(e.target.value); setError("") }} />
-                <label>Password</label>
-                <input type="password" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); setError("") }} />
-                {error && <p className="error">{error}</p>}
-                <Button type="submit" className="signInBtn">Sign In</Button>
-                {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
-                <p className="signUpParagraph">Don't have an account? <span><Link to="/signup" className="signUpLink">Sign Up</Link></span></p>
-            </form>
+        <div className="leftSide">
+            <div className="contentWrapper">
+                <div className="content">
+                    <h1>Seamless File<br />Management<br />for Modern Teams</h1>
+                    <br />
+                    <p>Organize, share, and collaborate on documents effortlessly.<br />Access your files from anywhere, anytime, securely.</p>
+                </div>
+                <div className="image">
+                    <img src="../src/Components/img-removebg-preview.png" alt="Image" />
+                </div>
+            </div>
+        </div>
+        <div className="rightSide">
+            <div className="signInContainer">
+                <h1>Welcome back</h1>
+                <p>Please enter your details</p>
+                <form className="signInForm" onSubmit={handleSubmit}>
+                    <label>E-mail</label>
+                    <input type="text" placeholder="Enter your E-mail" value={email} onChange={(e) => { setEmail(e.target.value); setError("") }} />
+                    <label>Password</label>
+                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); setError("") }} />
+                    {error && <p className="error">{error}</p>}
+                    <Button type="submit" className="signInBtn">Sign In</Button>
+                    {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
+                    <p className="signUpParagraph">Don't have an account? <span><Link to="/signup" className="signUpLink">Sign Up</Link></span></p>
+                </form>
+            </div>
         </div>
     </div>
 }

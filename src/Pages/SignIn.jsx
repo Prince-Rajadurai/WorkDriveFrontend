@@ -18,9 +18,7 @@ function SignIn() {
             const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter",{method: "GET",
             credentials: "include"});
             const data = await response.json();
-            if (data.message === "Session exsist") {
-                navigate("/home");
-            } else {
+            if (data.message !== "Session exsist") {
                 navigate("/");
             }
 

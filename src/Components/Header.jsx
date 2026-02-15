@@ -1,9 +1,9 @@
-import { mdiFolderOutline } from '@mdi/js';
+import { mdiAccount, mdiAccountOutline, mdiAccountSettings, mdiAccountSettingsOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect, useState } from 'react';
 import '../Style/Header.css';
 
-export default function Header(){
+export default function Header({pageLink, page}){
 
 
     const[name , setName] = useState("");
@@ -17,7 +17,6 @@ export default function Header(){
         credentials: "include"});
         let data = await response.json();
         let userMail = data.message;
-        console.log(userMail);
         setName(userMail.split("")[0].toUpperCase());
     }
 
@@ -32,11 +31,12 @@ export default function Header(){
                         <h3>MiniDrive</h3>
                     </div>
                     <div className="visiting-option">
-                        <Icon path={mdiFolderOutline} size={1} />
-                        <p>My Folder</p>
+                        {page == "My Folders" && <Icon path={mdiFolderOutline} size={1} />}
+                        {page == "Accounts" && <Icon path={mdiAccountOutline} size={1} />}
+                        <p>{page}</p>
                     </div>
                     <div className="userName">
-                        <h3>{name}</h3>
+                        <h3 onClick={()=>pageLink("Accounts")}>{name}</h3>
                     </div>
                 </div>
             </div>

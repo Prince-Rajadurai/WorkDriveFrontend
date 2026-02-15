@@ -14,15 +14,6 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import UpdateFile from './UpdateFile';
-import Button from './Button';
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdDriveFileMoveOutline } from "react-icons/md";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { LuTableProperties } from "react-icons/lu";
-import { RiFileCopyLine } from "react-icons/ri";
-import { FaRegPaste } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);

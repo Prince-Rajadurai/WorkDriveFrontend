@@ -35,10 +35,8 @@ export default function SignUpPage() {
                 credentials: "include"
             });
             const data = await response.json();
-            if (data.message === "Session exsist") {
-                navigate("/home");
-            } else {
-                navigate("/signup");
+            if (data.message !== "Session exsist") {
+                navigate("/");
             }
 
         } catch (err) {

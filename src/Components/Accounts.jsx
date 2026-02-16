@@ -175,7 +175,8 @@ export default function AccountsPage() {
                         </div>
                     }
 
-                    <button className="logout" onClick={logout}>Logout</button>
+                     {!editMode &&  <button className="logout" onClick={logout}>Logout</button>}
+                   
 
                 </form>
             </div>

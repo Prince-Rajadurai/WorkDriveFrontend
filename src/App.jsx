@@ -12,9 +12,9 @@ function App() {
     <>
       {/* <Home></Home> */}
        <Routes>
-        <Route path="/signup" element={<SignUpPage />} />
-        <Route path="/" element={<SignIn/>} />
-        <Route path="/home" element={<Home />} />
+        <Route path="/smartdrive/signup" element={<SignUpPage />} />
+        <Route path="/smartdrive/" element={<SignIn/>} />
+        <Route path="/smartdrive/home" element={<Home />} />
       </Routes>
     </>
   )

@@ -24,9 +24,9 @@ export default function Home() {
             credentials: "include"});
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/");
+                navigate("/smartdrive/");
             }else{
-                navigate("/home");
+                navigate("/smartdrive/home");
             }
 
         } catch (err) {
@@ -41,7 +41,7 @@ export default function Home() {
                 <div className="main">
                     <Header pageLink={setPage} page={page}></Header>
                     <div className="container">
-                        <SideNavPar pageLink={setPage}></SideNavPar>
+                        <SideNavPar pageLink={setPage} page={page}></SideNavPar>
                         {page === "Workspace" && <ResourceListing/>}
                         {page === "Accounts" && <AccountsPage/>}
                     </div>

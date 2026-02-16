@@ -21,9 +21,9 @@ function SignIn() {
             });
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/");
+                navigate("/smartdrive/");
             }else{
-                navigate("/home");
+                navigate("/smartdrive/home");
             }
 
         } catch (err) {
@@ -102,7 +102,7 @@ function SignIn() {
                     {error && <p className="error">{error}</p>}
                     <Button type="submit" className="signInBtn">Sign In</Button>
                     {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
-                    <p className="signUpParagraph">Don't have an account? <span><Link to="/signup" className="signUpLink">Sign Up</Link></span></p>
+                    <p className="signUpParagraph">Don't have an account? <span><Link to="/smartdrive/signup" className="signUpLink">Sign Up</Link></span></p>
                 </form>
             </div>
         </div>

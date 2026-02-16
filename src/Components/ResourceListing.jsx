@@ -378,6 +378,7 @@ export default function ResourceListing() {
     }
 
     const handleClick = (e, id) => {
+        
         e.stopPropagation();
         setCurrentMenuId(prev => (prev === id ? null : id));
     }

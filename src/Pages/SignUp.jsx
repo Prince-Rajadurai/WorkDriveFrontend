@@ -36,9 +36,9 @@ export default function SignUpPage() {
             });
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/signup");
+                navigate("/smartdrive/signup");
             }else{
-                navigate("/home");
+                navigate("/smartdrive/home");
             }
 
         } catch (err) {
@@ -210,7 +210,7 @@ export default function SignUpPage() {
                             Sign Up
                         </Button>
 
-                        <p id='signInPage'>Already have an account? <Link to="/">Sign In</Link> </p>
+                        <p id='signInPage'>Already have an account? <Link to="/smartdrive/">Sign In</Link> </p>
                     </form>
                 </div>
             </div>

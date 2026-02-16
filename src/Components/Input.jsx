@@ -15,7 +15,7 @@ export default function Input({ children, placeholder, onClick, cancel,sendValue
                 <h1 className='head-title'>{children}</h1>
                 <div>
                     <p className='label'>Name</p>
-                    <input className='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)} onKeyDown={pressSubmit} autoFocus/>
+                    <input id='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)} onKeyDown={pressSubmit}/>
                 </div>
                 <div className='buttons'>
                     <Button className="inputButton" onClick={cancel} >Cancel</Button>

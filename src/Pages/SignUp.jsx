@@ -35,10 +35,10 @@ export default function SignUpPage() {
                 credentials: "include"
             });
             const data = await response.json();
-            if (data.message === "Session exsist") {
-                navigate("/home");
-            } else {
+            if (data.message !== "Session exsist") {
                 navigate("/signup");
+            }else{
+                navigate("/home");
             }
 
         } catch (err) {
@@ -125,90 +125,95 @@ export default function SignUpPage() {
     }
 
     return (
-        <div id='mainContainer'>
-            <form id='signUpContainer' onSubmit={handleSubmit}>
-                <h1 id='title'>Sign Up</h1>
-                <p id='titleDescription'>Join us by filling in the details below</p>
-
-                <div className='inputField'>
-                    <label htmlFor="fullName">Full Name</label>
-                    <input
-                        type="text"
-                        id='fullName'
-                        placeholder='Enter your full name'
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        style={{ borderColor: formError.field === 'fullName' ? 'red' : 'rgb(122,119,119)' }}
-                    />
+        <div className="template">
+            <div className="left">
+                <div className="contentWrapper">
+                    <div className="contentArea">
+                        <h1>Elevate Your Team's<br />Collective<br />Intelligence</h1>
+                        <p>Step into a unified workspace where files aren't just stored—they're put to work. Join thousands of teams using our secure cloud to break down silos, streamline collaboration, and keep every project moving forward. Start your journey toward a more organized, productive, and connected future today.</p>
+                    </div>
+                    <div className="imageArea">
+                        <img src="../src/Components/signUpImage-removebg-preview.png" alt="Image" />
+                    </div>
                 </div>
+            </div>
+            <div className="right">
+                <div className="signUpArea">
+                    <h1 id='title'>Start using SmartDrive</h1>
+                    <p id='titleDescription'>Join us by filling in the details below</p>
+                    <form id='signUpContainer' onSubmit={handleSubmit}>
 
-                <div className='inputField'>
-                    <label htmlFor="timezone">Select Timezone: </label>
-                    <select name="timezone" id="timezone" value={selectedTimezone} onChange={handleTimezoneChange}>
-                        {timezones.map((zone) => (
-                            <option key={zone} value={zone}>
-                                {zone}
-                            </option>
-                        ))}
-                    </select>
+                        <label htmlFor="fullName">Full Name</label>
+                        <input
+                            type="text"
+                            id='fullName'
+                            placeholder='Enter your full name'
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            style={{ borderColor: formError.field === 'fullName' ? 'red' : 'rgb(122,119,119)' }}
+                        />
+
+                        <label htmlFor="timezone">Select Timezone: </label>
+                        <select name="timezone" id="timezone" value={selectedTimezone} onChange={handleTimezoneChange}>
+                            {timezones.map((zone) => (
+                                <option key={zone} value={zone}>
+                                    {zone}
+                                </option>
+                            ))}
+                        </select>
+
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="text"
+                            id='email'
+                            placeholder='Enter your email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={{ borderColor: formError.field === 'email' ? 'red' : 'rgb(122,119,119)' }}
+                        />
+
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id='password'
+                            placeholder='Create a password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            style={{ borderColor: formError.field === 'password' ? 'red' : 'rgb(122,119,119)' }}
+                        />
+
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <input
+                            type="password"
+                            id='confirmPassword'
+                            placeholder='Confirm your Password'
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            style={{ borderColor: formError.field === 'confirmPassword' ? 'red' : 'rgb(122,119,119)' }}
+                        />
+
+                        <div id='termAndConditionBox'>
+                            <input
+                                type="checkbox"
+                                id='termsAndCondition'
+                                checked={termsAccepted}
+                                onChange={(e) => setTermsAccepted(e.target.checked)}
+                            />
+                            <label htmlFor="termsAndCondition">
+                                I agree the <a>Terms & Privacy Policy</a>
+                            </label>
+                        </div>
+
+                        {formError.message && <p className="formError">{formError.message}</p>}
+
+                        <Button type="submit" className="submitButton">
+                            Sign Up
+                        </Button>
+
+                        <p id='signInPage'>Already have an account? <Link to="/">Sign In</Link> </p>
+                    </form>
                 </div>
-
-                <div className='inputField'>
-                    <label htmlFor="email">Email</label>
-                    <input
-                        type="text"
-                        id='email'
-                        placeholder='Enter your email'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        style={{ borderColor: formError.field === 'email' ? 'red' : 'rgb(122,119,119)' }}
-                    />
-                </div>
-
-                <div className='inputField'>
-                    <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        id='password'
-                        placeholder='Create a password'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        style={{ borderColor: formError.field === 'password' ? 'red' : 'rgb(122,119,119)' }}
-                    />
-                </div>
-
-                <div className='inputField'>
-                    <label htmlFor="confirmPassword">Confirm Password</label>
-                    <input
-                        type="password"
-                        id='confirmPassword'
-                        placeholder='Confirm your Password'
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                        style={{ borderColor: formError.field === 'confirmPassword' ? 'red' : 'rgb(122,119,119)' }}
-                    />
-                </div>
-
-                <div id='termAndConditionBox'>
-                    <input
-                        type="checkbox"
-                        id='termsAndCondition'
-                        checked={termsAccepted}
-                        onChange={(e) => setTermsAccepted(e.target.checked)}
-                    />
-                    <label htmlFor="termsAndCondition">
-                        I agree the <a>Terms & Privacy Policy</a>
-                    </label>
-                </div>
-
-                {formError.message && <p className="formError">{formError.message}</p>}
-
-                <Button type="submit" className="submitButton">
-                    Sign Up
-                </Button>
-
-                <p id='signInPage'>Already have an account? <Link to="/">Sign In</Link> </p>
-            </form>
+            </div>
         </div>
     );
 }

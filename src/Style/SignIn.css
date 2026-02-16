@@ -1,38 +1,89 @@
-
 .layout {
     height: 100vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #f5f6fa;
+    background-color: #9ebcf8;
 }
 
-.signInContainer {
-    width: 500px;
-    height: 550px;
+.leftSide {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.leftSide .contentWrapper {
+    width: 80%;
+    max-width: 600px;
+}
+
+.leftSide .content {
+    width: 600px;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+.leftSide .image {
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.leftSide .image img {
+    max-width: 480px;
+    width: 100%;
+    height: auto;
+}
+
+.leftSide .content h1 {
+    color: #0B0A0F;
+    font-size: 3.2rem;
+    line-height: 1.2;
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.leftSide .content p {
+    font-size: 1.2rem;
+    line-height: 1.4;
+    color: #3d4358;
+    margin-bottom: 2rem;
+    text-align: left;
+}
+
+.rightSide {
+    width: 50%;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    text-align: center;
+}
+
+.signInContainer {
+    width: 520px; 
     background-color: white;
-    border-radius: 1rem;
-    color: black;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
 }
 
 .signInContainer h1 {
     margin: 1rem;
     height: fit-content;
-    width: 100%;
+    text-align: left;
+    font-size: 2rem;
 }
 
 .signInContainer p {
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin: 1rem;
     height: fit-content;
-    width: 100%;
+    text-align: left;
     color: #3d4358;
 }
 
@@ -43,19 +94,6 @@
     color: red;
 }
 
-.forgotpassword {
-    font-size: 1rem;
-    margin: 1rem;
-    height: fit-content;
-    width: 100%;
-    color: #1E52BB;
-}
-
-.forgotpassword:hover {
-    cursor: pointer;
-    text-decoration: underline;
-}
-
 .signInContainer hr {
     width: 100%;
     height: fit-content;
@@ -64,14 +102,23 @@
 
 .signInContainer .signUpParagraph {
     color: rgb(169, 169, 169);
-    font-size: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 400;
     height: fit-content;
 }
 
 .signInContainer .signUpLink {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     height: fit-content;
     width: fit-content;
+    cursor: pointer;
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: none;
+}
+
+.signInContainer .signUpLink {
+    color: #434cfb;
 }
 
 .signInForm {
@@ -85,7 +132,7 @@
 }
 
 .signInForm label {
-    font-size: 1.25rem;
+    font-size: 1rem;
     width: 100%;
     text-align: left;
     margin: 0.3rem;
@@ -98,7 +145,7 @@
     width: 100%;
     border: 1px solid rgb(122, 119, 119);
     border-radius: 5px;
-    font-size: 20px;
+    font-size: 1rem;
     padding: 10px;
     margin: 0.3rem;
     color: black;
@@ -110,7 +157,7 @@
 }
 
 .signInBtn {
-    width: 80%;
+    width: 100%;
     height: 40px;
     font-size: 1rem;
     margin: .75rem;

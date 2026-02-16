@@ -5,7 +5,7 @@ import '../Style/SideNavPar.css';
 import { useState } from 'react';
 import DashBoard from './DashBoard';
 
-export default function SideNavPar(){
+export default function SideNavPar({pageLink}){
 
     const [showDashBoard , setShowDashboard ] = useState(false);
 

@@ -2,13 +2,16 @@ import Header from "../Components/Header";
 import SideNavPar from "../Components/SideNavPar";
 import AuthenticationContext from "../utils/AuthenticationContext";
 import '../Style/Home.css';
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import {useNavigate} from "react-router-dom";
 import FileHeader from "../Components/FileHeader";
 import ResourceListing from "../Components/ResourceListing";
 import { FolderContext } from "../utils/FolderContext";
+import AccountsPage from "../Components/Accounts";
 
 export default function Home() {
+
+    const [page,setPage] = useState("Workspace");
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -20,10 +23,10 @@ export default function Home() {
             const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter",{method: "GET",
             credentials: "include"});
             const data = await response.json();
-            if (data.message === "Session exsist") {
-                navigate("/home");
-            } else {
+            if (data.message !== "Session exsist") {
                 navigate("/");
+            }else{
+                navigate("/home");
             }
 
         } catch (err) {
@@ -36,11 +39,11 @@ export default function Home() {
         <AuthenticationContext>
             <FolderContext>
                 <div className="main">
-                    <Header></Header>
+                    <Header pageLink={setPage} page={page}></Header>
                     <div className="container">
-                        <SideNavPar></SideNavPar>
-                        {/* <FileHeader></FileHeader> */}
-                        <ResourceListing></ResourceListing>
+                        <SideNavPar pageLink={setPage}></SideNavPar>
+                        {page === "Workspace" && <ResourceListing/>}
+                        {page === "Accounts" && <AccountsPage/>}
                     </div>
                 </div>
             </FolderContext>

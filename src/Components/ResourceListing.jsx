@@ -14,7 +14,15 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import Version from './Version';
+import UpdateFile from './UpdateFile';
+import Button from './Button';
+import { FaRegTrashAlt } from "react-icons/fa";
+import { MdDriveFileMoveOutline } from "react-icons/md";
+import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
+import { LuTableProperties } from "react-icons/lu";
+import { RiFileCopyLine } from "react-icons/ri";
+import { FaRegPaste } from "react-icons/fa6";
+import { MdOutlineFileDownload } from "react-icons/md";
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -437,7 +445,7 @@ export default function ResourceListing() {
                         </div>
                     </>)}
                     <div className="breadCrumbs">
-                        <span onClick={goToRootFolder} className='link'>My Folder</span>
+                        <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
                             <span key={folder.id}>
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
@@ -481,6 +489,7 @@ export default function ResourceListing() {
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}><FaRegTrashAlt />Trash</li>
+
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
 
                             </ul>)}

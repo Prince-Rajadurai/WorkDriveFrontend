@@ -64,6 +64,8 @@
     border-radius: 4px;
     height: 40px;
     margin: 5px;
+    font-weight: 500;
+    color: var(--blue);
 }
 
 .breadCrumbs span, .breadCrumbs .link {
@@ -75,8 +77,8 @@
 
 .link:hover{
 
-    font-weight: bolder;
-    color: #2C66DD;
+.breadCrumbs:hover {
+    background-color: var(--white2);
 }
 
 .heading {
@@ -207,6 +209,7 @@
 }
 
 .breadCrumbs {
+    border: 1px solid var(--white2);
     padding: 5px;
 }
 

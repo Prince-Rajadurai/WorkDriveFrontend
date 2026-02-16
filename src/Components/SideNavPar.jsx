@@ -5,29 +5,31 @@ import '../Style/SideNavPar.css';
 import { useState } from 'react';
 import DashBoard from './DashBoard';
 
-export default function SideNavPar({pageLink}){
+export default function SideNavPar({ pageLink }) {
 
-    const [showDashBoard , setShowDashboard ] = useState(false);
+    const [showDashBoard, setShowDashboard] = useState(true);
 
-    return(
+    return (
         <>
             <div className="side-nav-parent">
-                
-                <div 
-                    className="my-folder" 
-                    onClick={() => {setShowDashboard(false) , pageLink("Workspace")}}
+
+                <div
+                    className="dash-board"
+                    onClick={() => setShowDashboard(true)}
+                >
+                    <MdDashboard size={22} />
+                    <p>Dashboard</p>
+                </div>
+
+                <div
+                    className="my-folder"
+                    onClick={() => { setShowDashboard(false), pageLink("Workspace") }}
                 >
                     <Icon path={mdiFolderOutline} size={1} />
                     <p>My Folders</p>
                 </div>
 
-                <div 
-                    className="dash-board" 
-                    onClick={() => setShowDashboard(true)}
-                >
-                    <MdDashboard size={22}/>
-                    <p>Dashboard</p>
-                </div>
+
 
             </div>
 

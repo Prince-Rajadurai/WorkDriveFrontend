@@ -47,7 +47,7 @@ export default function NewButton({ fetchFolder }) {
       let data = await res.json();
 
       if (data.StatusCode == 200) {
-         showResult(data.StatusCode, "✅ "+data.message, true);
+         showResult(data.StatusCode, data.message, true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
@@ -58,7 +58,7 @@ export default function NewButton({ fetchFolder }) {
             setShowUpdateFile(true);
          }
          else{
-            showResult(data.StatusCode, "❌ File upload Failed", true)
+            showResult(data.StatusCode, " File upload Failed", true)
          }
       }
 
@@ -87,11 +87,11 @@ export default function NewButton({ fetchFolder }) {
       let data = await res.json();
 
       if (data.StatusCode == 200) {
-         showResult(data.StatusCode, "✅ Folder uploaded sucessfully", true);
+         showResult(data.StatusCode, "Folder uploaded sucessfully", true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
-         showResult(data.StatusCode, "❌ Folder upload Failed", true)
+         showResult(data.StatusCode, "Folder upload Failed", true)
       }
 
    }
@@ -115,11 +115,11 @@ export default function NewButton({ fetchFolder }) {
 
       if (data.StatusCode == 200) {
          setResourceName("");
-         showResult(data.StatusCode, "✅ Folder created sucessfully", true);
+         showResult(data.StatusCode, "Folder created sucessfully", true);
          setShowFolderinput(false);
       }
       if (data.StatusCode >= 400) {
-         showResult(data.StatusCode, "❌ Folder creation Failed", true)
+         showResult(data.StatusCode, "Folder creation Failed", true)
       }
 
    }

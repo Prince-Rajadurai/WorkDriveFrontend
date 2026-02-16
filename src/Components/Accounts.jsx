@@ -19,6 +19,14 @@ export default function AccountsPage() {
 
     useEffect(() => { getDetails(); }, []);
 
+    async function logout() {
+        await fetch("http://localhost:8080/WorkDrive/LogoutServlet", {
+            method: "POST",
+            credentials: "include"
+        });
+        window.location.href = "/";
+    }
+
     async function getDetails() {
         try {
             const response = await fetch("http://localhost:8080/WorkDrive/ProfileEditServlet", { method: "GET", credentials: "include" });
@@ -131,7 +139,7 @@ export default function AccountsPage() {
 
                     <div className="field">
                         <label>Full Name :</label>
-                        {editMode ? <input value={fullName} onChange={(e)=>setFullName(e.target.value)} style={{ borderColor: formError.field==="fullName"?"red":"" }} /> : <span>{fullName}</span>}
+                        {editMode ? <input value={fullName} onChange={(e) => setFullName(e.target.value)} style={{ borderColor: formError.field === "fullName" ? "red" : "" }} /> : <span>{fullName}</span>}
                     </div>
 
                     <div className="field">
@@ -143,19 +151,19 @@ export default function AccountsPage() {
                         <label>Password :</label>
                         {editMode ?
                             <div className="passwordGroup">
-                                <input type="password" placeholder="New password" value={password} onChange={(e)=>setPassword(e.target.value)} style={{ borderColor: formError.field==="password"?"red":"" }} />
-                                <input type="password" placeholder="Confirm password" value={confirmPassword} onChange={(e)=>setConfirmPassword(e.target.value)} style={{ borderColor: formError.field==="confirmPassword"?"red":"" }} />
+                                <input type="password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ borderColor: formError.field === "password" ? "red" : "" }} />
+                                <input type="password" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={{ borderColor: formError.field === "confirmPassword" ? "red" : "" }} />
                             </div>
-                        : <span>● ● ● ● ● ● ● ●</span>}
+                            : <span>● ● ● ● ● ● ● ●</span>}
                     </div>
 
                     <div className="field">
                         <label>Timezone :</label>
                         {editMode ?
-                            <select value={timezone} onChange={(e)=>setTimezone(e.target.value)} style={{ borderColor: formError.field==="timezone"?"red":"" }}>
+                            <select value={timezone} onChange={(e) => setTimezone(e.target.value)} style={{ borderColor: formError.field === "timezone" ? "red" : "" }}>
                                 {timezones.map(zone => <option key={zone} value={zone}>{zone}</option>)}
                             </select>
-                        : <span>{timezone}</span>}
+                            : <span>{timezone}</span>}
                     </div>
 
                     {formError.message && <div className="errorText">{formError.message}</div>}
@@ -166,6 +174,8 @@ export default function AccountsPage() {
                             <button type="submit" className="savebtn">Save</button>
                         </div>
                     }
+
+                    <button className="logout" onClick={logout}>Logout</button>
 
                 </form>
             </div>

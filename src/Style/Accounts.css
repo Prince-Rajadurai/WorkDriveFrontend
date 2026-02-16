@@ -14,8 +14,8 @@
     padding: 2vw;
     border: 1px solid #e2e8f0;
     box-shadow:
-        0 20px 40px rgba(0,0,0,0.06),
-        0 4px 12px rgba(0,0,0,0.04);
+        0 20px 40px rgba(0, 0, 0, 0.06),
+        0 4px 12px rgba(0, 0, 0, 0.04);
 
 }
 
@@ -59,7 +59,7 @@
 
 .editBtn:hover {
     box-shadow: 0 0 2px 0 #2C66DD;
-   filter: brightness(105%);
+    filter: brightness(105%);
 }
 
 
@@ -91,7 +91,7 @@
 }
 
 
-.field input{
+.field input {
     width: 100%;
     padding: 10px 12px;
 
@@ -102,7 +102,7 @@
     background: #f8fafc;
 }
 
-.field select{
+.field select {
     width: 45%;
     padding: 10px 12px;
 
@@ -118,7 +118,7 @@
     outline: none;
     background: white;
     border-color: #2C66DD;
-    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.15);
 }
 
 
@@ -142,7 +142,7 @@
 }
 
 
-.cancelbtn{
+.cancelbtn {
     border-radius: 2px;
     border: 1px solid grey;
     width: 130px;
@@ -152,11 +152,11 @@
     background-color: white;
 }
 
-.cancelbtn:hover{
+.cancelbtn:hover {
     background-color: #f3f4f6;
 }
 
-.savebtn{
+.savebtn {
     border-radius: 2px;
     width: 130px;
     height: 40px;
@@ -167,6 +167,23 @@
     color: white;
 }
 
-.savebtn:hover{
+.savebtn:hover {
     filter: brightness(110%);
+}
+
+.logout {
+    background-color: white;
+    border: none;
+    font-size: 1rem;
+    width: 50px;
+    font-weight: 500;
+    color: #D32F2F;
+    cursor: pointer;
+    text-underline-offset: 2px; 
+    text-decoration: underline #D32F2F;
+    transition: 1s;
+}
+
+.logout:hover {
+    text-shadow: 0 0 1px #D32F2F;
 }

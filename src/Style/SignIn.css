@@ -76,10 +76,11 @@
     margin: 1rem;
     height: fit-content;
     text-align: left;
+    font-size: 2rem;
 }
 
 .signInContainer p {
-    font-size: 1.5rem;
+    font-size: 1rem;
     margin: 1rem;
     height: fit-content;
     text-align: left;
@@ -101,14 +102,23 @@
 
 .signInContainer .signUpParagraph {
     color: rgb(169, 169, 169);
-    font-size: 1.25rem;
+    font-size: 0.9rem;
+    font-weight: 400;
     height: fit-content;
 }
 
 .signInContainer .signUpLink {
-    font-size: 1.25rem;
+    font-size: 0.9rem;
     height: fit-content;
     width: fit-content;
+    cursor: pointer;
+    font-weight: 500;
+    color: #646cff;
+    text-decoration: none;
+}
+
+.signInContainer .signUpLink {
+    color: #434cfb;
 }
 
 .signInForm {
@@ -122,7 +132,7 @@
 }
 
 .signInForm label {
-    font-size: 1.25rem;
+    font-size: 1rem;
     width: 100%;
     text-align: left;
     margin: 0.3rem;
@@ -135,7 +145,7 @@
     width: 100%;
     border: 1px solid rgb(122, 119, 119);
     border-radius: 5px;
-    font-size: 20px;
+    font-size: 1rem;
     padding: 10px;
     margin: 0.3rem;
     color: black;

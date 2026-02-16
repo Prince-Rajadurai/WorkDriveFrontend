@@ -133,74 +133,64 @@ export default function SignUpPage() {
                         <p>Step into a unified workspace where files aren't just stored—they're put to work. Join thousands of teams using our secure cloud to break down silos, streamline collaboration, and keep every project moving forward. Start your journey toward a more organized, productive, and connected future today.</p>
                     </div>
                     <div className="imageArea">
-                    <img src="../src/Components/signUpImage-removebg-preview.png" alt="Image" />
+                        <img src="../src/Components/signUpImage-removebg-preview.png" alt="Image" />
                     </div>
                 </div>
             </div>
             <div className="right">
-                <div id='mainContainer'>
+                <div className="signUpArea">
+                    <h1 id='title'>Start using SmartDrive</h1>
+                    <p id='titleDescription'>Join us by filling in the details below</p>
                     <form id='signUpContainer' onSubmit={handleSubmit}>
-                        <h1 id='title'>Sign Up</h1>
-                        <p id='titleDescription'>Join us by filling in the details below</p>
 
-                        <div className='inputField'>
-                            <label htmlFor="fullName">Full Name</label>
-                            <input
-                                type="text"
-                                id='fullName'
-                                placeholder='Enter your full name'
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                                style={{ borderColor: formError.field === 'fullName' ? 'red' : 'rgb(122,119,119)' }}
-                            />
-                        </div>
+                        <label htmlFor="fullName">Full Name</label>
+                        <input
+                            type="text"
+                            id='fullName'
+                            placeholder='Enter your full name'
+                            value={fullName}
+                            onChange={(e) => setFullName(e.target.value)}
+                            style={{ borderColor: formError.field === 'fullName' ? 'red' : 'rgb(122,119,119)' }}
+                        />
 
-                        <div className='inputField'>
-                            <label htmlFor="timezone">Select Timezone: </label>
-                            <select name="timezone" id="timezone" value={selectedTimezone} onChange={handleTimezoneChange}>
-                                {timezones.map((zone) => (
-                                    <option key={zone} value={zone}>
-                                        {zone}
-                                    </option>
-                                ))}
-                            </select>
-                        </div>
+                        <label htmlFor="timezone">Select Timezone: </label>
+                        <select name="timezone" id="timezone" value={selectedTimezone} onChange={handleTimezoneChange}>
+                            {timezones.map((zone) => (
+                                <option key={zone} value={zone}>
+                                    {zone}
+                                </option>
+                            ))}
+                        </select>
 
-                        <div className='inputField'>
-                            <label htmlFor="email">Email</label>
-                            <input
-                                type="text"
-                                id='email'
-                                placeholder='Enter your email'
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                                style={{ borderColor: formError.field === 'email' ? 'red' : 'rgb(122,119,119)' }}
-                            />
-                        </div>
+                        <label htmlFor="email">Email</label>
+                        <input
+                            type="text"
+                            id='email'
+                            placeholder='Enter your email'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            style={{ borderColor: formError.field === 'email' ? 'red' : 'rgb(122,119,119)' }}
+                        />
 
-                        <div className='inputField'>
-                            <label htmlFor="password">Password</label>
-                            <input
-                                type="password"
-                                id='password'
-                                placeholder='Create a password'
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                                style={{ borderColor: formError.field === 'password' ? 'red' : 'rgb(122,119,119)' }}
-                            />
-                        </div>
+                        <label htmlFor="password">Password</label>
+                        <input
+                            type="password"
+                            id='password'
+                            placeholder='Create a password'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            style={{ borderColor: formError.field === 'password' ? 'red' : 'rgb(122,119,119)' }}
+                        />
 
-                        <div className='inputField'>
-                            <label htmlFor="confirmPassword">Confirm Password</label>
-                            <input
-                                type="password"
-                                id='confirmPassword'
-                                placeholder='Confirm your Password'
-                                value={confirmPassword}
-                                onChange={(e) => setConfirmPassword(e.target.value)}
-                                style={{ borderColor: formError.field === 'confirmPassword' ? 'red' : 'rgb(122,119,119)' }}
-                            />
-                        </div>
+                        <label htmlFor="confirmPassword">Confirm Password</label>
+                        <input
+                            type="password"
+                            id='confirmPassword'
+                            placeholder='Confirm your Password'
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            style={{ borderColor: formError.field === 'confirmPassword' ? 'red' : 'rgb(122,119,119)' }}
+                        />
 
                         <div id='termAndConditionBox'>
                             <input

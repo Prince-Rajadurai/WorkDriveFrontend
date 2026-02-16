@@ -133,7 +133,7 @@ export default function SignUpPage() {
                         <p>Step into a unified workspace where files aren't just stored—they're put to work. Join thousands of teams using our secure cloud to break down silos, streamline collaboration, and keep every project moving forward. Start your journey toward a more organized, productive, and connected future today.</p>
                     </div>
                     <div className="imageArea">
-                        <img src="../src/Components/signUp.png" alt="Image"/>
+                        <img src="../src/assets/signUp.png" alt="Image" />
                     </div>
                 </div>
             </div>

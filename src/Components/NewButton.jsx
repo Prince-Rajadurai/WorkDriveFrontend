@@ -1,15 +1,15 @@
 import { useContext, useState } from "react";
 // import { useFolder } from "../utils/FolderContext.jsx";
+import { FaPlus } from "react-icons/fa";
+import { FiFolderPlus } from "react-icons/fi";
 import { FoldContext } from "../utils/FolderContext.jsx";
 import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
+import FolderUpload from "./FolderUpload.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
 import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
-import FolderUpload from "./FolderUpload.jsx";
-import { FiFolderPlus } from "react-icons/fi";
-import { FaPlus } from "react-icons/fa";
 
 export default function NewButton({ fetchFolder }) {
 
@@ -29,11 +29,13 @@ export default function NewButton({ fetchFolder }) {
    async function uploadFile(file, change, folderId) {
 
       let fName = file.name;
+      let fileSize = file.size;
       let form = new FormData();
       form.append("file", file);
       form.append("filename", fName);
       form.append("folderId", folderId);
       form.append("replaceFile" , change);
+      form.append("size" , fileSize);
       setCode(200);
       setMsg(" ⬇ File Uploading ...");
       setShow(true);
@@ -66,12 +68,8 @@ export default function NewButton({ fetchFolder }) {
 
       const formData = new FormData();
 
-      console.log(files);
-
       for (let file of files) {
          formData.append("files", file);
-         console.log(file);
-         console.log("files: "+file.name+" | Path"+file.webkitRelativePath);
       }
 
       formData.append("parentId",parentId);

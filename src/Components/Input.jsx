@@ -15,10 +15,10 @@ export default function Input({ children, placeholder, onClick, cancel,sendValue
                 <h1 className='head-title'>{children}</h1>
                 <div>
                     <p className='label'>Name</p>
-                    <input className='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)} onKeyDown={pressSubmit}/>
+                    <input className='input-field' type="text" placeholder={placeholder} onChange={(e)=>sendValue(e.target.value)} onKeyDown={pressSubmit} autoFocus/>
                 </div>
                 <div className='buttons'>
-                    <Button className="inputButton" onClick={cancel}>Cancel</Button>
+                    <Button className="inputButton" onClick={cancel} >Cancel</Button>
                     <Button className="inputButton" id="createButton" onClick={onClick}>{submitBtn}</Button>
                 </div>
 

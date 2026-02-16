@@ -4,8 +4,11 @@
     background-color: rgb(46, 46, 46);
     color: rgb(221, 221, 221);
     padding: 20px 5px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
-.my-folder{
+.my-folder,.dash-board{
     width: 100%;
     height: 40px;
     display: flex;
@@ -17,9 +20,9 @@
     cursor: pointer;
     font-size: 15px;
 }
-.my-folder p{
-    font-weight: bolder;
+.my-folder p , .dash-board p{
+    font-size: 16px;
 }
-.my-folder:hover{
+.my-folder:hover,.dash-board:hover{
     background-color: rgb(78, 78, 78);
 }

@@ -14,15 +14,7 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import UpdateFile from './UpdateFile';
-import Button from './Button';
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdDriveFileMoveOutline } from "react-icons/md";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { LuTableProperties } from "react-icons/lu";
-import { RiFileCopyLine } from "react-icons/ri";
-import { FaRegPaste } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
+import Version from './Version';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -55,6 +47,11 @@ export default function ResourceListing() {
     const scrollRef = useRef(null);
 
     const [position, setPosition] = useState(null);
+    // const [versions , setVersions] = useState([]);
+    // const [fileSize , setFileSize] = useState("");
+    // const [storageSize , setStorageSize] = useState("");
+    const [getData , setData] = useState({});
+    const [showVersion , setShowVersion] = useState(false);
 
 
     function storeResourceId(id, name, action) {
@@ -249,7 +246,9 @@ export default function ResourceListing() {
                 type: resource.type,
                 created: resource.createdTime,
                 modified: resource.modifiedTime,
-                size: resource.size
+                size: resource.size,
+                files : resource.files,
+                folders : resource.folders
             }));
             setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
@@ -337,6 +336,23 @@ export default function ResourceListing() {
             showResult(data.StatusCode, "❌ File paste Failed", true)
         }
 
+    }
+
+    async function showFileVersion(fileId){
+
+        const response = await fetch("http://localhost:8080/WorkDrive/ShowFileVersions?fileId="+fileId ,{
+            method: "GET",
+            credentials: "include"
+        });
+        const data = await response.json();
+
+        setShowVersion(true);
+        setData(data);
+
+    }
+
+    function onClose(){
+        setShowVersion(false);
     }
 
 
@@ -460,11 +476,11 @@ export default function ResourceListing() {
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}><MdOutlineDriveFileRenameOutline />Rename</li>
                                 {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
+                                {resource.type == "FILE" && <li onClick={(e) =>{showFileVersion(resource.id) ,setCurrentMenuId(null)}}><LuTableProperties />Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17}/>Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }}><FaRegTrashAlt />Trash</li>
-
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
 
                             </ul>)}
@@ -483,6 +499,7 @@ export default function ResourceListing() {
             </div>
             {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />}
             <Popup result={code} msg={msg} show={show}></Popup>
+            {showVersion && <Version storage = {getData.storage} size = {getData.size} versions = {getData.versions} onclose={onClose}></Version>}
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );

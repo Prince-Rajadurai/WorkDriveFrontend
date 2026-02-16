@@ -67,7 +67,7 @@ function SignIn() {
             });
             const data = await response.json();
             if (data.StatusCode === 200) {
-                navigate("/home");
+                navigate("/smartdrive/home");
             } else {
                 setError(data.message);
             }

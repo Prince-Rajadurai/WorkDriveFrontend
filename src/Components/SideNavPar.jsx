@@ -13,7 +13,7 @@ export default function SideNavPar({ pageLink , page }) {
         <>
             <div className="side-nav-parent">
 
-                <div  style={page=="Dash Board" && {backgroundColor:"rgb(78, 78, 78)"}}
+                <div  style={page=="Dash Board" ? {backgroundColor:"rgb(78, 78, 78)"}:{}}
                     className="dash-board"
                     onClick={() => setShowDashboard(true)}
                 >
@@ -21,7 +21,7 @@ export default function SideNavPar({ pageLink , page }) {
                     <p>Dashboard</p>
                 </div>
 
-                <div style={page=="My Folder"&& {backgroundColor:"rgb(78, 78, 78)"}}
+                <div style={page=="My Folder" ? {backgroundColor:"rgb(78, 78, 78)"}:{}}
                     className="my-folder"
                     onClick={() => { setShowDashboard(false), pageLink("Workspace") }}
                 >

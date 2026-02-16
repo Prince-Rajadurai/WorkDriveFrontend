@@ -117,7 +117,7 @@ export default function SignUpPage() {
             }
 
             // navigating to home
-            navigate('/home');
+            navigate('/smartdrive/home');
 
         } catch (err) {
             setFormError({ field: "", message: "Server not reachable" });

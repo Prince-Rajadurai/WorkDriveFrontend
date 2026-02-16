@@ -24,7 +24,7 @@ export default function AccountsPage() {
             method: "POST",
             credentials: "include"
         });
-        window.location.href = "/";
+        window.location.href = "/smartdrive/";
     }
 
     async function getDetails() {

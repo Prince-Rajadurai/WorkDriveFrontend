@@ -36,7 +36,9 @@ export default function SignUpPage() {
             });
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/");
+                navigate("/signup");
+            }else{
+                navigate("/home");
             }
 
         } catch (err) {

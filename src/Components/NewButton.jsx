@@ -116,6 +116,7 @@ export default function NewButton({ fetchFolder }) {
       const data = await response.json();
 
       if (data.StatusCode == 200) {
+         setResourceName("");
          showResult(data.StatusCode, "✅ Folder created sucessfully", true);
          setShowFolderinput(false);
       }

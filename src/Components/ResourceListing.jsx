@@ -412,7 +412,7 @@ export default function ResourceListing() {
                         </div>
                     </>)}
                     <div className="breadCrumbs">
-                        <span onClick={goToRootFolder} className='link'>My Folder</span>
+                        <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
                             <span key={folder.id}>
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>

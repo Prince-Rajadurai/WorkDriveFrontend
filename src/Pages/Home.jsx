@@ -11,7 +11,7 @@ import AccountsPage from "../Components/Accounts";
 
 export default function Home() {
 
-    const [page,setPage] = useState("My Folders");
+    const [page,setPage] = useState("Workspace");
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -25,6 +25,8 @@ export default function Home() {
             const data = await response.json();
             if (data.message !== "Session exsist") {
                 navigate("/");
+            }else{
+                navigate("/home");
             }
 
         } catch (err) {
@@ -40,7 +42,7 @@ export default function Home() {
                     <Header pageLink={setPage} page={page}></Header>
                     <div className="container">
                         <SideNavPar pageLink={setPage}></SideNavPar>
-                        {page === "My Folders" && <ResourceListing/>}
+                        {page === "Workspace" && <ResourceListing/>}
                         {page === "Accounts" && <AccountsPage/>}
                     </div>
                 </div>

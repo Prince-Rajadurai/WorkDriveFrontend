@@ -20,6 +20,8 @@ function SignIn() {
             const data = await response.json();
             if (data.message !== "Session exsist") {
                 navigate("/");
+            }else{
+                navigate("/home");
             }
 
         } catch (err) {

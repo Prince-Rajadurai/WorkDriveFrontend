@@ -1,0 +1,172 @@
+.accountsPage {
+    width: 84vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: linear-gradient(135deg, #f1f5f9, #e2e8f0);
+}
+
+
+.accountsContainer {
+    width: 50vw;
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 2vw;
+    border: 1px solid #e2e8f0;
+    box-shadow:
+        0 20px 40px rgba(0,0,0,0.06),
+        0 4px 12px rgba(0,0,0,0.04);
+
+}
+
+.account-heading {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1vw;
+}
+
+.account-heading h2 {
+    margin: 0;
+    font-size: 1.75rem;
+    font-weight: 600;
+    letter-spacing: -0.3px;
+    color: #0f172a;
+}
+
+.account-heading p {
+    margin-top: 4px;
+    font-size: .9rem;
+    color: #64748b;
+}
+
+
+.editBtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    gap: 8px;
+    background: #2C66DD;
+    color: white;
+    border: none;
+
+    padding: 12px 16px;
+    border-radius: 5px;
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+.editBtn:hover {
+    box-shadow: 0 0 2px 0 #2C66DD;
+   filter: brightness(105%);
+}
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    gap: 2rem;
+    margin-bottom: .5vw;
+}
+
+.field {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    align-items: center;
+    gap: 1rem;
+}
+
+.field label {
+    font-size: 1rem;
+    font-weight: 600;
+    color: #475569;
+}
+
+.field span {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #0f172a;
+}
+
+
+.field input{
+    width: 100%;
+    padding: 10px 12px;
+
+    border-radius: 5px;
+    border: 1px solid #cbd5e1;
+
+    font-size: 1rem;
+    background: #f8fafc;
+}
+
+.field select{
+    width: 45%;
+    padding: 10px 12px;
+
+    border-radius: 5px;
+    border: 1px solid #cbd5e1;
+
+    font-size: 1rem;
+    background: #f8fafc;
+}
+
+.field input:focus,
+.field select:focus {
+    outline: none;
+    background: white;
+    border-color: #2C66DD;
+    box-shadow: 0 0 0 2px rgba(37,99,235,0.15);
+}
+
+
+.passwordGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.errorText {
+    color: #dc2626;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+
+.changebuttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+}
+
+
+.cancelbtn{
+    border-radius: 2px;
+    border: 1px solid grey;
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: white;
+}
+
+.cancelbtn:hover{
+    background-color: #f3f4f6;
+}
+
+.savebtn{
+    border-radius: 2px;
+    width: 130px;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 1rem;
+    background-color: #2C66DD;
+    border: none;
+    color: white;
+}
+
+.savebtn:hover{
+    filter: brightness(110%);
+}

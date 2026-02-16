@@ -61,18 +61,19 @@
     gap: 4px;
     font-size: 14px;
     padding: 5px 8px;
-    border: 1px solid var(--white2);
     border-radius: 4px;
     height: 40px;
     margin: 5px;
+    font-weight: 500;
+    color: var(--blue);
 }
 
 .breadCrumbs span, .breadCrumbs .link {
     cursor: pointer;
 }
 
-.breadCrumbs:hover {
-    background-color: var(--white2);
+.breadCrumbs .link:hover {
+    text-shadow: 0 0 0.5px currentColor;
 }
 
 .heading {
@@ -199,11 +200,6 @@
 .treeName {
     font-size: 14px;
     white-space: nowrap;
-}
-
-.breadCrumbs {
-    border: 1px solid var(--white2);
-    padding: 5px;
 }
 
 .optionsMenu {

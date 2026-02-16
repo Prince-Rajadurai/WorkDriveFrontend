@@ -92,7 +92,7 @@ function SignIn() {
         </div>
         <div className="rightSide">
             <div className="signInContainer">
-                <h1>Welcome back</h1>
+                <h1>Sign in to SmartDrive</h1>
                 <p>Please enter your details</p>
                 <form className="signInForm" onSubmit={handleSubmit}>
                     <label>E-mail</label>

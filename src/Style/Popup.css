@@ -1,18 +1,19 @@
 .success-msg{
-    width: 350px;
+    width: 400px;
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: -9rem;
+    top: -10rem;
     right: 40rem;
     transition: .3s;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     border-radius: 5px;
-    border-top: 5px solid green;
+    border-top: 3px solid green;
     background-color: white;
     z-index: 6;
+    gap: 10px;
 }
 
 .msg{
@@ -30,19 +31,23 @@
     top: -3rem;
 }
 
+img{
+    width: 30px;
+}
 .failed-msg{
-    width: 350px;
+    width: 400px;
     height: 70px;
     display: flex;
     align-items: center;
     justify-content: center;
     position: absolute;
-    top: -9rem;
+    top: -10rem;
     right: 40rem;
     transition: .3s;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     border-radius: 5px;
-    border-top: 5px solid red;
+    border-top: 3px solid red;
     background-color: white;
     z-index: 6;
+    gap: 10px;
 }

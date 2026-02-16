@@ -12,8 +12,8 @@ import {
 export default function MyPieChart({senData , tSize , cSize}) {
 
     const data = [
-        { name: "Size", storage: Number(tSize)},
-        { name: "Compress Size", storage: Number(cSize) },
+        { name: "Size", storage: Number(tSize.split(" ")[0])},
+        { name: "Compress Size", storage: Number(cSize.split(" ")[0]) },
         { name: "Files", storage: senData.total_files },
         { name: "File Deduplicate", storage: senData.deduplicate_files},
     ];

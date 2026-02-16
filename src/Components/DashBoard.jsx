@@ -13,6 +13,8 @@ export default function DashBoard() {
     },[])
 
     const [data , setData] = useState({});
+    const [s_size , set_s_size] = useState("");
+    const [c_size , set_c_size] = useState("");
 
     async function showData(){
 
@@ -25,6 +27,8 @@ export default function DashBoard() {
         console.log(data);
 
         setData(data);
+        set_s_size(data.total_size);
+        set_c_size(data.compress_size);
 
 
     }
@@ -101,7 +105,7 @@ export default function DashBoard() {
                         </div>
                     </div>
                     <div className="bar-Chart">
-                        <MyPieChart className="chart" senData={data}></MyPieChart>
+                        <MyPieChart className="chart" senData={data} tSize={s_size} cSize={c_size}></MyPieChart>
                     </div>
                 </div>
             </div>

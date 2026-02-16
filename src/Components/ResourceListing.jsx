@@ -60,25 +60,25 @@ export default function ResourceListing() {
     function storeResourceId(id, name, action) {
         setCopyType("FOLDER");
         setTempIdStore([id, name, action]);
-        showResult(200, "✅ Folder Copied Successfully", true);
+        showResult(200, "Folder Copied Successfully", true);
     }
 
     function pasteResource(parentId) {
         if (tempIdStore[0] == null) {
-            showResult(400, "❌ No Resource Copied", true);
+            showResult(400, "No Resource Copied", true);
         }
         else if (tempIdStore[2] == "MOVE") {
             if (moveFolder(parentId, tempIdStore[0], tempIdStore[1])) {
-                showResult(200, "✅ Resource Moved Successfully", true);
+                showResult(200, "Resource Moved Successfully", true);
             } else {
-                showResult(400, "❌ Failed to Move Folder", true);
+                showResult(400, "Failed to Move Folder", true);
             }
         } else if (tempIdStore[2] == "COPY") {
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
-                showResult(200, "✅ Resource Pasted Successfully", true);
+                showResult(200, "Resource Pasted Successfully", true);
                 // openFolder()
             } else {
-                showResult(400, "❌ Failed to Move Folder", true);
+                showResult(400, "Failed to Move Folder", true);
             }
         }
         setTempIdStore([]);
@@ -96,10 +96,10 @@ export default function ResourceListing() {
 
         if (data.StatusCode == 200) {
             setRenameFolderInput(false)
-            showResult(data.StatusCode, "✅ File renamed successfully", true)
+            showResult(data.StatusCode, "File renamed successfully", true)
         }
         if (data.StatusCode >= 400) {
-            showResult(data.StatusCode, "❌ File renamed Failed", true)
+            showResult(data.StatusCode, "File renamed Failed", true)
         }
     }
     async function copyFolder(parentId, resourceId, resourceName) {
@@ -156,10 +156,10 @@ export default function ResourceListing() {
             let data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "✅ File trashed successfully", true)
+                showResult(data.StatusCode, "File trashed successfully", true)
             }
             if (data.StatusCode >= 400) {
-                showResult(data.StatusCode, "❌ File trashing Failed", true)
+                showResult(data.StatusCode, "File trashing Failed", true)
             }
 
         } else {
@@ -178,10 +178,10 @@ export default function ResourceListing() {
             const data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "✅ Folder trashed successfully", true)
+                showResult(data.StatusCode, "Folder trashed successfully", true)
             }
             if (data.StatusCode >= 400) {
-                showResult(data.StatusCode, "❌ Folder trashing Failed", true)
+                showResult(data.StatusCode, "Folder trashing Failed", true)
             }
 
         }
@@ -196,7 +196,7 @@ export default function ResourceListing() {
             });
 
             if (!response.ok) {
-                showResult(response.status, "❌ File download failed", true);
+                showResult(response.status, "File download failed", true);
                 return;
             }
 
@@ -209,11 +209,11 @@ export default function ResourceListing() {
             a.click();
             a.remove();
             window.URL.revokeObjectURL(url);
-            showResult(200, "✅ File downloaded successfully", true);
+            showResult(200, "File downloaded successfully", true);
 
         } catch (err) {
             console.error("Download error:", err);
-            showResult(500, "❌ File download failed", true);
+            showResult(500, "File download failed", true);
         }
     }
 
@@ -271,18 +271,18 @@ export default function ResourceListing() {
         });
         const data = await response.json();
         if (data.StatusCode === 200) {
-            showResult(data.StatusCode, "✅ Folder renamed successfully", true);
+            showResult(data.StatusCode, "Folder renamed successfully", true);
             setRenameFolderInput(false);
             fetchFolder(currentFolderId.id);
         } else {
-            showResult(data.StatusCode, "❌ Folder rename failed", true);
+            showResult(data.StatusCode, "Folder rename failed", true);
         }
     }
 
     function storedFileDetails(filename, oldFolder, fileId) {
 
         setActionType("COPY");
-        showResult(200, "✅ File copied successfully", true)
+        showResult(200, "File copied successfully", true)
         setCopyFileName(filename);
         setOldFolderId(oldFolder);
         setCopyType("FILE");
@@ -292,7 +292,7 @@ export default function ResourceListing() {
     function movestoredFileDetails(filename, oldFolder) {
 
         setActionType("MOVE");
-        showResult(200, "✅ File details copied successfully", true)
+        showResult(200, "File ready to move", true)
         setCopyFileName(filename);
         setOldFolderId(oldFolder);
         setCopyType("FILE");
@@ -311,10 +311,10 @@ export default function ResourceListing() {
         const data = await response.json();
 
         if (data.StatusCode == 200) {
-            showResult(data.StatusCode, "✅ File moved successfully", true)
+            showResult(data.StatusCode, "File moved successfully", true)
         }
         if (data.StatusCode >= 400) {
-            showResult(data.StatusCode, "❌ File moved Failed", true)
+            showResult(data.StatusCode, "File moved Failed", true)
         }
     }
 
@@ -333,10 +333,10 @@ export default function ResourceListing() {
         const data = await response.json();
 
         if (data.StatusCode == 200) {
-            showResult(data.StatusCode, "✅ File paste successfully", true)
+            showResult(data.StatusCode, "File paste successfully", true)
         }
         if (data.StatusCode >= 400) {
-            showResult(data.StatusCode, "❌ File paste Failed", true)
+            showResult(data.StatusCode, "File paste Failed", true)
         }
 
     }
@@ -507,4 +507,4 @@ export default function ResourceListing() {
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );
-}809097886787698688
+}

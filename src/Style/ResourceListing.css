@@ -72,10 +72,13 @@
     cursor: pointer;
 }
 .link{
+    color: var(--blue);
     transition: .2s;
 }
 
 .breadCrumbs .link:hover {
+    text-underline-offset: 2px;
+    text-decoration: 1px underline var(--blue);
     text-shadow: 0 0 0.5px currentColor;
 }
 

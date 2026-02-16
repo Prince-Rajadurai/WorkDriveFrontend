@@ -21,9 +21,9 @@ function SignIn() {
             });
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/");
+                navigate("/smartdrive/");
             }else{
-                navigate("/home");
+                navigate("/smartdrive/home");
             }
 
         } catch (err) {
@@ -67,7 +67,7 @@ function SignIn() {
             });
             const data = await response.json();
             if (data.StatusCode === 200) {
-                navigate("/home");
+                navigate("/smartdrive/home");
             } else {
                 setError(data.message);
             }
@@ -77,16 +77,17 @@ function SignIn() {
         }
     }
 
-    return <div className="layout">
+    return (
+    <div className="layout">
         <div className="leftSide">
             <div className="contentWrapper">
                 <div className="content">
-                    <h1>Seamless File<br />Management<br />for Modern Teams</h1>
+                    <h1>Welcome Back<br />to Your<br />Workspace</h1>
                     <br />
-                    <p>Organize, share, and collaborate on documents effortlessly.<br />Access your files from anywhere, anytime, securely.</p>
+                    <p>Everything is exactly where you left it. Sign in to resume your projects and collaborate with your team in real-time.</p>
                 </div>
                 <div className="image">
-                    <img src="../src/Components/img-removebg-preview.png" alt="Image" />
+                    <img src="../src/assets/signin.png" alt="Image" />
                 </div>
             </div>
         </div>
@@ -102,11 +103,12 @@ function SignIn() {
                     {error && <p className="error">{error}</p>}
                     <Button type="submit" className="signInBtn">Sign In</Button>
                     {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
-                    <p className="signUpParagraph">Don't have an account? <span><Link to="/signup" className="signUpLink">Sign Up</Link></span></p>
+                    <p className="signUpParagraph">Don't have an account? <span><Link to="/smartdrive/signup" className="signUpLink">Sign Up</Link></span></p>
                 </form>
             </div>
         </div>
     </div>
+    )
 }
 
 export default SignIn;

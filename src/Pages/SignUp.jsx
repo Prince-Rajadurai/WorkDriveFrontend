@@ -36,9 +36,9 @@ export default function SignUpPage() {
             });
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/signup");
+                navigate("/smartdrive/signup");
             }else{
-                navigate("/home");
+                navigate("/smartdrive/home");
             }
 
         } catch (err) {
@@ -117,7 +117,7 @@ export default function SignUpPage() {
             }
 
             // navigating to home
-            navigate('/home');
+            navigate('/smartdrive/home');
 
         } catch (err) {
             setFormError({ field: "", message: "Server not reachable" });
@@ -133,7 +133,7 @@ export default function SignUpPage() {
                         <p>Step into a unified workspace where files aren't just stored—they're put to work. Join thousands of teams using our secure cloud to break down silos, streamline collaboration, and keep every project moving forward. Start your journey toward a more organized, productive, and connected future today.</p>
                     </div>
                     <div className="imageArea">
-                        <img src="../src/Components/signUpImage-removebg-preview.png" alt="Image" />
+                        <img src="../src/assets/signUp.png" alt="Image" />
                     </div>
                 </div>
             </div>
@@ -210,7 +210,7 @@ export default function SignUpPage() {
                             Sign Up
                         </Button>
 
-                        <p id='signInPage'>Already have an account? <Link to="/">Sign In</Link> </p>
+                        <p id='signInPage'>Already have an account? <Link to="/smartdrive/">Sign In</Link> </p>
                     </form>
                 </div>
             </div>

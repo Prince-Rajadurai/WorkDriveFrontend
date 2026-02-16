@@ -380,6 +380,7 @@ export default function ResourceListing() {
     }
 
     const handleClick = (e, id) => {
+        
         e.stopPropagation();
         setCurrentMenuId(prev => (prev === id ? null : id));
     }
@@ -444,7 +445,7 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
-                            <span key={folder.id}>
+                            <span key={folder.id} style={{color:'black'}}>
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
@@ -486,7 +487,6 @@ export default function ResourceListing() {
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{color:"#de1010db"}}><FaRegTrashAlt style={{color:"#de1010db"}}/>Trash</li>
-
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
 
                             </ul>)}

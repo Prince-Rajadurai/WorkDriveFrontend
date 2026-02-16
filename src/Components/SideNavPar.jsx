@@ -5,13 +5,13 @@ import { MdOutlineDashboard } from "react-icons/md";
 import '../Style/SideNavPar.css';
 import DashBoard from './DashBoard';
 
-export default function SideNavPar({ pageLink }) {
+export default function SideNavPar({ pageLink , page }) {
 
     return (
         <>
             <div className="side-nav-parent">
 
-                <div
+                <div  style={page=="Dash Board" ? {backgroundColor:"rgb(78, 78, 78)"}:{}}
                     className="dash-board"
                     onClick={() => {pageLink("Dash Board")}}
                 >
@@ -19,7 +19,7 @@ export default function SideNavPar({ pageLink }) {
                     <p>Dashboard</p>
                 </div>
 
-                <div
+                <div style={page=="My Folder" ? {backgroundColor:"rgb(78, 78, 78)"}:{}}
                     className="my-folder"
                     onClick={() => { pageLink("My Folders")  }}
                 >

@@ -77,16 +77,17 @@ function SignIn() {
         }
     }
 
-    return <div className="layout">
+    return (
+    <div className="layout">
         <div className="leftSide">
             <div className="contentWrapper">
                 <div className="content">
-                    <h1>Seamless File<br />Management<br />for Modern Teams</h1>
+                    <h1>Welcome Back<br />to Your<br />Workspace</h1>
                     <br />
-                    <p>Organize, share, and collaborate on documents effortlessly.<br />Access your files from anywhere, anytime, securely.</p>
+                    <p>Everything is exactly where you left it. Sign in to resume your projects and collaborate with your team in real-time.</p>
                 </div>
                 <div className="image">
-                    <img src="../src/Components/img-removebg-preview.png" alt="Image" />
+                    <img src="../src/assets/signin.png" alt="Image" />
                 </div>
             </div>
         </div>
@@ -107,6 +108,7 @@ function SignIn() {
             </div>
         </div>
     </div>
+    )
 }
 
 export default SignIn;

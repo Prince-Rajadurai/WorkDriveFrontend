@@ -443,7 +443,7 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
-                            <span key={folder.id}>
+                            <span key={folder.id} style={{color:'black'}}>
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}

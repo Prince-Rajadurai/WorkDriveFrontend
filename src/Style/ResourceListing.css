@@ -73,7 +73,7 @@
 }
 
 .breadCrumbs .link:hover {
-    text-shadow: 0 0 0.5px currentColor;
+    text-shadow: 0 0 0.5px var(--blue);
 }
 
 .heading {

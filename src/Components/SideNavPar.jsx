@@ -15,7 +15,7 @@ export default function SideNavPar({pageLink}){
                 
                 <div 
                     className="my-folder" 
-                    onClick={() => setShowDashboard(false)}
+                    onClick={() => {setShowDashboard(false) , pageLink("Workspace")}}
                 >
                     <Icon path={mdiFolderOutline} size={1} />
                     <p>My Folders</p>

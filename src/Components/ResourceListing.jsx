@@ -1,11 +1,6 @@
 import { mdiFileOutline, mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useRef, useState } from "react";
-import { FaRegTrashAlt } from "react-icons/fa";
-import { FaRegPaste } from "react-icons/fa6";
-import { LuTableProperties } from "react-icons/lu";
-import { MdDriveFileMoveOutline, MdOutlineDriveFileRenameOutline, MdOutlineFileDownload } from "react-icons/md";
-import { RiFileCopyLine } from "react-icons/ri";
 import '../Style/ResourceListing.css';
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";

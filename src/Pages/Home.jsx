@@ -8,10 +8,11 @@ import FileHeader from "../Components/FileHeader";
 import ResourceListing from "../Components/ResourceListing";
 import { FolderContext } from "../utils/FolderContext";
 import AccountsPage from "../Components/Accounts";
+import DashBoard from "../Components/DashBoard";
 
 export default function Home() {
 
-    const [page,setPage] = useState("Workspace");
+    const [page,setPage] = useState("My Folders");
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -42,8 +43,9 @@ export default function Home() {
                     <Header pageLink={setPage} page={page}></Header>
                     <div className="container">
                         <SideNavPar pageLink={setPage}></SideNavPar>
-                        {page === "Workspace" && <ResourceListing/>}
+                        {(page == "My Folders") && <ResourceListing/>}
                         {page === "Accounts" && <AccountsPage/>}
+                        {page === "Dash Board" && <DashBoard></DashBoard>}
                     </div>
                 </div>
             </FolderContext>

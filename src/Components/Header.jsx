@@ -1,7 +1,9 @@
-import { mdiAccount, mdiAccountOutline, mdiAccountSettings, mdiAccountSettingsOutline, mdiFolderOutline } from '@mdi/js';
+import { mdiAccountOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useEffect, useState } from 'react';
 import '../Style/Header.css';
+import { MdOutlineDashboard } from "react-icons/md";
+
 
 export default function Header({pageLink, page}){
 
@@ -31,8 +33,9 @@ export default function Header({pageLink, page}){
                         <h3>SmartDrive</h3>
                     </div>
                     <div className="visiting-option">
-                        {page == "Workspace" && <Icon path={mdiFolderOutline} size={1} />}
+                        {(page == "My Folders") && <Icon path={mdiFolderOutline} size={1} />}
                         {page == "Accounts" && <Icon path={mdiAccountOutline} size={1} />}
+                        {page == "Dash Board" && <MdOutlineDashboard size={22}/>}
                         <p>{page}</p>
                     </div>
                     <div className="userName">

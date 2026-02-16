@@ -1,13 +1,11 @@
 import { mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
-import { MdDashboard } from "react-icons/md";
-import '../Style/SideNavPar.css';
 import { useState } from 'react';
+import { MdOutlineDashboard } from "react-icons/md";
+import '../Style/SideNavPar.css';
 import DashBoard from './DashBoard';
 
 export default function SideNavPar({ pageLink }) {
-
-    const [showDashBoard, setShowDashboard] = useState(true);
 
     return (
         <>
@@ -15,15 +13,15 @@ export default function SideNavPar({ pageLink }) {
 
                 <div
                     className="dash-board"
-                    onClick={() => setShowDashboard(true)}
+                    onClick={() => {pageLink("Dash Board")}}
                 >
-                    <MdDashboard size={22} />
+                    <MdOutlineDashboard size={22} />
                     <p>Dashboard</p>
                 </div>
 
                 <div
                     className="my-folder"
-                    onClick={() => { setShowDashboard(false), pageLink("Workspace") }}
+                    onClick={() => { pageLink("My Folders")  }}
                 >
                     <Icon path={mdiFolderOutline} size={1} />
                     <p>My Folders</p>
@@ -33,7 +31,6 @@ export default function SideNavPar({ pageLink }) {
 
             </div>
 
-            {showDashBoard && <DashBoard />}
         </>
     );
 }

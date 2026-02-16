@@ -2,6 +2,7 @@ import "../Style/Accounts.css";
 import { CiEdit } from "react-icons/ci";
 import moment from "moment-timezone";
 import { useState, useEffect } from "react";
+import Popup from "./Popup";
 
 export default function AccountsPage() {
 
@@ -16,6 +17,10 @@ export default function AccountsPage() {
 
     const [editMode, setEditMode] = useState(false);
     const [formError, setFormError] = useState({ field: "", message: "" });
+
+    const [code, setCode] = useState(0);
+    const [show, setShow] = useState(false);
+    const [msg, setMsg] = useState("");
 
     useEffect(() => { getDetails(); }, []);
 
@@ -119,10 +124,23 @@ export default function AccountsPage() {
         });
 
         const data = await response.json();
-        console.log(data.message);
+        if (data.StatusCode == 200) {
+            
+            showResult(data.StatusCode, "File renamed successfully", true)
+        }
+        if (data.StatusCode >= 400) {
+            showResult(data.StatusCode, "File renamed Failed", true)
+        }
 
         setEditMode(false);
     };
+
+    function showResult(Code, msg, chk) {
+        setCode(Code);
+        setMsg(msg);
+        setShow(chk);
+        setTimeout(() => { setShow(false) }, 2000)
+    }
 
     return (
         <div className="accountsPage">
@@ -180,6 +198,7 @@ export default function AccountsPage() {
 
                 </form>
             </div>
+            <Popup result={code} msg={msg} show={show}></Popup>
         </div>
     );
 }

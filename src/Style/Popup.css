@@ -28,14 +28,14 @@
 }
 
 #show{
-    top: -3rem;
+    top: -2rem;
 }
 
 img{
     width: 30px;
 }
 .failed-msg{
-    width: 400px;
+    width: 360px;
     height: 70px;
     display: flex;
     align-items: center;

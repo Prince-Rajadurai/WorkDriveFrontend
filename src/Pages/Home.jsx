@@ -42,7 +42,7 @@ export default function Home() {
                 <div className="main">
                     <Header pageLink={setPage} page={page}></Header>
                     <div className="container">
-                        <SideNavPar pageLink={setPage}></SideNavPar>
+                        <SideNavPar pageLink={setPage} page={page}></SideNavPar>
                         {page == "My Folders" && <ResourceListing/>}
                         {page === "Accounts" && <AccountsPage/>}
                         {page === "Dash Board" && <DashBoard></DashBoard>}

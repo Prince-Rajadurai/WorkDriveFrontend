@@ -45,7 +45,7 @@ export default function Home() {
                         <SideNavPar pageLink={setPage} page={page}></SideNavPar>
                         {page == "My Folders" && <ResourceListing/>}
                         {page === "Accounts" && <AccountsPage/>}
-                        {page === "Dash Board" && <DashBoard></DashBoard>}
+                        {page === "Dashboard" && <DashBoard></DashBoard>}
                     </div>
                 </div>
             </FolderContext>

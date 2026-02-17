@@ -1,6 +1,12 @@
 import { mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useRef, useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegPaste } from "react-icons/fa6";
+import { GoVersions } from "react-icons/go";
+import { LuTableProperties } from "react-icons/lu";
+import { MdDriveFileMoveOutline, MdOutlineDriveFileRenameOutline, MdOutlineFileDownload } from "react-icons/md";
+import { RiFileCopyLine } from "react-icons/ri";
 import '../Style/ResourceListing.css';
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
@@ -9,16 +15,6 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import UpdateFile from './UpdateFile';
-import Button from './Button';
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdDriveFileMoveOutline } from "react-icons/md";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { GoVersions } from "react-icons/go";
-import { LuTableProperties } from "react-icons/lu";
-import { RiFileCopyLine } from "react-icons/ri";
-import { FaRegPaste } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
 import Version from './Version';
 import FileIcons from './FileIcons';
 
@@ -48,8 +44,11 @@ export default function ResourceListing() {
 
     const [showTree, setShowTree] = useState(false);
 
-    const [cursor, setCursor] = useState(0);
-    const [more, setMore] = useState(true);
+    const [folderCursor, setFolderCursor] = useState(0);
+    const [fileCursor, setFileCursor] = useState(0);
+    const [hasMore, setHasMore] = useState(true);
+    // const [more, setMore] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const scrollRef = useRef(null);
 
     const [position, setPosition] = useState(null);
@@ -66,19 +65,27 @@ export default function ResourceListing() {
         showResult(200, "Folder Copied Successfully", true);
     }
 
-    function pasteResource(parentId) {
+    async function pasteResource(parentId) {
         if (tempIdStore[0] == null) {
             showResult(400, "No Resource Copied", true);
         }
         else if (tempIdStore[2] == "MOVE") {
-            if (moveFolder(parentId, tempIdStore[0], tempIdStore[1])) {
-                showResult(200, "Resource Moved Successfully", true);
+            const success = await moveFolder(parentId, tempIdStore[0], tempIdStore[1]);
+            if (success) {
+                showResult(200, "Resource Moved Successfully", true, true);
             } else {
                 showResult(400, "Failed to Move Folder", true);
             }
         } else if (tempIdStore[2] == "COPY") {
+<<<<<<< HEAD
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "Resource Pasted Successfully", true);
+=======
+            const success = await copyFolder(parentId, tempIdStore[0], tempIdStore[1]);
+            if (success) {
+                showResult(200, "Resource Pasted Successfully", true, true);
+                // openFolder()
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
             } else {
                 showResult(400, "Failed to Move Folder", true);
             }
@@ -98,7 +105,7 @@ export default function ResourceListing() {
 
         if (data.StatusCode == 200) {
             setRenameFolderInput(false)
-            showResult(data.StatusCode, "File renamed successfully", true)
+            showResult(data.StatusCode, "File renamed successfully", true, true)
         }
         if (data.StatusCode >= 400) {
             showResult(data.StatusCode, "File renamed Failed", true)
@@ -120,6 +127,7 @@ export default function ResourceListing() {
         });
 
         const data = await response.json();
+        return data.StatusCode === 200;
     }
 
     async function moveFolder(parentId, resourceId, resourceName) {
@@ -161,7 +169,7 @@ export default function ResourceListing() {
             let data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "File trashed successfully", true)
+                showResult(data.StatusCode, "File trashed successfully", true, true)
             }
             if (data.StatusCode >= 400) {
                 showResult(data.StatusCode, "File trashing Failed", true)
@@ -183,7 +191,7 @@ export default function ResourceListing() {
             const data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "Folder trashed successfully", true)
+                showResult(data.StatusCode, "Folder trashed successfully", true, true)
             }
             if (data.StatusCode >= 400) {
                 showResult(data.StatusCode, "Folder trashing Failed", true)
@@ -224,11 +232,14 @@ export default function ResourceListing() {
 
 
 
-    function showResult(Code, msg, chk) {
-        setCursor(0);
-        setMore(true);
-        setResources([]);
-        fetchFolder(currentFolderId.id, false);
+    function showResult(Code, msg, chk, refresh = false) {
+        if (refresh) {
+            setFolderCursor(0);
+            setFileCursor(0);
+            setHasMore(true);
+            setResources([]);
+            fetchFolder(currentFolderId.id, false);
+        }
         setCode(Code);
         setMsg(msg);
         setShow(chk);
@@ -236,17 +247,22 @@ export default function ResourceListing() {
     }
 
     useEffect(() => {
-        setCursor(0);
+        setFolderCursor(0);
+        setFileCursor(0);
+        setHasMore(true);
         setResources([]);
         fetchFolder(currentFolderId.id, false);
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId, load = false) {
-        if (!more && load) return;
+        if (isLoading || (load && folderCursor === 0 && fileCursor === 0)) return;
+
+        setIsLoading(true);
 
         try {
-            const currentCursor = load ? cursor : 0;
-            const resourceResponse = await getResources(parentId, currentCursor, 21);
+            const cursor1 = load ? folderCursor : 0;
+            const cursor2 = load ? fileCursor : 0;
+            const resourceResponse = await getResources(parentId, cursor1, cursor2, 18);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resourcesArr = rawResources.map(resource => ({
                 id: resource.id,
@@ -259,12 +275,30 @@ export default function ResourceListing() {
                 folders: resource.folders
             }));
             setCurrentFolderId({ id: resourceResponse.folderId });
-            setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
-            setCursor(resourceResponse.nextCursor || 0);
-            setMore((resourceResponse.nextCursor || 0) !== 0);
+            // setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
+            setResources(prev => {
+                if (!load) return resourcesArr;
+
+                const map = new Map(prev.map(r => [r.id, r]));
+                resourcesArr.forEach(r => map.set(r.id, r));
+                return Array.from(map.values());
+            });
+
+            const cursors = resourceResponse.cursors || {};
+            // setCursor(resourceResponse.nextCursor || 0);
+            if (typeof cursors.folderCursor === "number") {
+                setFolderCursor(cursors.folderCursor);
+            }
+            if (typeof cursors.fileCursor === "number") {
+                setFileCursor(cursors.fileCursor);
+            }
+            setHasMore(!!cursors.hasMore);
+            // setMore((resourceResponse.nextCursor || 0) !== 0);
             console.log(resources);
         } catch (err) {
             console.log("Error fetching resources ", err);
+        } finally {
+            setIsLoading(false);
         }
     }
 
@@ -276,9 +310,9 @@ export default function ResourceListing() {
         });
         const data = await response.json();
         if (data.StatusCode === 200) {
-            showResult(data.StatusCode, "Folder renamed successfully", true);
+            showResult(data.StatusCode, "Folder renamed successfully", true, true);
             setRenameFolderInput(false);
-            fetchFolder(currentFolderId.id);
+            // fetchFolder(currentFolderId.id);
         } else {
             showResult(data.StatusCode, "Folder rename failed", true);
         }
@@ -316,7 +350,7 @@ export default function ResourceListing() {
         const data = await response.json();
 
         if (data.StatusCode == 200) {
-            showResult(data.StatusCode, "File moved successfully", true)
+            showResult(data.StatusCode, "File moved successfully", true, true)
         }
         if (data.StatusCode >= 400) {
             showResult(data.StatusCode, "File moved Failed", true)
@@ -338,7 +372,7 @@ export default function ResourceListing() {
         const data = await response.json();
 
         if (data.StatusCode == 200) {
-            showResult(data.StatusCode, "File paste successfully", true)
+            showResult(data.StatusCode, "File paste successfully", true, true)
         }
         if (data.StatusCode >= 400) {
             showResult(data.StatusCode, "File paste Failed", true)
@@ -383,7 +417,11 @@ export default function ResourceListing() {
     }
 
     const handleClick = (e, id) => {
+<<<<<<< HEAD
         setPosition(null);
+=======
+
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
         e.stopPropagation();
         setCurrentMenuId(prev => (prev === id ? null : id));
     }
@@ -398,8 +436,13 @@ export default function ResourceListing() {
             e.preventDefault();
 
             setCurrentMenuId(null);
+<<<<<<< HEAD
 
             setPosition(prev => {
+=======
+            setPosition((prev) => {
+                if (prev) return null;
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                 return {
                     x: e.pageX,
                     y: e.pageY
@@ -414,12 +457,20 @@ export default function ResourceListing() {
 
     useEffect(() => {
         const handleScroll = () => {
+<<<<<<< HEAD
             if (scrollRef.current) {
                 const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
                 if (scrollHeight - scrollTop <= clientHeight) {
                     if (more) {
                         fetchFolder(currentFolderId.id, true);
                     }
+=======
+            if (!scrollRef.current || !hasMore) return;
+            const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
+            if (scrollHeight - scrollTop <= clientHeight + 1) {
+                if (!isLoading && hasMore) {
+                    fetchFolder(currentFolderId.id, true);
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                 }
             }
         };
@@ -432,7 +483,7 @@ export default function ResourceListing() {
                 container.removeEventListener("scroll", handleScroll);
             }
         };
-    }, [more, currentFolderId.id, cursor]);
+    }, [hasMore, currentFolderId.id, folderCursor, fileCursor]);
 
     return (
         <div className="fileResource">
@@ -451,7 +502,11 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
+<<<<<<< HEAD
                             <span key={folder.id} style={{ color: 'black' }}>
+=======
+                            <span key={folder.id} style={{ color: "black" }}>
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
@@ -467,7 +522,11 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
+<<<<<<< HEAD
             <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onContextMenu={handleRightClick} onClick={()=>setPosition(null)}>
+=======
+            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onClick={handleLeftClick}>
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -487,18 +546,29 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}><MdOutlineDriveFileRenameOutline />Rename</li>
+<<<<<<< HEAD
                                 {resource.type == "FILE" ? <li onClick={(e) => { showFileVersion(resource.id), setCurrentMenuId(null) }}><GoVersions />Properties</li> : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name, currentFolderId.id), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17} />Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{ color: "#de1010db" }}><FaRegTrashAlt style={{ color: "#de1010db" }} />Trash</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17} />Download</li>)}
+=======
+                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
+                                {resource.type == "FILE" && <li onClick={(e) =>{showFileVersion(resource.id) ,setCurrentMenuId(null)}}><GoVersions />Version</li>}
+                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17}/>Move</li>
+                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
+                                {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
+                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{color : '#D32F2F'}}><FaRegTrashAlt />Trash</li>
+
+                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
+>>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
 
                             </ul>)}
                         </div>
                     </div>
                 ))}
-                {more && resources.length > 0 && (
+                {isLoading && resources.length > 0 && (
                     <div className='loadingContainer'>Loading...</div>
                 )}
                 {position && <button className="paste-button" style={{

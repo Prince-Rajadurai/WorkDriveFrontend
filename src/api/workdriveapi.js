@@ -7,8 +7,9 @@ async function get(url) {
     });
     return response.json();
 }
-export const getResources = (parentId, cursor = 0, limit = 20) => {
-    let query = `cursor=${cursor}&limit=${limit}`;
+export const getResources = (parentId, folderCursor = 0, fileCursor = 0, limit = 20) => {
+    console.log(folderCursor);
+    let query = `folderCursor=${folderCursor}&fileCursor=${fileCursor}&limit=${limit}`;
     if (parentId !== null && parentId !== undefined) {
         query = `parentId=${parentId}&` + query;
     }

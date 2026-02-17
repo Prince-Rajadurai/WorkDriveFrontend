@@ -19,10 +19,10 @@ export default function Version({ size, storage, versions = [], onclose }) {
 
       <div className="version-summary">
         <div>
-          <span>Size:</span> {size}
+          <span>Size:</span> {storage}
         </div>
         <div>
-          <span>Storage Used:</span> {storage}
+          <span>Storage Used:</span> {size}
         </div>
       </div>
 
@@ -40,7 +40,7 @@ export default function Version({ size, storage, versions = [], onclose }) {
             <tr key={index}>
               <td>#{version.version}</td>
               <td>{version.time}</td>
-              <td>{size}</td>
+              <td>{version.size}</td>
             </tr>
           ))}
         </tbody>

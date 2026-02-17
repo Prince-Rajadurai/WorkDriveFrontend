@@ -56,8 +56,8 @@ export default function ResourceListing() {
     // const [versions , setVersions] = useState([]);
     // const [fileSize , setFileSize] = useState("");
     // const [storageSize , setStorageSize] = useState("");
-    const [getData , setData] = useState({});
-    const [showVersion , setShowVersion] = useState(false);
+    const [getData, setData] = useState({});
+    const [showVersion, setShowVersion] = useState(false);
 
 
     function storeResourceId(id, name, action) {
@@ -79,7 +79,6 @@ export default function ResourceListing() {
         } else if (tempIdStore[2] == "COPY") {
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "Resource Pasted Successfully", true);
-                // openFolder()
             } else {
                 showResult(400, "Failed to Move Folder", true);
             }
@@ -140,6 +139,9 @@ export default function ResourceListing() {
         });
 
         const data = await response.json();
+
+
+
         if (data.StatusCode == 200) {
             return true;
         } else {
@@ -223,7 +225,6 @@ export default function ResourceListing() {
 
 
     function showResult(Code, msg, chk) {
-        console.log(children);
         setCursor(0);
         setMore(true);
         setResources([]);
@@ -254,8 +255,8 @@ export default function ResourceListing() {
                 created: resource.createdTime,
                 modified: resource.modifiedTime,
                 size: resource.size,
-                files : resource.files,
-                folders : resource.folders
+                files: resource.files,
+                folders: resource.folders
             }));
             setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
@@ -345,9 +346,9 @@ export default function ResourceListing() {
 
     }
 
-    async function showFileVersion(fileId){
+    async function showFileVersion(fileId) {
 
-        const response = await fetch("http://localhost:8080/WorkDrive/ShowFileVersions?fileId="+fileId ,{
+        const response = await fetch("http://localhost:8080/WorkDrive/ShowFileVersions?fileId=" + fileId, {
             method: "GET",
             credentials: "include"
         });
@@ -358,7 +359,7 @@ export default function ResourceListing() {
 
     }
 
-    function onClose(){
+    function onClose() {
         setShowVersion(false);
     }
 
@@ -382,7 +383,7 @@ export default function ResourceListing() {
     }
 
     const handleClick = (e, id) => {
-        
+        setPosition(null);
         e.stopPropagation();
         setCurrentMenuId(prev => (prev === id ? null : id));
     }
@@ -392,26 +393,29 @@ export default function ResourceListing() {
         setShowDetails(true);
     }
 
-    function handleLeftClick(e) {
+    function handleRightClick(e) {
+        if (e.target === e.currentTarget) {
+            e.preventDefault();
 
-        if (e.target == e.currentTarget) {
             setCurrentMenuId(null);
-            setPosition((prev) => {
-                if(prev) return null;
+
+            setPosition(prev => {
                 return {
                     x: e.pageX,
-                    y: e.pageY,
+                    y: e.pageY
                 }
-            });
+            }
+            );
         } else {
             setPosition(null);
         }
-
     }
+
+
     useEffect(() => {
         const handleScroll = () => {
             if (scrollRef.current) {
-                const {scrollTop, scrollHeight, clientHeight} = scrollRef.current;
+                const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
                 if (scrollHeight - scrollTop <= clientHeight) {
                     if (more) {
                         fetchFolder(currentFolderId.id, true);
@@ -447,7 +451,7 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
-                            <span key={folder.id} style={{color:'black'}}>
+                            <span key={folder.id} style={{ color: 'black' }}>
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
@@ -463,7 +467,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto'}}  onClick={handleLeftClick}>
+            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onContextMenu={handleRightClick} onClick={()=>setPosition(null)}>
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -472,7 +476,7 @@ export default function ResourceListing() {
                 {resources.map(resource => (
                     <div className="file grid-row" key={resource.id} onClick={() => openFolder(resource)}>
                         <div className="name">
-                        {resource.type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} color={"black"} /> : <FileIcons>{resource.name}</FileIcons>}
+                            {resource.type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} color={"black"} /> : <FileIcons>{resource.name}</FileIcons>}
                             <span className="fileName">{resource.name}</span>
                         </div>
                         <span className="fileCreatedAt">{resource.created}</span>
@@ -483,13 +487,12 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}><MdOutlineDriveFileRenameOutline />Rename</li>
-                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
-                                {resource.type == "FILE" && <li onClick={(e) =>{showFileVersion(resource.id) ,setCurrentMenuId(null)}}><GoVersions />Properties</li>}
-                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17}/>Move</li>
-                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
-                                {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
-                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{color:"#de1010db"}}><FaRegTrashAlt style={{color:"#de1010db"}}/>Trash</li>
-                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
+                                {resource.type == "FILE" ? <li onClick={(e) => { showFileVersion(resource.id), setCurrentMenuId(null) }}><GoVersions />Properties</li> : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
+                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name, currentFolderId.id), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17} />Move</li>
+                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
+                                {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
+                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{ color: "#de1010db" }}><FaRegTrashAlt style={{ color: "#de1010db" }} />Trash</li>
+                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17} />Download</li>)}
 
                             </ul>)}
                         </div>
@@ -507,7 +510,7 @@ export default function ResourceListing() {
             </div>
             {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />}
             <Popup result={code} msg={msg} show={show}></Popup>
-            {showVersion && <Version storage = {getData.storage} size = {getData.size} versions = {getData.versions} onclose={onClose}></Version>}
+            {showVersion && <Version storage={getData.storage} size={getData.size} versions={getData.versions} onclose={onClose}></Version>}
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );

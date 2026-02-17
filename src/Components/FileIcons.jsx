@@ -1,8 +1,15 @@
-import Icon from '@mdi/react';
+import { Icon } from '@fluentui/react/lib/Icon';
+import {
+  getFileTypeIconProps,
+  initializeFileTypeIcons
+} from '@fluentui/react-file-type-icons';
 
-import {mdiFileOutline} from '@mdi/js'; 
+initializeFileTypeIcons();
 
-export default function FileIcons({children}){
+export default function FileIcons({children}) {
 
-    return <Icon path={mdiFileOutline} size={1} color={"black"}/>;
+    let arr=children.split(".");
+  return (
+    <Icon {...getFileTypeIconProps({ extension: arr[arr.length-1], size: 32 })} />
+  );
 }

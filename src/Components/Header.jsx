@@ -35,7 +35,7 @@ export default function Header({pageLink, page}){
                     <div className="visiting-option">
                         {(page == "My Folders") && <Icon path={mdiFolderOutline} size={1} />}
                         {page == "Accounts" && <Icon path={mdiAccountOutline} size={1} />}
-                        {page == "Dash Board" && <MdOutlineDashboard size={22}/>}
+                        {page == "Dashboard" && <MdOutlineDashboard size={22}/>}
                         <p>{page}</p>
                     </div>
                     <div className="userName">

@@ -47,7 +47,7 @@ export default function DashBoard() {
                             <GrStorage color='#3B82F6' size={25} />
                             <h4>Original Size</h4>
                         </div>
-                        <h1>{data.total_size}</h1>
+                        <h1>{data.compress_size}</h1>
                     </div>
 
                     <div className="total-compress-container" id='dashboard-container'>
@@ -55,7 +55,7 @@ export default function DashBoard() {
                             <MdCompress color='#10B981' size={25} />
                             <h4>Compressed Size</h4>
                         </div>
-                        <h1>{data.compress_size}</h1>
+                        <h1>{data.total_size}</h1>
                     </div>
 
                     <div className="total-files-container" id='dashboard-container'>
@@ -85,11 +85,11 @@ export default function DashBoard() {
                     <div className="percentage-view">
                         <h2 className='heading2'>Optimization Performance</h2>
                         <div className="dash-board-compress-percentage">
-                            <p>Compressed Percentage</p>
+                            <p>Storage used Percentage</p>
                             <div className="c-percentage-view">
-                                <h2>{Math.floor(((data.storage_size/data.deduplicate_size)*100))}%</h2>
+                                <h2>{data.storage_size < data.deduplicate_size ? Math.floor(((data.storage_size/data.deduplicate_size)*100)) : Math.floor(((data.deduplicate_size/data.storage_size)*100))}%</h2>
                                 <div className="c-outer-percentage">
-                                    <div className="c-inner-percentage" style={{width:`${Math.floor(((data.storage_size/data.deduplicate_size)*100))}%`}}></div>
+                                    <div className="c-inner-percentage" style={{width:`${data.storage_size < data.deduplicate_size ? Math.floor(((data.storage_size/data.deduplicate_size)*100)) : Math.floor(((data.deduplicate_size/data.storage_size)*100))}}%`}}></div>
                                 </div>
                             </div>
                         </div>

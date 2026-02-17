@@ -13,7 +13,7 @@ export default function SideNavPar({ pageLink , page }) {
 
                 <div  style={page=="Dash Board" ? {backgroundColor:"rgb(78, 78, 78)"}:{}}
                     className="dash-board"
-                    onClick={() => {pageLink("Dash Board")}}
+                    onClick={() => {pageLink("Dashboard")}}
                 >
                     <MdOutlineDashboard size={22} />
                     <p>Dashboard</p>

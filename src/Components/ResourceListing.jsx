@@ -1,6 +1,12 @@
 import { mdiFileOutline, mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useRef, useState } from "react";
+import { FaRegTrashAlt } from "react-icons/fa";
+import { FaRegPaste } from "react-icons/fa6";
+import { GoVersions } from "react-icons/go";
+import { LuTableProperties } from "react-icons/lu";
+import { MdDriveFileMoveOutline, MdOutlineDriveFileRenameOutline, MdOutlineFileDownload } from "react-icons/md";
+import { RiFileCopyLine } from "react-icons/ri";
 import '../Style/ResourceListing.css';
 import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
@@ -9,16 +15,6 @@ import FileHeader from "./FileHeader";
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
-import UpdateFile from './UpdateFile';
-import Button from './Button';
-import { FaRegTrashAlt } from "react-icons/fa";
-import { MdDriveFileMoveOutline } from "react-icons/md";
-import { MdOutlineDriveFileRenameOutline } from "react-icons/md";
-import { GoVersions } from "react-icons/go";
-import { LuTableProperties } from "react-icons/lu";
-import { RiFileCopyLine } from "react-icons/ri";
-import { FaRegPaste } from "react-icons/fa6";
-import { MdOutlineFileDownload } from "react-icons/md";
 import Version from './Version';
 
 export default function ResourceListing() {
@@ -482,7 +478,7 @@ export default function ResourceListing() {
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}><MdOutlineDriveFileRenameOutline />Rename</li>
                                 {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
-                                {resource.type == "FILE" && <li onClick={(e) =>{showFileVersion(resource.id) ,setCurrentMenuId(null)}}><GoVersions />Properties</li>}
+                                {resource.type == "FILE" && <li onClick={(e) =>{showFileVersion(resource.id) ,setCurrentMenuId(null)}}><GoVersions />Version</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17}/>Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}

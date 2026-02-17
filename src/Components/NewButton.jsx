@@ -26,42 +26,81 @@ export default function NewButton({ fetchFolder }) {
 
 
 
-   async function uploadFile(file, change, folderId) {
+   async function uploadFile(files, change, folderId) {
 
+      for(let file of files){
+         let fName = file.name;
+         let fileSize = file.size;
+         let form = new FormData();
+         form.append("file", file);
+         form.append("filename", fName);
+         form.append("folderId", folderId);
+         form.append("replaceFile" , change);
+         form.append("size" , fileSize);
+         setCode(200);
+         setMsg(" ⬇ File Uploading ...");
+         setShow(true);
+         let res = await fetch("http://localhost:8080/WorkDrive/secure/UploadFileServlet", {
+            method: "POST",
+            credentials: "include",
+            body: form
+         })
+         let data = await res.json();
+   
+         if (data.StatusCode == 200) {
+            showResult(data.StatusCode, data.message, true);
+            setShowFolderinput(false);
+         }
+         if (data.StatusCode >= 400) {
+            if(data.message == "File already exists"){
+               setShow(false);
+               setFileObject(file);
+               setFolderId(folderId);
+               setShowUpdateFile(true);
+            }
+            else{
+               showResult(data.StatusCode, " File upload Failed", true)
+            }
+         }
+         setTimeout(()=>{},2000);
+      }
+
+   }
+
+   async function UploadFile(file, change, folderId){
       let fName = file.name;
-      let fileSize = file.size;
-      let form = new FormData();
-      form.append("file", file);
-      form.append("filename", fName);
-      form.append("folderId", folderId);
-      form.append("replaceFile" , change);
-      form.append("size" , fileSize);
-      setCode(200);
-      setMsg(" ⬇ File Uploading ...");
-      setShow(true);
-      let res = await fetch("http://localhost:8080/WorkDrive/secure/UploadFileServlet", {
-         method: "POST",
-         credentials: "include",
-         body: form
-      })
-      let data = await res.json();
-
-      if (data.StatusCode == 200) {
-         showResult(data.StatusCode, data.message, true);
-         setShowFolderinput(false);
-      }
-      if (data.StatusCode >= 400) {
-         if(data.message == "File already exists"){
-            setShow(false);
-            setFileObject(file);
-            setFolderId(folderId);
-            setShowUpdateFile(true);
+         let fileSize = file.size;
+         let form = new FormData();
+         form.append("file", file);
+         form.append("filename", fName);
+         form.append("folderId", folderId);
+         form.append("replaceFile" , change);
+         form.append("size" , fileSize);
+         setCode(200);
+         setMsg(" ⬇ File Uploading ...");
+         setShow(true);
+         let res = await fetch("http://localhost:8080/WorkDrive/secure/UploadFileServlet", {
+            method: "POST",
+            credentials: "include",
+            body: form
+         })
+         let data = await res.json();
+   
+         if (data.StatusCode == 200) {
+            showResult(data.StatusCode, data.message, true);
+            setShowFolderinput(false);
          }
-         else{
-            showResult(data.StatusCode, " File upload Failed", true)
+         if (data.StatusCode >= 400) {
+            if(data.message == "File already exists"){
+               setShow(false);
+               setFileObject(file);
+               setFolderId(folderId);
+               setShowUpdateFile(true);
+            }
+            else{
+               showResult(data.StatusCode, " File upload Failed", true)
+            }
          }
-      }
-
    }
 
    async function uploadFolder(files, change, parentId) {
@@ -131,7 +170,7 @@ export default function NewButton({ fetchFolder }) {
    function updateFile(){
 
       setShowUpdateFile(false);
-      uploadFile(fileObject , true , getFolderId);
+      UploadFile(fileObject , true , getFolderId);
       
    }
 

@@ -8,7 +8,7 @@ export default function UploadButton({onUpload}){
             <MdOutlineUploadFile size={25} />
                 Upload File
             </label>
-            <input type="file" id="upload_btn" onChange={(e) => {const file = e.target.files[0];onUpload(file);e.target.value = null;}} hidden/>
+            <input type="file" id="upload_btn" onChange={(e) => {const file = Array.from(e.target.files);onUpload(file);e.target.value = null;}} hidden multiple/>
         </>
     );
 }

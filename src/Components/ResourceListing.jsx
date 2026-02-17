@@ -417,11 +417,7 @@ export default function ResourceListing() {
     }
 
     const handleClick = (e, id) => {
-<<<<<<< HEAD
         setPosition(null);
-=======
-
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
         e.stopPropagation();
         setCurrentMenuId(prev => (prev === id ? null : id));
     }
@@ -436,13 +432,8 @@ export default function ResourceListing() {
             e.preventDefault();
 
             setCurrentMenuId(null);
-<<<<<<< HEAD
 
             setPosition(prev => {
-=======
-            setPosition((prev) => {
-                if (prev) return null;
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                 return {
                     x: e.pageX,
                     y: e.pageY
@@ -457,20 +448,11 @@ export default function ResourceListing() {
 
     useEffect(() => {
         const handleScroll = () => {
-<<<<<<< HEAD
-            if (scrollRef.current) {
-                const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-                if (scrollHeight - scrollTop <= clientHeight) {
-                    if (more) {
-                        fetchFolder(currentFolderId.id, true);
-                    }
-=======
             if (!scrollRef.current || !hasMore) return;
             const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
             if (scrollHeight - scrollTop <= clientHeight + 1) {
                 if (!isLoading && hasMore) {
                     fetchFolder(currentFolderId.id, true);
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                 }
             }
         };
@@ -502,11 +484,7 @@ export default function ResourceListing() {
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (
-<<<<<<< HEAD
-                            <span key={folder.id} style={{ color: 'black' }}>
-=======
                             <span key={folder.id} style={{ color: "black" }}>
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                                 {" > "} <span className="link" onClick={() => goToBreadCrumbLink(index)}>{folder.name}</span>
                             </span>
                         ))}
@@ -522,11 +500,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-<<<<<<< HEAD
             <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onContextMenu={handleRightClick} onClick={()=>setPosition(null)}>
-=======
-            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onClick={handleLeftClick}>
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available
@@ -546,23 +520,12 @@ export default function ResourceListing() {
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
 
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}><MdOutlineDriveFileRenameOutline />Rename</li>
-<<<<<<< HEAD
                                 {resource.type == "FILE" ? <li onClick={(e) => { showFileVersion(resource.id), setCurrentMenuId(null) }}><GoVersions />Properties</li> : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name, currentFolderId.id), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17} />Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
                                 <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{ color: "#de1010db" }}><FaRegTrashAlt style={{ color: "#de1010db" }} />Trash</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17} />Download</li>)}
-=======
-                                {resource.type == "FILE" ?"" :<li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
-                                {resource.type == "FILE" && <li onClick={(e) =>{showFileVersion(resource.id) ,setCurrentMenuId(null)}}><GoVersions />Version</li>}
-                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name , currentFolderId.id ), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17}/>Move</li>
-                                <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name , currentFolderId.id , resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
-                                {resource.type == "FILE" ?"" :<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
-                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{color : '#D32F2F'}}><FaRegTrashAlt />Trash</li>
-
-                                {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17}/>Download</li>)}
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
 
                             </ul>)}
                         </div>

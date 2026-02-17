@@ -121,6 +121,7 @@
 
 .file {
     height: 52px;
+    min-height: 52px;
     border-bottom: 1px solid var(--white2);
     cursor: pointer;
 }

@@ -1,4 +1,4 @@
-import { mdiFileOutline, mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
+import { mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useRef, useState } from "react";
 import '../Style/ResourceListing.css';
@@ -20,6 +20,7 @@ import { RiFileCopyLine } from "react-icons/ri";
 import { FaRegPaste } from "react-icons/fa6";
 import { MdOutlineFileDownload } from "react-icons/md";
 import Version from './Version';
+import FileIcons from './FileIcons';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -222,6 +223,7 @@ export default function ResourceListing() {
 
 
     function showResult(Code, msg, chk) {
+        console.log(children);
         setCursor(0);
         setMore(true);
         setResources([]);
@@ -470,7 +472,7 @@ export default function ResourceListing() {
                 {resources.map(resource => (
                     <div className="file grid-row" key={resource.id} onClick={() => openFolder(resource)}>
                         <div className="name">
-                            {resource.type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} /> : <Icon path={mdiFileOutline} size={1} />}
+                        {resource.type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} color={"black"} /> : <FileIcons>{resource.name}</FileIcons>}
                             <span className="fileName">{resource.name}</span>
                         </div>
                         <span className="fileCreatedAt">{resource.created}</span>

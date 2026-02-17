@@ -47,7 +47,6 @@ export default function ResourceListing() {
     const [folderCursor, setFolderCursor] = useState(0);
     const [fileCursor, setFileCursor] = useState(0);
     const [hasMore, setHasMore] = useState(true);
-    // const [more, setMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const scrollRef = useRef(null);
 
@@ -248,7 +247,8 @@ export default function ResourceListing() {
     }, [currentFolderId.id]);
 
     async function fetchFolder(parentId, load = false) {
-        if (isLoading || (load && folderCursor === 0 && fileCursor === 0)) return;
+        if (isLoading) return;
+        if (load && !hasMore) return;
 
         setIsLoading(true);
 
@@ -271,7 +271,6 @@ export default function ResourceListing() {
             // setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
             setResources(prev => {
                 if (!load) return resourcesArr;
-
                 const map = new Map(prev.map(r => [r.id, r]));
                 resourcesArr.forEach(r => map.set(r.id, r));
                 return Array.from(map.values());
@@ -279,13 +278,9 @@ export default function ResourceListing() {
 
             const cursors = resourceResponse.cursors || {};
             // setCursor(resourceResponse.nextCursor || 0);
-            if (typeof cursors.folderCursor === "number") {
-                setFolderCursor(cursors.folderCursor);
-            }
-            if (typeof cursors.fileCursor === "number") {
-                setFileCursor(cursors.fileCursor);
-            }
-            setHasMore(!!cursors.hasMore);
+            setFolderCursor(cursors.folderCursor ?? -1);
+            setFileCursor(cursors.fileCursor ?? -1);
+            setHasMore(Boolean(cursors.hasMore));
             // setMore((resourceResponse.nextCursor || 0) !== 0);
             console.log(resources);
         } catch (err) {
@@ -437,28 +432,22 @@ export default function ResourceListing() {
             setPosition(null);
         }
     }
-
-
     useEffect(() => {
+        const container = scrollRef.current;
+        if (!container) return;
         const handleScroll = () => {
-            if (!scrollRef.current || !hasMore) return;
-            const { scrollTop, scrollHeight, clientHeight } = scrollRef.current;
-            if (scrollHeight - scrollTop <= clientHeight + 1) {
+            const { scrollTop, scrollHeight, clientHeight } = container;
+            if (scrollHeight - scrollTop <= clientHeight + 5) {
                 if (!isLoading && hasMore) {
                     fetchFolder(currentFolderId.id, true);
                 }
             }
         };
-        const container = scrollRef.current;
-        if (container) {
-            container.addEventListener("scroll", handleScroll);
-        }
+        container.addEventListener("scroll", handleScroll);
         return () => {
-            if (container) {
-                container.removeEventListener("scroll", handleScroll);
-            }
+            container.removeEventListener("scroll", handleScroll);
         };
-    }, [hasMore, currentFolderId.id, folderCursor, fileCursor]);
+    }, [currentFolderId.id, hasMore, isLoading]);
 
     return (
         <div className="fileResource">
@@ -493,7 +482,7 @@ export default function ResourceListing() {
                 <span></span>
             </div>
 
-            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onContextMenu={handleRightClick} onClick={()=>setPosition(null)}>
+            <div className="resources" ref={scrollRef} style={{ width: showDetails ? "67vw" : "84vw", overflowY: 'auto' }} onContextMenu={handleRightClick} onClick={() => setPosition(null)}>
                 {resources.length === 0 && (
                     <div className="empty">
                         No Items Available

@@ -77,15 +77,8 @@ export default function ResourceListing() {
                 showResult(400, "Failed to Move Folder", true);
             }
         } else if (tempIdStore[2] == "COPY") {
-<<<<<<< HEAD
             if (copyFolder(parentId, tempIdStore[0], tempIdStore[1])) {
                 showResult(200, "Resource Pasted Successfully", true);
-=======
-            const success = await copyFolder(parentId, tempIdStore[0], tempIdStore[1]);
-            if (success) {
-                showResult(200, "Resource Pasted Successfully", true, true);
-                // openFolder()
->>>>>>> 2c7c975b2cf92372e728e0b102939eb17f45287c
             } else {
                 showResult(400, "Failed to Move Folder", true);
             }

@@ -184,7 +184,7 @@ export default function AccountsPage() {
                             : <span>{timezone}</span>}
                     </div>
 
-                    {formError.message && <div className="errorText">{formError.message}</div>}
+                    {editMode && formError.message && <div className="errorText">{formError.message}</div>}
 
                     {editMode &&
                         <div className="changebuttons">

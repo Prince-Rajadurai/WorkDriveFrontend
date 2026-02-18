@@ -55,11 +55,11 @@ export const EXT_GROUPS = {
 
 const AudioIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
     <path
         stroke="#DD2590"
         strokeLinecap="round"
@@ -73,11 +73,11 @@ const AudioIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 
 
 const VideoIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
     <g stroke="#155EEF" strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} clipPath="url(#video-02_svg__a)">
         <path d="M20 31.5a7.5 7.5 0 1 0 0-15 7.5 7.5 0 0 0 0 15" />
         <path d="M18.125 21.724c0-.358 0-.537.075-.637a.38.38 0 0 1 .273-.15c.125-.008.275.089.576.282l3.54 2.276c.262.168.393.252.438.359a.37.37 0 0 1 0 .292c-.045.107-.176.19-.437.359l-3.54 2.276c-.302.193-.452.29-.577.281a.38.38 0 0 1-.273-.15c-.075-.1-.075-.278-.075-.636z" />
@@ -93,11 +93,11 @@ const VideoIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 
 
 const ImageIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
     <path
         stroke="#7F56D9"
         strokeLinecap="round"
@@ -111,11 +111,11 @@ const ImageIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 
 
 const DocumentIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
     <path
         stroke="#155EEF"
         strokeLinecap="round"
@@ -129,11 +129,11 @@ const DocumentIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 
 
 const SheetIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
     <path
         stroke="#079455"
         strokeLinecap="round"
@@ -147,11 +147,11 @@ const SheetIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 
 
 const PptIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M7.75 4A3.25 3.25 0 0 1 11 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 35 39.25H11A3.25 3.25 0 0 1 7.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
     <rect width={26} height={16} x={1} y={18} fill="#E62E05" rx={2} />
     <path
         fill="#fff"
@@ -163,11 +163,11 @@ const PptIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40
 
 const ArchiveIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M7.75 4A3.25 3.25 0 0 1 11 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 35 39.25H11A3.25 3.25 0 0 1 7.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
     <rect width={22} height={16} x={1} y={18} fill="#344054" rx={2} />
     <path
         fill="#fff"
@@ -179,11 +179,11 @@ const ArchiveIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 4
 
 const CodeIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
     <path
         stroke="#444CE7"
         strokeLinecap="round"
@@ -197,11 +197,11 @@ const CodeIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 4
 
 const DesignIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M7.75 4A3.25 3.25 0 0 1 11 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 35 39.25H11A3.25 3.25 0 0 1 7.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
     <rect width={17} height={16} x={1} y={18} fill="#E04F16" rx={2} />
     <path
         fill="#fff"
@@ -212,11 +212,11 @@ const DesignIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40
 
 const BinaryIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M7.75 4A3.25 3.25 0 0 1 11 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 35 39.25H11A3.25 3.25 0 0 1 7.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M27 .5V8a4 4 0 0 0 4 4h7.5" />
     <rect width={26} height={16} x={1} y={18} fill="#444CE7" rx={2} />
     <path
         fill="#fff"
@@ -227,11 +227,11 @@ const BinaryIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40
 
 const DefaultIcon = () => <svg width={28} height={28} fill="none" viewBox="0 0 40 40">
     <path
-        stroke="#D5D7DA"
-        strokeWidth={1.5}
+        stroke="black"
+        strokeWidth={0.5}
         d="M4.75 4A3.25 3.25 0 0 1 8 .75h16c.121 0 .238.048.323.134l10.793 10.793a.46.46 0 0 1 .134.323v24A3.25 3.25 0 0 1 32 39.25H8A3.25 3.25 0 0 1 4.75 36z"
     />
-    <path stroke="#D5D7DA" strokeWidth={1.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
+    <path stroke="black" strokeWidth={0.5} d="M24 .5V8a4 4 0 0 0 4 4h7.5" />
 </svg>;
 
 

@@ -11,7 +11,11 @@ import Popup from "./Popup.jsx";
 import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
 
+import generateSnowflakeId from '../api/snowflakeIdGenerator.js';
+
 export default function NewButton({ fetchFolder }) {
+
+   
 
    const [code, setCode] = useState(0);
    const [show, setShow] = useState(false);
@@ -28,6 +32,8 @@ export default function NewButton({ fetchFolder }) {
 
    async function uploadFile(files, change, folderId) {
 
+      const uploadId = generateSnowflakeId().toString();
+
       for(let file of files){
          let fName = file.name;
          let fileSize = file.size;
@@ -36,6 +42,7 @@ export default function NewButton({ fetchFolder }) {
          form.append("filename", fName);
          form.append("folderId", folderId);
          form.append("replaceFile" , change);
+         form.append("uploadId",uploadId);
          form.append("size" , fileSize);
          setCode(200);
          setMsg(" ⬇ File Uploading ...");

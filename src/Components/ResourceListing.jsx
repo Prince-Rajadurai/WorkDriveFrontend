@@ -255,7 +255,7 @@ export default function ResourceListing() {
         try {
             const cursor1 = load ? folderCursor : 0;
             const cursor2 = load ? fileCursor : 0;
-            const resourceResponse = await getResources(parentId, cursor1, cursor2, 18);
+            const resourceResponse = await getResources(parentId, cursor1, cursor2, 30);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resourcesArr = rawResources.map(resource => ({
                 id: resource.id,
@@ -267,22 +267,16 @@ export default function ResourceListing() {
                 files: resource.files,
                 folders: resource.folders
             }));
-            setCurrentFolderId({ id: resourceResponse.folderId });
-            // setResources(prev => load ? [...prev, ...resourcesArr] : resourcesArr);
             setResources(prev => {
                 if (!load) return resourcesArr;
                 const map = new Map(prev.map(r => [r.id, r]));
                 resourcesArr.forEach(r => map.set(r.id, r));
                 return Array.from(map.values());
             });
-
             const cursors = resourceResponse.cursors || {};
-            // setCursor(resourceResponse.nextCursor || 0);
             setFolderCursor(cursors.folderCursor ?? -1);
             setFileCursor(cursors.fileCursor ?? -1);
             setHasMore(Boolean(cursors.hasMore));
-            // setMore((resourceResponse.nextCursor || 0) !== 0);
-            console.log(resources);
         } catch (err) {
             console.log("Error fetching resources ", err);
         } finally {
@@ -491,7 +485,7 @@ export default function ResourceListing() {
                 {resources.map(resource => (
                     <div className="file grid-row" key={resource.id} onClick={() => openFolder(resource)}>
                         <div className="name">
-                            {resource.type === "FOLDER" ? <Icon path={mdiFolderOutline} size={1} color={"black"} /> : <FileIcons>{resource.name}</FileIcons>}
+                            {resource.type === "FOLDER" ? <svg width={24} height={24} viewBox="0 0 24 24" fill="none"> <path d="M13 7L11.8845 4.76892C11.5634 4.1268 11.4029 3.80573 11.1634 3.57116C10.9516 3.36373 10.6963 3.20597 10.4161 3.10931C10.0992 3 9.74021 3 9.02229 3H5.2C4.0799 3 3.51984 3 3.09202 3.21799C2.71569 3.40973 2.40973 3.71569 2.21799 4.09202C2 4.51984 2 5.0799 2 6.2V7M2 7H17.2C18.8802 7 19.7202 7 20.362 7.32698C20.9265 7.6146 21.3854 8.07354 21.673 8.63803C22 9.27976 22 10.1198 22 11.8V16.2C22 17.8802 22 18.7202 21.673 19.362C21.3854 19.9265 20.9265 20.3854 20.362 20.673C19.7202 21 18.8802 21 17.2 21H6.8C5.11984 21 4.27976 21 3.63803 20.673C3.07354 20.3854 2.6146 19.9265 2.32698 19.362C2 18.7202 2 17.8802 2 16.2V7Z" stroke="black" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" /> </svg> : <FileIcons>{resource.name}</FileIcons>}
                             <span className="fileName">{resource.name}</span>
                         </div>
                         <span className="fileCreatedAt">{resource.created}</span>

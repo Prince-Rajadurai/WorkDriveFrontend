@@ -1,4 +1,4 @@
-import { mdiFileTreeOutline, mdiFolderOutline } from '@mdi/js';
+import { mdiFileTreeOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { useContext, useEffect, useRef, useState } from "react";
 import { FaRegTrashAlt } from "react-icons/fa";
@@ -12,11 +12,11 @@ import { getResources } from "../api/workdriveapi";
 import { FoldContext } from "../utils/FolderContext";
 import DetailsPage from './Details';
 import FileHeader from "./FileHeader";
+import FileIcons from './FileIcons';
 import Input from "./Input";
 import Popup from "./Popup";
 import Tree from "./Tree";
 import Version from './Version';
-import FileIcons from './FileIcons';
 
 export default function ResourceListing() {
     const { breadCrumbLinks, setBreadCrumbLinks } = useContext(FoldContext);
@@ -153,29 +153,29 @@ export default function ResourceListing() {
     async function deleteResource(resourceName, resourceType) {
         if (resourceType == "FILE") {
             let folderId = currentFolderId.id;
-            let response = await fetch("http://localhost:8080/WorkDrive/DeleteFileServlet", {
+            let response = await fetch("http://localhost:8080/WorkDrive/TrashFile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ folderId, filename: resourceName })
+                body: JSON.stringify({ folderId, filename: resourceName ,type:"FILE"})
             });
             let data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "File trashed successfully", true, true)
+                showResult(data.StatusCode, "File move to trash", true, true)
             }
             if (data.StatusCode >= 400) {
                 showResult(data.StatusCode, "File trashing Failed", true)
             }
 
         } else {
-            const response = await fetch("http://localhost:8080/WorkDrive/FolderServlet", {
-                method: "DELETE",
+            const response = await fetch("http://localhost:8080/WorkDrive/TrashFile", {
+                method: "POST",
                 credentials: "include",
                 headers: {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    resourceId: resourceName,
+                    resourceId: resourceName,type:"FOLDER"
                 })
 
             });
@@ -183,7 +183,7 @@ export default function ResourceListing() {
             const data = await response.json();
 
             if (data.StatusCode == 200) {
-                showResult(data.StatusCode, "Folder trashed successfully", true, true)
+                showResult(data.StatusCode, "Folder move to trash", true, true)
             }
             if (data.StatusCode >= 400) {
                 showResult(data.StatusCode, "Folder trashing Failed", true)
@@ -267,6 +267,7 @@ export default function ResourceListing() {
                 files: resource.files,
                 folders: resource.folders
             }));
+            setCurrentFolderId({id : resourceResponse.folderId})
             setResources(prev => {
                 if (!load) return resourcesArr;
                 const map = new Map(prev.map(r => [r.id, r]));
@@ -311,8 +312,9 @@ export default function ResourceListing() {
     }
 
     function movestoredFileDetails(filename, oldFolder) {
-
+         console.log(currentFolderId);
         setActionType("MOVE");
+        console.log("===> "+oldFolder);
         showResult(200, "File ready to move", true)
         setCopyFileName(filename);
         setOldFolderId(oldFolder);
@@ -321,6 +323,7 @@ export default function ResourceListing() {
     }
 
     async function moveFile(newFolderId) {
+
         const response = await fetch("http://localhost:8080/WorkDrive/MoveFileServlet", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -340,8 +343,6 @@ export default function ResourceListing() {
     }
 
     async function copyFile(newFolderId) {
-
-        console.log(newFolderId);
 
         const response = await fetch("http://localhost:8080/WorkDrive/CopyFileServlet", {
             method: "POST",
@@ -494,9 +495,8 @@ export default function ResourceListing() {
                         <div className="optionsMenu">
                             <span className="icon" onClick={(e) => handleClick(e, resource.id)}>⋮</span>
                             {currentMenuId === resource.id && (<ul className="operationsMenu" onClick={(e) => e.stopPropagation()}>
-
                                 <li onClick={() => { setRenamingFolderId(resource.id); setOldFileName(resource.name); setType(resource.type); setRenameFolderInput(true), setCurrentMenuId(null) }}><MdOutlineDriveFileRenameOutline />Rename</li>
-                                {resource.type == "FILE" ? <li onClick={(e) => { showFileVersion(resource.id), setCurrentMenuId(null) }}><GoVersions />Properties</li> : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
+                                {resource.type == "FILE" ? <li onClick={(e) => { showFileVersion(resource.id), setCurrentMenuId(null) }}><GoVersions />Versions</li> : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name, currentFolderId.id), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17} />Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}

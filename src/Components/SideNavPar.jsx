@@ -2,6 +2,8 @@ import { mdiFolderOutline } from '@mdi/js';
 import Icon from '@mdi/react';
 import { MdOutlineDashboard } from "react-icons/md";
 import '../Style/SideNavPar.css';
+import { MdDeleteOutline } from "react-icons/md";
+
 
 export default function SideNavPar({ pageLink, page }) {
 
@@ -24,6 +26,14 @@ export default function SideNavPar({ pageLink, page }) {
                 >
                     <MdOutlineDashboard size={22} />
                     <p>Dashboard</p>
+                </div>
+
+                <div style={page == "Trash" ? { backgroundColor: "#293B5F" } : {}}
+                    className="trash"
+                    onClick={() => { pageLink("Trash") }}
+                >
+                    <MdDeleteOutline size={26} />
+                    <p>Trash</p>
                 </div>
 
 

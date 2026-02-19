@@ -1,0 +1,131 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.trash-main{
+    width: 84vw;
+    height: 95vh;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: white;
+    padding: 20px;
+}
+.trash-heading{
+    width: 100%;
+    height: 7%;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.trash-icon{
+    padding: 10px;
+    color: #DC2626;
+    background-color: #F5E4E5;
+    border-radius: 10px;
+}
+.trash-containers{
+    width: 100%;
+    height: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.trash-cart{
+    width: 300px;
+    height: 110px;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px;
+    border-radius: 10px;
+    border: 1px solid rgb(245, 245, 245);
+}
+.trash-cart-des{
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+.trash-cart-des p{
+    font-size: 18px;
+}
+.fileIcon{
+    padding: 10px;
+    background-color: #EFF6FF;
+    border-radius: 10px;
+    color: #2563EB;
+}
+.folderIcon{
+    padding: 10px;
+    background-color: #FFFBEB;
+    border-radius: 10px;
+    color: #D97706;
+}
+.storageIcon{
+    padding: 10px;
+    background-color: #FAF5FF;
+    border-radius: 10px;
+    color: #9436EA;
+}
+.itemIcon{
+    padding: 10px;
+    background-color: #F0FDFA;
+    border-radius: 10px;
+    color: #0D9488;
+}
+.trash-item-view{
+    width: 100%;
+    height: 50%;
+}
+.trash-table{
+    width: 100%;
+    text-align: left;
+}
+th{
+    background-color: #cde2f6;
+    padding: 15px 20px;
+}
+tr{
+    border-top: 1px solid rgb(225, 225, 225);
+    border-bottom: 1px solid rgb(225, 225, 225);
+}
+.trash-action{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+.trash-restore{
+    cursor: pointer;
+    padding: 10px;
+    background-color: #F0FDFA;
+    color: #0D9488;
+    transition: .2s;
+    border-radius: 10px;
+}
+.trash-delete{
+    cursor: pointer;
+    padding: 10px;
+    background-color: #F5E4E5;
+    color: #DC2626;
+    transition: .2s;
+    border-radius: 10px;
+
+}
+.action{
+    text-align: center;
+}
+
+.trash-row:hover{
+    background-color: rgb(249, 249, 249);
+}
+.trash-restore:hover , .trash-delete:hover{
+    transform: scale(1.2);
+}
+td{
+    padding: 10px 20px;
+    text-overflow: ellipsis;
+}

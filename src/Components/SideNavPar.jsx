@@ -20,20 +20,20 @@ export default function SideNavPar({ pageLink, page }) {
                     <p>My Folders</p>
                 </div>
 
-                <div style={page == "Dashboard" ? { backgroundColor: "#293B5F" } : {}}
-                    className="dash-board"
-                    onClick={() => { pageLink("Dashboard") }}
-                >
-                    <MdOutlineDashboard size={22} />
-                    <p>Dashboard</p>
-                </div>
-
                 <div style={page == "Trash" ? { backgroundColor: "#293B5F" } : {}}
                     className="trash"
                     onClick={() => { pageLink("Trash") }}
                 >
                     <MdDeleteOutline size={26} />
                     <p>Trash</p>
+                </div>
+                
+                <div style={page == "Dashboard" ? { backgroundColor: "#293B5F" } : {}}
+                    className="dash-board"
+                    onClick={() => { pageLink("Dashboard") }}
+                >
+                    <MdOutlineDashboard size={22} />
+                    <p>Dashboard</p>
                 </div>
 
 

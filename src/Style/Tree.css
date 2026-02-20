@@ -1,39 +1,23 @@
-.treeStructure {
-    font-size: 14px;
+.tree-node {
+    margin-left: 8px;
 }
 
-.treeChild {
+.tree-row {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 6px;
+    gap: 6px;
+    padding: 4px 0;
+}
+
+.tree-children {
+    margin-left: 16px;
+}
+
+.tree-name:hover {
+    text-decoration: underline;
     cursor: pointer;
 }
 
-.treeChild:hover {
-    background-color: #D4D4D4;
-}
-
-.emptyTree {
-    width: 100%;
-    font-size: 13px;
-    padding: 24px;
-    color: #555;
-    text-align: center;
-}
-
-.treeLevel {
-    padding-left: 14px;
-}
-
-.treeArrow {
-    width: 14px;
-    display: flex;
-    align-items: center;
+.expand-icon {
     cursor: pointer;
-}
-
-.treeName {
-    cursor: pointer;
-    user-select: none;
 }

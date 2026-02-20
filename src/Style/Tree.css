@@ -7,10 +7,16 @@
     align-items: center;
     gap: 6px;
     padding: 4px 0;
+    margin: 2px;
 }
 
 .tree-children {
     margin-left: 16px;
+}
+
+.tree-name {
+    color: #555;
+    font-size: 15px;
 }
 
 .tree-name:hover {
@@ -20,4 +26,8 @@
 
 .expand-icon {
     cursor: pointer;
+}
+
+.arrowIcon {
+    width: 10px;
 }

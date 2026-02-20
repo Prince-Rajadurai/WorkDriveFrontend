@@ -10,8 +10,8 @@ async function get(url) {
     let res = await response.json();
     return res;
 }
-export const getResources = (parentId, folderCursor = 0, fileCursor = 0, limit = 20) => {
-    let query = `folderCursor=${folderCursor}&fileCursor=${fileCursor}&limit=${limit}`;
+export const getResources = (parentId, folderCursor = 0, fileCursor = 0, limit = 20, sortBy = "name", sortOrder = "asc") => {
+    let query = `folderCursor=${folderCursor}&fileCursor=${fileCursor}&limit=${limit}&sortBy=${sortBy}&sortOrder=${sortOrder}`;
     if (parentId !== null && parentId !== undefined) {
         query = `parentId=${parentId}&` + query;
     }

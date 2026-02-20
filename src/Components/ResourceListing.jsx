@@ -54,6 +54,8 @@ export default function ResourceListing() {
     const [position, setPosition] = useState(null);
     const [getData, setData] = useState({});
     const [showVersion, setShowVersion] = useState(false);
+    const [sortBy, setSortBy] = useState("name");
+    const [sortOrder, setSortOrder] = useState("asc");
 
 
     function storeResourceId(id, name, action) {
@@ -242,7 +244,7 @@ export default function ResourceListing() {
         setHasMore(true);
         setResources([]);
         fetchFolder(currentFolderId.id, false);
-    }, [currentFolderId.id]);
+    }, [sortBy, sortOrder, currentFolderId.id]);
 
     async function fetchFolder(parentId, load = false) {
         if (isLoading) return;
@@ -253,7 +255,7 @@ export default function ResourceListing() {
         try {
             const cursor1 = load ? folderCursor : 0;
             const cursor2 = load ? fileCursor : 0;
-            const resourceResponse = await getResources(parentId, cursor1, cursor2, 30);
+            const resourceResponse = await getResources(parentId, cursor1, cursor2, 30, sortBy, sortOrder);
             const rawResources = Array.isArray(resourceResponse.resources) ? resourceResponse.resources : [];
             const resourcesArr = rawResources.map(resource => ({
                 id: resource.id,
@@ -276,6 +278,7 @@ export default function ResourceListing() {
             setFolderCursor(cursors.folderCursor ?? -1);
             setFileCursor(cursors.fileCursor ?? -1);
             setHasMore(Boolean(cursors.hasMore));
+            console.log(resourcesArr);
         } catch (err) {
             console.log("Error fetching resources ", err);
         } finally {
@@ -464,6 +467,28 @@ export default function ResourceListing() {
         };
     }, [showTree])
 
+    function handleSort(column) {
+        if (sortBy === column) {
+            setSortOrder(prev => (prev === "asc" ? "desc" : "asc"));
+        } else {
+            setSortBy(column);
+            setSortOrder("asc"); 
+        }
+    }
+
+    function renderSortIcon(column) {
+        if (sortBy !== column) return null;
+        return sortOrder === "asc" ? (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M12 19V5M12 5L5 12M12 5L19 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+        ) : (
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
+                <path d="M12 5V19M12 19L19 12M12 19L5 12" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+        );
+    }
+
     return (
         <div className="fileResource">
 
@@ -492,9 +517,9 @@ export default function ResourceListing() {
             </FileHeader>
 
             <div className="heading grid-row heading-row" style={{ width: showDetails ? "67vw" : "84vw" }}>
-                <span className="name">Name</span>
-                <span className="createdAt">Created At</span>
-                <span className="lastModified">Last Modified</span>
+                <span className="name" onClick={() => handleSort("name")}>Name {renderSortIcon("name")}</span>
+                <span className="createdAt" onClick={() => handleSort("createdTime")}>Created At {renderSortIcon("createdTime")}</span>
+                <span className="lastModified" onClick={() => handleSort("modifiedTime")}>Last Modified {renderSortIcon("modifiedTime")}</span>
                 <span className="size">Size</span>
                 <span></span>
             </div>

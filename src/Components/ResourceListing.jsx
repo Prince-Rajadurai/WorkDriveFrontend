@@ -267,6 +267,7 @@ export default function ResourceListing() {
                 files: resource.files,
                 folders: resource.folders
             }));
+            setCurrentFolderId({ id: resourceResponse.folderId });
             setResources(prev => {
                 if (!load) return resourcesArr;
                 const map = new Map(prev.map(r => [r.id, r]));

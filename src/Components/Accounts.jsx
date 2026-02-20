@@ -126,10 +126,10 @@ export default function AccountsPage() {
         const data = await response.json();
         if (data.StatusCode == 200) {
             
-            showResult(data.StatusCode, "File renamed successfully", true)
+            showResult(data.StatusCode, "Profile updated successfully", true)
         }
         if (data.StatusCode >= 400) {
-            showResult(data.StatusCode, "File renamed Failed", true)
+            showResult(data.StatusCode, "Failed to update profile", true)
         }
 
         setEditMode(false);

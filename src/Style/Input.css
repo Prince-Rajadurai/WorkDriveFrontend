@@ -14,7 +14,7 @@
 .innerContainer{
     background-color: white;
     width: 800px;
-    height: 250px;
+    height: 275px;
     border-radius: 5px;
     padding: 1.5%;
     display: flex;
@@ -81,4 +81,10 @@
 
 #createButton:hover{
     filter: brightness(110%);
+}
+
+.errorMsg {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 4px;
 }

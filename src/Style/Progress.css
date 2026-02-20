@@ -7,6 +7,7 @@
     position: fixed;
     bottom: 20px;
     right: -380px;
+    background-color: white;
     transition: 0.3s;
     box-shadow: rgba(0, 0, 0, 0.16) 0px 3px 6px, rgba(0, 0, 0, 0.23) 0px 3px 6px;
     border-radius: 5px;

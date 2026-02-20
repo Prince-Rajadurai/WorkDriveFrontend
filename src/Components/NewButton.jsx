@@ -32,7 +32,7 @@ export default function NewButton({ fetchFolder }) {
    const [getFolderId, setFolderId] = useState({});
 
    const [showProgress, setShowProgress] = useState(false);
-   const [progressValue, setProgressValue] = useState([0, 100, "FILE"]);
+   const [progressValue, setProgressValue] = useState([0, 100, "FILE","Nothing",true]);
 
    async function getProgress(uploadId, intervalId, size, type = "FILE", fileName) {
       let res = await fetch("http://localhost:8080/WorkDrive/UploadProgressServlet?uploadId=" + uploadId, {
@@ -47,8 +47,6 @@ export default function NewButton({ fetchFolder }) {
          clearInterval(intervalId);
          return;
       }
-
-      let percent
 
       if (type == "FILE") {
          setProgress(((data.value / size) * 100), 100, type, fileName);
@@ -69,6 +67,7 @@ export default function NewButton({ fetchFolder }) {
 
    async function uploadFile(files, change, folderId) {
       for (let file of files) {
+         
          const uploadId = generateSnowflakeId().toString();
 
          let fName = file.name;

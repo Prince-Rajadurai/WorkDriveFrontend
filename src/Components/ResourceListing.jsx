@@ -52,9 +52,6 @@ export default function ResourceListing() {
     const treeRef = useRef(null);
 
     const [position, setPosition] = useState(null);
-    // const [versions , setVersions] = useState([]);
-    // const [fileSize , setFileSize] = useState("");
-    // const [storageSize , setStorageSize] = useState("");
     const [getData, setData] = useState({});
     const [showVersion, setShowVersion] = useState(false);
 
@@ -296,7 +293,6 @@ export default function ResourceListing() {
         if (data.StatusCode === 200) {
             showResult(data.StatusCode, "Folder renamed successfully", true, true);
             setRenameFolderInput(false);
-            // fetchFolder(currentFolderId.id);
         } else {
             showResult(data.StatusCode, "Folder rename failed", true);
         }

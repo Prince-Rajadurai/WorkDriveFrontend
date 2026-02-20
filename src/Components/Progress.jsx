@@ -12,7 +12,6 @@ export default function Progress({ value = 0, total = 100, type, fileName, show 
                 <div className="progress-label">
                     <TbCloudUpload />
                     <p>{fileName}</p>
-                    <p>{type === "FILE" ? "( 0% )" : "( " + value + "/" + total + " )"}</p>
                 </div>
             <progress className="progress-bar"></progress>
         

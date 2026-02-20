@@ -9,6 +9,7 @@ import ResourceListing from "../Components/ResourceListing";
 import { FolderContext } from "../utils/FolderContext";
 import AccountsPage from "../Components/Accounts";
 import DashBoard from "../Components/DashBoard";
+import Trash from "../Components/Trash";
 
 export default function Home() {
 
@@ -46,6 +47,7 @@ export default function Home() {
                         {page == "My Folders" && <ResourceListing/>}
                         {page === "Accounts" && <AccountsPage/>}
                         {page === "Dashboard" && <DashBoard></DashBoard>}
+                        {page === "Trash" && <Trash></Trash>}
                     </div>
                 </div>
             </FolderContext>

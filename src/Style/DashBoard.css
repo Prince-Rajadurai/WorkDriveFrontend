@@ -5,6 +5,13 @@
 
 }
 
+.dash-board-main h1,h2,h4{
+    color: #1E293B;
+}
+.dash-board-main p{
+    color: #A8B1BF;
+}
+
 .dash-board-main{
     position: absolute;
     bottom: 0;
@@ -34,6 +41,7 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }
 .dash-board-storage{
     width: 19%;

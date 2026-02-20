@@ -45,14 +45,14 @@ export default function DashBoard() {
                     <div className="dash-board-storage">
                         <div className="storage-icon-view">
                             <GrStorage size={40} className='storage-icon' color='#3B82F6' style={{ backgroundColor: "#E8F1FF" }} />
-                            <p>Original Size</p>
+                            <p>Storage Used</p>
                         </div>
                         <h2>{data.compress_size}</h2>
                     </div>
                     <div className="dash-board-storage">
                         <div className="storage-icon-view">
                             <MdCompress size={40} className='compress-icon' color='#10B981' style={{ backgroundColor: "#ECFDF5" }} />
-                            <p>Compress Size</p>
+                            <p>Saved Size</p>
                         </div>
                         <h2>{data.total_size}</h2>
                     </div>

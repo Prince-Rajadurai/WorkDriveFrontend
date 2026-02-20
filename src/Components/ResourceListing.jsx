@@ -49,11 +49,9 @@ export default function ResourceListing() {
     const [hasMore, setHasMore] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const scrollRef = useRef(null);
+    const treeRef = useRef(null);
 
     const [position, setPosition] = useState(null);
-    // const [versions , setVersions] = useState([]);
-    // const [fileSize , setFileSize] = useState("");
-    // const [storageSize , setStorageSize] = useState("");
     const [getData, setData] = useState({});
     const [showVersion, setShowVersion] = useState(false);
 
@@ -156,7 +154,7 @@ export default function ResourceListing() {
             let response = await fetch("http://localhost:8080/WorkDrive/TrashFile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ folderId, filename: resourceName ,type:"FILE"})
+                body: JSON.stringify({ folderId, filename: resourceName, type: "FILE" })
             });
             let data = await response.json();
 
@@ -175,7 +173,7 @@ export default function ResourceListing() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    resourceId: resourceName,type:"FOLDER"
+                    resourceId: resourceName, type: "FOLDER"
                 })
 
             });
@@ -267,7 +265,7 @@ export default function ResourceListing() {
                 files: resource.files,
                 folders: resource.folders
             }));
-            setCurrentFolderId({id : resourceResponse.folderId})
+            setCurrentFolderId({ id: resourceResponse.folderId })
             setResources(prev => {
                 if (!load) return resourcesArr;
                 const map = new Map(prev.map(r => [r.id, r]));
@@ -295,7 +293,6 @@ export default function ResourceListing() {
         if (data.StatusCode === 200) {
             showResult(data.StatusCode, "Folder renamed successfully", true, true);
             setRenameFolderInput(false);
-            // fetchFolder(currentFolderId.id);
         } else {
             showResult(data.StatusCode, "Folder rename failed", true);
         }
@@ -312,9 +309,9 @@ export default function ResourceListing() {
     }
 
     function movestoredFileDetails(filename, oldFolder) {
-         console.log(currentFolderId);
+        console.log(currentFolderId);
         setActionType("MOVE");
-        console.log("===> "+oldFolder);
+        console.log("===> " + oldFolder);
         showResult(200, "File ready to move", true)
         setCopyFileName(filename);
         setOldFolderId(oldFolder);
@@ -431,8 +428,10 @@ export default function ResourceListing() {
         const container = scrollRef.current;
         if (!container) return;
         const handleScroll = () => {
+            console.log("hi 1")
             const { scrollTop, scrollHeight, clientHeight } = container;
             if (scrollHeight - scrollTop <= clientHeight + 5) {
+                console.log("hi 2")
                 if (!isLoading && hasMore) {
                     fetchFolder(currentFolderId.id, true);
                 }
@@ -444,6 +443,27 @@ export default function ResourceListing() {
         };
     }, [currentFolderId.id, hasMore, isLoading]);
 
+    useEffect(() => {
+        function handleClickOutside(event) {
+            if (treeRef.current && !treeRef.current.contains(event.target)) {
+                setShowTree(false);
+            }
+        }
+
+        function handleEscape(e) {
+            if (e.key === "Escape") setShowTree(false);
+        }
+
+        if (showTree) {
+            document.addEventListener("mousedown", handleClickOutside);
+            document.addEventListener("keydown", handleEscape);
+        }
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+            document.removeEventListener("keydown", handleEscape);
+        };
+    }, [showTree])
+
     return (
         <div className="fileResource">
 
@@ -452,12 +472,14 @@ export default function ResourceListing() {
                     <div className="tree" onClick={() => { setShowTree(true) }} >
                         <Icon path={mdiFileTreeOutline} size={1} />
                     </div>
-                    {showTree && (<>
-                        <div className="dropDownBox" onClick={() => setShowTree(false)}></div>
-                        <div className="treeDropdown">
-                            <Tree></Tree>
-                        </div>
-                    </>)}
+                    {showTree && (
+                        <>
+                            <div className="dropDownBox"></div>
+                            <div className="treeDropdown" ref={treeRef}>
+                                <Tree />
+                            </div>
+                        </>
+                    )}
                     <div className="breadCrumbs">
                         <span onClick={goToRootFolder} className='link'>My Folders</span>
                         {breadCrumbLinks.map((folder, index) => (

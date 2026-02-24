@@ -58,22 +58,22 @@ export default function DashBoard() {
                     </div>
                     <div className="dash-board-storage">
                         <div className="storage-icon-view">
-                            <LiaFileSolid size={40} className='files-icon' color='#6F73F2' style={{ backgroundColor: "#EEF2FF" }} />
-                            <p>Total Files</p>
-                        </div>
-                        <div className="dash-files">
-                            <h2>{data.total_files}</h2>
-                            <p>Files</p>
-                        </div>
-                    </div>
-                    <div className="dash-board-storage">
-                        <div className="storage-icon-view">
                             <FaFolder size={40} className='files-icon' color='#D97706' style={{ backgroundColor: "#FFFBEB" }} />
                             <p>Total Folders</p>
                         </div>
                         <div className="dash-files">
                             <h2>{data.folderCount-1}</h2>
                             <p>Folders</p>
+                        </div>
+                    </div>
+                    <div className="dash-board-storage">
+                        <div className="storage-icon-view">
+                            <LiaFileSolid size={40} className='files-icon' color='#6F73F2' style={{ backgroundColor: "#EEF2FF" }} />
+                            <p>Total Files</p>
+                        </div>
+                        <div className="dash-files">
+                            <h2>{data.total_files}</h2>
+                            <p>Files</p>
                         </div>
                     </div>
                     <div className="dash-board-storage">

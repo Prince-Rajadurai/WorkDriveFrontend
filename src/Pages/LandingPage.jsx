@@ -30,7 +30,7 @@ export default function DetailsPage() {
 
 
     return (
-        <>
+        <div className="landing-page">
             <Header />
 
 
@@ -42,7 +42,7 @@ export default function DetailsPage() {
                     </h1>
                     <p className="landing-main-descriptions" style={{ width: "90%" }}>SmartDrive delivers high-performance, intelligent storage solutions designed for the modern enterprise. Optimize infrastructure and reduce costs up to 65%</p>
                     <div>
-                        <button className="focus-button large-size" onClick={()=>{navigate("/smartdrive/signin")}}>Start SmartDrive Now</button>
+                        <button className="simple-button-go" onClick={()=>{navigate("/smartdrive/signin")}}>Start SmartDrive Now</button>
                     </div>
                 </div>
                 <div className="landing-content">
@@ -85,7 +85,9 @@ export default function DetailsPage() {
                             <p className="landing-main-descriptions">MEDIAN LATENCY</p>
                         </div>
                     </div>
+                    <div style={{display:"flex"}}>
                     <button className="simple-button-go"  onClick={()=>{navigate("/smartdrive/signup")}}>Let's go ➜</button>
+                    </div>
                 </div>
                 <div className="landing-content">
                     <div className="landing-image-container"><img src="../src/assets/graph.png" alt="image not found" className="landing-images" /></div>
@@ -94,6 +96,6 @@ export default function DetailsPage() {
 
 
             <Footer />
-        </>
+        </div>
     );
 }

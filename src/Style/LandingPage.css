@@ -25,10 +25,10 @@
     box-shadow: 0 0 2px gray;
 }
 .simple-button-go{
-    background-color: rgb(237, 236, 236);
-    padding: 10px;
+    background: linear-gradient(135deg, #2C66DD, #4FA3FF);
+    color: white;
+    padding: 10px 20px;
     font-size: 20px;
-    width: 150px;
     text-align: center;
     border: none;
     cursor: pointer;
@@ -36,7 +36,7 @@
 }
 
 .simple-button-go:hover{
-    box-shadow: 0 0 2px rgb(155, 154, 154);
+    box-shadow: 0 0 5px #4FA3FF;
 }
 .landing-image-container {
     width: 100%;
@@ -71,10 +71,6 @@
     color: transparent;
 }
 
-.large-size {
-    font-size: 18px;
-    font-weight: 500;
-}
 
 .landing-images {
     width: 100%;
@@ -91,7 +87,7 @@
 .landing-descriptions{
     font-size: 18px;
     color: rgb(83, 82, 82);
-    line-height: 25px;
+    line-height: 30px;
 }
 
 .landing-cards {

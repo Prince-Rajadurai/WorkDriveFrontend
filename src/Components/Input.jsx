@@ -45,7 +45,7 @@ export default function Input({ children, placeholder, onClick, cancel,sendValue
                     <input id='input-field' type="text" placeholder={placeholder} onChange={handleChange} onKeyDown={pressSubmit} autoFocus/>
                     {error && <p className='errorMsg'>{error}</p>}
                 </div>
-                <div className='buttons'>
+                <div className='input-buttons'>
                     <Button className="inputButton" onClick={cancel} >Cancel</Button>
                     <Button className="inputButton" id="createButton" onClick={handleSubmit}>{submitBtn}</Button>
                 </div>

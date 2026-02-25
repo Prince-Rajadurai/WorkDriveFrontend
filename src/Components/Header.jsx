@@ -3,7 +3,7 @@ import Icon from '@mdi/react';
 import { useEffect, useState } from 'react';
 import '../Style/Header.css';
 import { MdOutlineDashboard } from "react-icons/md";
-import { MdDeleteOutline } from "react-icons/md";
+import { FaRegTrashAlt } from "react-icons/fa";
 
 
 export default function Header({pageLink, page}){
@@ -35,7 +35,7 @@ export default function Header({pageLink, page}){
                         {(page == "My Folders") && <Icon path={mdiFolderOutline} size={1} />}
                         {page == "Accounts" && <Icon path={mdiAccountOutline} size={1} />}
                         {page == "Dashboard" && <MdOutlineDashboard size={22}/>}
-                        {page == "Trash" && <MdDeleteOutline size={26} />}
+                        {page == "Trash" && <FaRegTrashAlt size={22}/>}
                         <p>{page}</p>
                     </div>
                     <div className="userName">

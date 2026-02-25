@@ -150,13 +150,14 @@ export default function ResourceListing() {
     }
 
 
-    async function deleteResource(resourceName, resourceType) {
+    async function deleteResource(resourceId , resourceType) {
         if (resourceType == "FILE") {
+
             let folderId = currentFolderId.id;
             let response = await fetch("http://localhost:8080/WorkDrive/TrashFile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ folderId, filename: resourceName, type: "FILE" })
+                body: JSON.stringify({ folderId, resourceId, type: "FILE" })
             });
             let data = await response.json();
 
@@ -175,7 +176,7 @@ export default function ResourceListing() {
                     "Content-Type": "application/json"
                 },
                 body: JSON.stringify({
-                    resourceId: resourceName, type: "FOLDER"
+                    resourceId: resourceId, type: "FOLDER"
                 })
 
             });
@@ -547,7 +548,7 @@ export default function ResourceListing() {
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name, currentFolderId.id), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17} />Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
                                 {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
-                                <li onClick={() => { deleteResource(resource.type == "FILE" ? resource.name : resource.id, resource.type), setCurrentMenuId(null) }} style={{ color: "#de1010db" }}><FaRegTrashAlt style={{ color: "#de1010db" }} />Trash</li>
+                                <li onClick={() => { resource.type == "FILE" ? deleteResource(resource.id,resource.type) : deleteResource(resource.id, resource.type), setCurrentMenuId(null) }} style={{ color: "#de1010db" }}><FaRegTrashAlt style={{ color: "#de1010db" }} />Trash</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17} />Download</li>)}
 
                             </ul>)}

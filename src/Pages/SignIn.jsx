@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import "./../Style/SignIn.css";
 import Button from "./../Components/Button";
+import NavBar from "../Components/NavBar";
 
 function SignIn() {
     const [email, setEmail] = useState("");
@@ -22,7 +23,7 @@ function SignIn() {
             const data = await response.json();
             if (data.message !== "Session exsist") {
                 navigate("/smartdrive/");
-            }else{
+            } else {
                 navigate("/smartdrive/home");
             }
 
@@ -78,36 +79,39 @@ function SignIn() {
     }
 
     return (
-    <div className="layout">
-        <div className="leftSide">
-            <div className="contentWrapper">
-                <div className="content">
-                    <h1>Welcome Back<br />to Your<br />Workspace</h1>
-                    <br />
-                    <p>Everything is exactly where you left it. Sign in to resume your projects and collaborate with your team in real-time.</p>
+        <div>
+            <NavBar></NavBar>
+            <div className="layout">
+                <div className="leftSide">
+                    <div className="contentWrapper">
+                        <div className="content">
+                            <h1>Welcome Back<br />to Your<br />Workspace</h1>
+                            <br />
+                            <p>Everything is exactly where you left it. Sign in to resume your projects and collaborate with your team in real-time.</p>
+                        </div>
+                        <div className="image">
+                            <img src="../src/assets/signin.png" alt="Image" />
+                        </div>
+                    </div>
                 </div>
-                <div className="image">
-                    <img src="../src/assets/signin.png" alt="Image" />
+                <div className="rightSide">
+                    <div className="signInContainer">
+                        <h1>Sign in to SmartDrive</h1>
+                        <p>Please enter your details</p>
+                        <form className="signInForm" onSubmit={handleSubmit}>
+                            <label>E-mail</label>
+                            <input type="text" placeholder="Enter your E-mail" value={email} onChange={(e) => { setEmail(e.target.value); setError("") }} />
+                            <label>Password</label>
+                            <input type="password" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); setError("") }} />
+                            {error && <p className="error">{error}</p>}
+                            <Button type="submit" className="signInBtn">Sign In</Button>
+                            {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
+                            <p className="signUpParagraph">Don't have an account? <span><Link to="/smartdrive/signup" className="signUpLink">Sign Up</Link></span></p>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-        <div className="rightSide">
-            <div className="signInContainer">
-                <h1>Sign in to SmartDrive</h1>
-                <p>Please enter your details</p>
-                <form className="signInForm" onSubmit={handleSubmit}>
-                    <label>E-mail</label>
-                    <input type="text" placeholder="Enter your E-mail" value={email} onChange={(e) => { setEmail(e.target.value); setError("") }} />
-                    <label>Password</label>
-                    <input type="password" placeholder="Enter your password" value={password} onChange={(e) => { setPassword(e.target.value); setError("") }} />
-                    {error && <p className="error">{error}</p>}
-                    <Button type="submit" className="signInBtn">Sign In</Button>
-                    {/* <Link to="/forgotPassword" className="forgotpassword">Forgot Password?</Link> */}
-                    <p className="signUpParagraph">Don't have an account? <span><Link to="/smartdrive/signup" className="signUpLink">Sign Up</Link></span></p>
-                </form>
-            </div>
-        </div>
-    </div>
     )
 }
 

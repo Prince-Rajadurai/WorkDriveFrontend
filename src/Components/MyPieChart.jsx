@@ -20,7 +20,7 @@ export default function MyPieChart({senData , tSize , cSize}) {
     return (
       <div
         style={{
-          width: "750px",
+          width: "670px",
           background: "#ffffff",
           padding: "20px",
           borderRadius: "12px",

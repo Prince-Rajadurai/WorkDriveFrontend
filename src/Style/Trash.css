@@ -125,7 +125,7 @@ tr{
 .trash-restore:hover , .trash-delete:hover{
     transform: scale(1.2);
 }
-td{
+#trash-td , .trash-td , #trashTd{
     padding: 10px 20px;
     text-overflow: ellipsis;
 }

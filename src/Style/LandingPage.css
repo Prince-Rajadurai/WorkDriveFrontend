@@ -1,0 +1,129 @@
+.landing-section-1 {
+    padding: 12rem 0px;
+    /* height: 80%; */
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-shadow: 0 0 1px gray;
+}
+
+.landing-section-2 {
+    /* height: 50%; */
+    padding: 10rem 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-shadow: 0 0 1px gray;
+}
+
+.landing-section-3{
+    /* height: 65%; */
+    padding: 8rem 0px;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    box-shadow: 0 0 2px gray;
+}
+.simple-button-go{
+    background-color: rgb(237, 236, 236);
+    padding: 10px;
+    font-size: 20px;
+    width: 150px;
+    text-align: center;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.simple-button-go:hover{
+    box-shadow: 0 0 2px rgb(155, 154, 154);
+}
+.landing-image-container {
+    width: 100%;
+    height: 90%;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 0 10px gray;
+}
+
+.landing-content{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    width: 40%;
+    height: 75%;
+}
+
+.landing-heading{
+    width: 100%;
+    margin-bottom: 3.5rem;
+    line-height: 5.5rem;
+    font-size: 5rem;
+    font-weight: 600;
+}
+
+.color-content {
+    background: linear-gradient(90deg,
+            #0b3c91 0%,
+            #1f5fbf 50%,
+            #4fa3e3 100%);
+    background-clip: text;
+    color: transparent;
+}
+
+.large-size {
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.landing-images {
+    width: 100%;
+    height: 100%;
+}
+
+.landing-main-descriptions {
+    margin-bottom: 3.5rem;
+    font-size: 20px;
+    color: rgb(83, 82, 82);
+    line-height: 35px;
+}
+
+.landing-descriptions{
+    font-size: 18px;
+    color: rgb(83, 82, 82);
+    line-height: 25px;
+}
+
+.landing-cards {
+    width: 23%;
+}
+
+.landing-card-heading{
+    color: #3e92cc;
+    font-size: 40px;
+    font-weight: 500;
+}
+
+.landing-subheading{
+    margin: 1.5rem 0px;
+    color: #0A2463;
+    font-size: 26px;
+    font-weight: 500;
+}
+.landing-percet-container{
+    display: flex;
+    width: 50%;
+    justify-content: space-between;
+}
+
+.landing-percent{
+    font-size: 40px;
+}
+
+.landing-percent-1{
+   color: #0A2463;
+}
+
+.landing-percent-2{
+    color: #3e92cc;
+}

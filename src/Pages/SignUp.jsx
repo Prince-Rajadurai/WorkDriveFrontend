@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import './../Style/SignUp.css';
-import Button from './../Components/Button';
-import NavBar from '../Components/NavBar';
 import moment from 'moment-timezone';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from "react-router-dom";
+import NavBar from '../Components/NavBar';
+import Button from './../Components/Button';
+import './../Style/SignUp.css';
 
 export default function SignUpPage() {
 
@@ -142,7 +142,7 @@ export default function SignUpPage() {
                 <div className="right">
                     <div className="signUpArea">
                         <h1 id='title'>Start using SmartDrive</h1>
-                        <p id='titleDescription'>Join us by filling in the details below</p>
+                        <p id='titleDescription'>Join us to manage your files effectively.</p>
                         <form id='signUpContainer' onSubmit={handleSubmit}>
 
                             <label htmlFor="fullName">Full Name</label>
@@ -155,7 +155,7 @@ export default function SignUpPage() {
                                 style={{ borderColor: formError.field === 'fullName' ? 'red' : 'rgb(122,119,119)' }}
                             />
 
-                            <label htmlFor="timezone">Select Timezone: </label>
+                            <label htmlFor="timezone">Select Timezone </label>
                             <select name="timezone" id="timezone" value={selectedTimezone} onChange={handleTimezoneChange}>
                                 {timezones.map((zone) => (
                                     <option key={zone} value={zone}>
@@ -188,7 +188,7 @@ export default function SignUpPage() {
                             <input
                                 type="password"
                                 id='confirmPassword'
-                                placeholder='Confirm your Password'
+                                placeholder='Confirm your password'
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 style={{ borderColor: formError.field === 'confirmPassword' ? 'red' : 'rgb(122,119,119)' }}

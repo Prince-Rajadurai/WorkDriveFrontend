@@ -1,8 +1,8 @@
-import "../Style/LandingPage.css";
-import Header from "../Components/NavBar.jsx";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Footer from "../Components/Footer.jsx";
-import {useNavigate} from "react-router-dom";
-import { useEffect} from "react";
+import Header from "../Components/NavBar.jsx";
+import "../Style/LandingPage.css";
 
 export default function DetailsPage() {
 
@@ -40,7 +40,7 @@ export default function DetailsPage() {
                         <br />
                         <span className="color-content">without limits</span>
                     </h1>
-                    <p className="landing-main-descriptions" style={{ width: "90%" }}>SmartDrive delivers high-performance, intelligent storage solutions designed for the modern enterprise. Optimize infrastructure and reduce costs by up to 65%</p>
+                    <p className="landing-main-descriptions" style={{ width: "90%" }}>SmartDrive delivers high-performance, intelligent storage solutions designed for the modern enterprise. Optimize infrastructure and reduce costs up to 65%</p>
                     <div>
                         <button className="focus-button large-size" onClick={()=>{navigate("/smartdrive/signin")}}>Start SmartDrive Now</button>
                     </div>
@@ -55,7 +55,7 @@ export default function DetailsPage() {
                 <div className="landing-cards">
                     <h3 className="landing-card-heading">Compress</h3>
                     <h4 className="landing-subheading">Neural Compression</h4>
-                    <p className="landing-descriptions">Industry-leading lossless compression using machine learning models to identify and reduce redunancies at the byte level.</p>
+                    <p className="landing-descriptions">Industry-leading intact compression using machine learning models to identify and reduce redundancies at the byte level.</p>
                 </div>
                 <div className="landing-cards">
                     <h3 className="landing-card-heading">Update</h3>

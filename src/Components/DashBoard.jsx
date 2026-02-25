@@ -52,7 +52,7 @@ export default function DashBoard() {
                     <div className="dash-board-storage">
                         <div className="storage-icon-view">
                             <MdCompress size={40} className='compress-icon' color='#10B981' style={{ backgroundColor: "#ECFDF5" }} />
-                            <p>Saved Size</p>
+                            <p>Reduced File Size</p>
                         </div>
                         <h2>{data.total_size}</h2>
                     </div>

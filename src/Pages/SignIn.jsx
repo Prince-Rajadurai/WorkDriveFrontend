@@ -22,7 +22,7 @@ function SignIn() {
             });
             const data = await response.json();
             if (data.message !== "Session exsist") {
-                navigate("/smartdrive/");
+                navigate("/smartdrive/signin");
             } else {
                 navigate("/smartdrive/home");
             }

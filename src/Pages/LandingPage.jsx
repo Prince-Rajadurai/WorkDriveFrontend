@@ -1,7 +1,34 @@
 import "../Style/LandingPage.css";
-import Header from "./Header";
-import Footer from "./Footer";
+import Header from "../Components/NavBar.jsx";
+import Footer from "../Components/Footer.jsx";
+import {useNavigate} from "react-router-dom";
+import { useEffect} from "react";
+
 export default function DetailsPage() {
+
+    const navigate = useNavigate();
+
+    useEffect(()=>{
+        sessionCheck();
+    },[]);
+    
+    async function sessionCheck(){
+        try {
+            const response = await fetch("http://localhost:8080/WorkDrive/SessionCheckFilter",{method: "GET",
+            credentials: "include"});
+            const data = await response.json();
+            if (data.message !== "Session exsist") {
+                navigate("/smartdrive/");
+            }else{
+                navigate("/smartdrive/home");
+            }
+
+        } catch (err) {
+            console.log("Technical Issue");
+        }
+    }
+
+
     return (
         <>
             <Header />
@@ -15,7 +42,7 @@ export default function DetailsPage() {
                     </h1>
                     <p className="landing-main-descriptions" style={{ width: "90%" }}>SmartDrive delivers high-performance, intelligent storage solutions designed for the modern enterprise. Optimize infrastructure and reduce costs by up to 65%</p>
                     <div>
-                        <button className="focus-button large-size">Start SmartDrive Now</button>
+                        <button className="focus-button large-size" onClick={()=>{navigate("/smartdrive/signin")}}>Start SmartDrive Now</button>
                     </div>
                 </div>
                 <div className="landing-content">
@@ -58,7 +85,7 @@ export default function DetailsPage() {
                             <p className="landing-main-descriptions">MEDIAN LATENCY</p>
                         </div>
                     </div>
-                    <button className="simple-button-go">Let's go ➜</button>
+                    <button className="simple-button-go"  onClick={()=>{navigate("/smartdrive/signup")}}>Let's go ➜</button>
                 </div>
                 <div className="landing-content">
                     <div className="landing-image-container"><img src="../src/assets/graph.png" alt="image not found" className="landing-images" /></div>

@@ -1,27 +1,21 @@
-* {
-    font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-}
-
 .navBar {
     display: flex;
     align-items: center;
     justify-content: space-between;
     flex-direction: row;
     width: 100%;
-    max-height: 70px;
-    padding: 6px;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.15);
+    padding: 12.5px 130px;
+    background-color: white;
+    box-shadow: 0 0 1px black;
 }
 
 .logo {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
-    width: 20%;
+    gap: 5px;
 }
 
 .logo h1 {
@@ -33,23 +27,39 @@
 
 .buttons {
     width: 20%;
+    gap: 20px;
     display: flex;
     align-items: center;
+    font-size: 16px;
     justify-content: flex-end;
 }
 
 .buttons button {
-    height: 50px;
-    width: 120px;
-    background-color: #1E52BB;
-    margin: 10px;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-weight: bolder;
     font-size: 16px;
+    font-weight: bolder;
 }
 
-.buttons a {
-    font-size: 16px;
+.simple-button {
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: white;
+}
+
+.simple-button:hover {
+    background-color: rgb(237, 236, 236);
+}
+
+.focus-button {
+    padding: 15px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 10px;
+    background-color: #1E52BB;
+    color: white;
+}
+
+.focus-button:hover {
+    filter: brightness(110%);
 }

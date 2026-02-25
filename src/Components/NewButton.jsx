@@ -1,6 +1,6 @@
 import { useContext, useState } from "react";
 import { FaPlus } from "react-icons/fa";
-import { FiFolderPlus } from "react-icons/fi";
+import { RiFolderAddLine } from "react-icons/ri";
 import { FoldContext } from "../utils/FolderContext.jsx";
 import "./../Style/NewButton.css";
 import Button from "./Button.jsx";
@@ -276,7 +276,7 @@ export default function NewButton({ fetchFolder }) {
             <Button id="newButton"><FaPlus /> New</Button>
 
             <div className="dropdownMenu">
-               <Button className="dropdown" onClick={() => setShowFolderinput(true)}><FiFolderPlus size={23} />Create Folder</Button>
+               <Button className="dropdown" onClick={() => setShowFolderinput(true)}><RiFolderAddLine size={25} />Folder</Button>
                <UploadButton onUpload={(file) => uploadFile(file, false, currentFolderId.id)} ></UploadButton>
                <FolderUpload onUpload={(files) => uploadFolder(files, false, currentFolderId.id)}></FolderUpload>
             </div>

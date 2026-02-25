@@ -8,7 +8,6 @@ import { FaRegTrashAlt } from "react-icons/fa";
 
 export default function Header({pageLink, page}){
 
-
     const[name , setName] = useState("");
 
     useEffect(()=>{
@@ -27,7 +26,7 @@ export default function Header({pageLink, page}){
         <>
             <div className="headerParent">
                 <div className="header">
-                    <div className="logo-image">
+                    <div className="logo-image" onClick={()=>{window.location.reload()}}>
                         <img src="../src/assets/image.png" alt="image not found" style={{height:"25px"}}/>
                         <h3>SmartDrive</h3>
                     </div>

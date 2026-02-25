@@ -12,7 +12,7 @@
     border-radius: 5px;
     border-top: 3px solid green;
     background-color: white;
-    z-index: 6;
+    z-index: 15;
     gap: 10px;
 }
 

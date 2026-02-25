@@ -1,10 +1,10 @@
 .layout {
-    height: 100vh;
+    height: 93vh;
     width: 100vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #4779de;
+    background-color: #93b3f3;
 }
 
 .leftSide {

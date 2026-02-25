@@ -79,7 +79,7 @@ function SignIn() {
     }
 
     return (
-        <div>
+        <div className="singin-page">
             <NavBar></NavBar>
             <div className="layout">
                 <div className="leftSide">

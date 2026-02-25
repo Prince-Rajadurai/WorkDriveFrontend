@@ -212,7 +212,7 @@ export default function SignUpPage() {
                                 Sign Up
                             </Button>
 
-                            <p id='signInPage'>Already have an account? <Link to="/smartdrive/">Sign In</Link> </p>
+                            <p id='signInPage'>Already have an account? <Link to="/smartdrive/signin">Sign In</Link> </p>
                         </form>
                     </div>
                 </div>

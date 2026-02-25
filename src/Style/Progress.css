@@ -18,6 +18,10 @@
     padding: 0 20px;
 }
 
+progress{
+    accent-color: green;
+}
+
 .progress-bar{
     width: 90%;
     height: 15px;

@@ -83,6 +83,7 @@ export default function ResourceListing() {
             }
         }
         setTempIdStore([]);
+        setCopyFileName("");
     }
 
 
@@ -355,6 +356,10 @@ export default function ResourceListing() {
 
         const data = await response.json();
 
+        setCopyFileName("");
+        setTempIdStore([]);
+
+
         if (data.StatusCode == 200) {
             showResult(data.StatusCode, "File paste successfully", true, true)
         }
@@ -412,7 +417,7 @@ export default function ResourceListing() {
     }
 
     function handleRightClick(e) {
-        if (e.target === e.currentTarget && tempIdStore[0] != null) {
+        if (e.target === e.currentTarget && (tempIdStore[0] != null || copyFileName != "")) {
             e.preventDefault();
 
             setCurrentMenuId(null);
@@ -550,7 +555,7 @@ export default function ResourceListing() {
                                 {resource.type == "FILE" ? <li onClick={(e) => { showFileVersion(resource.id), setCurrentMenuId(null) }}><GoVersions />Versions</li> : <li onClick={(e) => { folderDetails(resource); handleClick(e, resource.id); }}><LuTableProperties />Properties</li>}
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "MOVE") : movestoredFileDetails(resource.name, currentFolderId.id), setCurrentMenuId(null) }}><MdDriveFileMoveOutline size={17} />Move</li>
                                 <li onClick={() => { resource.type == "FOLDER" ? storeResourceId(resource.id, resource.name, "COPY") : storedFileDetails(resource.name, currentFolderId.id, resource.id), setCurrentMenuId(null) }}><RiFileCopyLine />Copy</li>
-                                {resource.type == "FILE" ? "" : <li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li>}
+                                {resource.type == "FILE" ? "" : (copyFileName!=""||tempIdStore[0]!=null)?<li onClick={() => { copyType == "FOLDER" ? pasteResource(resource.id) : actionType == "COPY" ? copyFile(resource.id) : moveFile(resource.id), setCurrentMenuId(null) }}><FaRegPaste />Paste</li> : ""}
                                 <li onClick={() => { resource.type == "FILE" ? deleteResource(resource.id, resource.type) : deleteResource(resource.id, resource.type), setCurrentMenuId(null) }} style={{ color: "#de1010db" }}><FaRegTrashAlt style={{ color: "#de1010db" }} />Trash</li>
                                 {resource.type == "FILE" && (<li onClick={() => { downloadFile(resource.name, currentFolderId.id, resource.type), setCurrentMenuId(null) }}><MdOutlineFileDownload size={17} />Download</li>)}
 

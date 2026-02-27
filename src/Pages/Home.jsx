@@ -14,6 +14,7 @@ import Trash from "../Components/Trash";
 export default function Home() {
 
     const [page,setPage] = useState("My Folders");
+    const [openFolder,setOpenFolder] = useState(null);
     const navigate = useNavigate();
 
     useEffect(()=>{
@@ -41,7 +42,7 @@ export default function Home() {
         <AuthenticationContext>
             <FolderContext>
                 <div className="main">
-                    <Header pageLink={setPage} page={page}></Header>
+                    <Header pageLink={setPage} page={page} search={setOpenFolder}></Header>
                     <div className="container">
                         <SideNavPar pageLink={setPage} page={page}></SideNavPar>
                         {page == "My Folders" && <ResourceListing/>}

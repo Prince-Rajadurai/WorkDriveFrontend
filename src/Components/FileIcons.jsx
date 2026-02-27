@@ -38,7 +38,7 @@ export const EXT_GROUPS = {
     // ---------- Code / Dev ----------
     code: [
         "js", "json", "css", "html",
-        "xml", "java", "sql"
+        "xml", "java", "sql", "py"
     ],
 
     // ---------- Design / Creative ----------

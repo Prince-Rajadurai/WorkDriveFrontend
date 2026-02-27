@@ -13,7 +13,7 @@ export default function UpdateFile({update , skip}) {
                     <div className="update-file-describtion">
 
                         <div className="update-file-icon">
-                            <img src="../../public/letter-i.png" alt="update-file-icon" className="update-file-img"/>
+                            <img src="../../src/assets/letter-i.png" alt="update-file-icon" className="update-file-img"/>
                                 <h2>Upload options</h2>
                         </div>
 

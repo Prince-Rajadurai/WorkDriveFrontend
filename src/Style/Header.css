@@ -39,6 +39,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-end;
+    gap: 25px;
     padding: 0px 30px;
     color: gray;
     border-bottom: 1px solid rgb(212, 212, 212);

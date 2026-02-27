@@ -14,7 +14,10 @@ export default function SearchBar({ cancel, searchResult }) {
 
     async function searchParam(userInput) {
         try {
-            const response = await fetch("http://localhost:8080/WorkDrive/SearchBarServlet?search=" + userInput, {
+            const url = new URL("http://localhost:8080/WorkDrive/SearchBarServlet");
+            url.searchParams.set("search", userInput);
+
+            const response = await fetch(url, {
                 method: "GET",
                 credentials: "include"
             });
@@ -50,11 +53,13 @@ export default function SearchBar({ cancel, searchResult }) {
         }
     }}>
         <div className='searching-space'>
+
             <div className='searching-container'>
                 <FiSearch className='search-icon' />
                 <input placeholder='Search by name, keyboard and more' className='search-input' onChange={(e) => { searchParam(e.target.value); if (e.target.value == "") { setFiles([]); setFolders([]) } }}></input>
                 <button title='Close' className='search-cancel' onClick={() => { cancel(false) }}>X</button>
             </div>
+
             <div className='search-result-container'>
 
                 {folders.length > 0 && (

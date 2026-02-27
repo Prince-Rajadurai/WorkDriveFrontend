@@ -578,7 +578,7 @@ export default function ResourceListing() {
             </div>
             {showDetails && <DetailsPage resource={detailsresource} cancel={() => setShowDetails(false)} />}
             <Popup result={code} msg={msg} show={show}></Popup>
-            {showVersion && <Version storage={getData.storage} size={getData.size} versions={getData.versions} onclose={onClose}></Version>}
+            {showVersion && <Version storage={getData.storage} size={getData.size} versions={getData.versions} compressSize = {getData.compressSize} onclose={onClose}></Version>}
             {renameFolderInput && <Input placeholder={type == "FOLDER" ? "Enter the New Folder Name" : "Enter the New File Name"} sendValue={setNewName} onClick={() => { type == "FOLDER" ? renameFolder(newName, renamingFolderId) : updateFileName(currentFolderId.id, oldFilename, newName) }} cancel={() => setRenameFolderInput(false)} submitBtn={"Rename"}>{type == "FOLDER" ? "New Folder Name" : "New File Name"}</Input>}
         </div>
     );

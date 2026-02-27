@@ -63,6 +63,11 @@
     align-items: flex-start;
     flex-direction: column;
     justify-content: center;
+    gap: 5px;
+}
+#str_size,#cmp_size{
+    font-size: 12px;
+    color: rgb(165, 165, 165);
 }
 .storage-size-view{
     display: flex;

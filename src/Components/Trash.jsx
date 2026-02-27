@@ -23,6 +23,7 @@ export default function Trash() {
 
     const [fileId, setFileId] = useState("");
     const [folderId, setFolderId] = useState("");
+    const [type , setType] = useState("");
     const [showRestore, setShowRestore] = useState(false);
 
     useEffect(() => {
@@ -50,8 +51,8 @@ export default function Trash() {
 
     }
 
-    async function restore(id, folderId, replace) {
-        let res = await fetch("http://localhost:8080/WorkDrive/RestoreServlet?fileId=" + id + "&&folderId=" + folderId + "&&replace=" + replace, {
+    async function restore(id, folderId, replace , type) {
+        let res = await fetch("http://localhost:8080/WorkDrive/RestoreServlet?fileId=" + id + "&&folderId=" + folderId + "&&replace=" + replace+"&&type="+type, {
             method: "GET",
             credentials: "include",
         });
@@ -66,6 +67,7 @@ export default function Trash() {
             setFileId(id);
             setFolderId(folderId);
             setShowRestore(true);
+            setType(type);
         }
         if (data.StatusCode == 400) {
             showResult(data.StatusCode, "File restore Failed", true)
@@ -118,7 +120,7 @@ export default function Trash() {
 
     function replace() {
         setShowRestore(false);
-        restore(fileId, folderId, true);
+        restore(fileId, folderId, true , type);
     }
 
     function showResult(Code, msg, chk) {
@@ -185,7 +187,7 @@ export default function Trash() {
                                     <td id='trash-td' className='trash-file-name'>{res.type === "FOLDER" ? <svg width={24} height={24} viewBox="0 0 24 24" fill="none"> <path d="M13 7L11.8845 4.76892C11.5634 4.1268 11.4029 3.80573 11.1634 3.57116C10.9516 3.36373 10.6963 3.20597 10.4161 3.10931C10.0992 3 9.74021 3 9.02229 3H5.2C4.0799 3 3.51984 3 3.09202 3.21799C2.71569 3.40973 2.40973 3.71569 2.21799 4.09202C2 4.51984 2 5.0799 2 6.2V7M2 7H17.2C18.8802 7 19.7202 7 20.362 7.32698C20.9265 7.6146 21.3854 8.07354 21.673 8.63803C22 9.27976 22 10.1198 22 11.8V16.2C22 17.8802 22 18.7202 21.673 19.362C21.3854 19.9265 20.9265 20.3854 20.362 20.673C19.7202 21 18.8802 21 17.2 21H6.8C5.11984 21 4.27976 21 3.63803 20.673C3.07354 20.3854 2.6146 19.9265 2.32698 19.362C2 18.7202 2 17.8802 2 16.2V7Z" stroke="black" strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round" /> </svg> : <FileIcons>{res.name}</FileIcons>}{res.name}</td>
                                     <td className='trash-td'>{res.time}</td>
                                     <td className='trash-td'>{res.size}</td>
-                                    <td className='trash-action' id='trashTd'><TbRestore size={40} className='trash-restore' onClick={() => restore(res.ResourceId, res.folderId, false)} /><MdDeleteOutline size={40} className='trash-delete' onClick={() => remove(res.folderId , res.ResourceId, res.name, res.type)} /></td>
+                                    <td className='trash-action' id='trashTd'><TbRestore size={40} className='trash-restore' onClick={() => restore(res.ResourceId, res.folderId, false , res.type)} /><MdDeleteOutline size={40} className='trash-delete' onClick={() => remove(res.folderId , res.ResourceId, res.name, res.type)} /></td>
                                 </tr>
                             ))}
                         </tbody>

@@ -36,7 +36,6 @@ export default function SearchBar({ cancel, searchResult }) {
                 setFolders([]);
             }
 
-            console.log(files, folders);
         } catch (err) {
             console.log("Technical Issue");
         }
@@ -56,11 +55,11 @@ export default function SearchBar({ cancel, searchResult }) {
 
             <div className='searching-container'>
                 <FiSearch className='search-icon' />
-                <input placeholder='Search by name, keyboard and more' className='search-input' onChange={(e) => { searchParam(e.target.value); if (e.target.value == "") { setFiles([]); setFolders([]) } }}></input>
+                <input autoFocus placeholder='Search by name, keyboard and more' className='search-input' onChange={(e) => { if (e.target.value == "") { setFiles([]); setFolders([]);return; };searchParam(e.target.value); }}></input>
                 <button title='Close' className='search-cancel' onClick={() => { cancel(false) }}>X</button>
             </div>
 
-            <div className='search-result-container'>
+            {(files.length>0 || folders.length>0) &&<div className='search-result-container'>
 
                 {folders.length > 0 && (
                     <div>
@@ -92,7 +91,7 @@ export default function SearchBar({ cancel, searchResult }) {
                     </div>
                 )}
 
-            </div>
+            </div>}
         </div>
     </div>
 }

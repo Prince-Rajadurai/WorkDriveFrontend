@@ -1,5 +1,6 @@
 import { useEffect, useState, useContext } from "react";
 import { FoldContext } from "../utils/FolderContext";
+import { openFolder } from "../utils/openFolder";
 import { getResources } from "../api/workdriveapi";
 import Icon from "@mdi/react";
 import { mdiFolderOutline, mdiChevronDown, mdiChevronRight } from "@mdi/js";
@@ -63,10 +64,12 @@ export default function Tree() {
     useEffect(() => {
         loadTree();
     }, []);
+    const { setFolderTree } = useContext(FoldContext);
     async function loadTree() {
         try {
             const data = await buildTree(null);
             setTreeData(data);
+            setFolderTree(data);
         } catch (err) {
             console.error("Tree build failed", err);
         } finally {

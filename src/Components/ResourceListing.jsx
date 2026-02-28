@@ -280,7 +280,6 @@ export default function ResourceListing() {
             setFolderCursor(cursors.folderCursor ?? -1);
             setFileCursor(cursors.fileCursor ?? -1);
             setHasMore(Boolean(cursors.hasMore));
-            console.log(breadCrumbLinks);
         } catch (err) {
             console.log("Error fetching resources ", err);
         } finally {
@@ -314,9 +313,7 @@ export default function ResourceListing() {
     }
 
     function movestoredFileDetails(filename, oldFolder) {
-        console.log(currentFolderId);
         setActionType("MOVE");
-        console.log("===> " + oldFolder);
         showResult(200, "File ready to move", true)
         setCopyFileName(filename);
         setOldFolderId(oldFolder);
@@ -432,10 +429,8 @@ export default function ResourceListing() {
         const container = scrollRef.current;
         if (!container) return;
         const handleScroll = () => {
-            console.log("hi 1")
             const { scrollTop, scrollHeight, clientHeight } = container;
             if (scrollHeight - scrollTop <= clientHeight + 5) {
-                console.log("hi 2")
                 if (!isLoading && hasMore) {
                     fetchFolder(currentFolderId.id, true);
                 }

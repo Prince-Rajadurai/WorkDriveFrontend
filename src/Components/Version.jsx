@@ -4,7 +4,7 @@ import { VscVersions } from "react-icons/vsc";
 import { MdOutlineStorage } from "react-icons/md";
 import "../Style/Version.css";
 
-export default function Version({ size, storage, versions = [], onclose }) {
+export default function Version({ size, storage,compressSize, versions = [], onclose }) {
     const reversedVersions = [...versions].reverse();
   return (
     <>
@@ -21,7 +21,8 @@ export default function Version({ size, storage, versions = [], onclose }) {
                         </div>
                         <div className="size-details">
                           <h3>File Versions</h3>
-                            <p>Size : {storage}</p>
+                            <p id="str_size">Size : {storage}</p>
+                            <p id="cmp_size">Reduced File Size : {compressSize}</p>
                         </div>
                     </div>
                     <div className="storage-size-view">

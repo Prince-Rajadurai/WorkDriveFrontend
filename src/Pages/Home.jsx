@@ -10,6 +10,7 @@ import { FolderContext } from "../utils/FolderContext";
 import AccountsPage from "../Components/Accounts";
 import DashBoard from "../Components/DashBoard";
 import Trash from "../Components/Trash";
+import AIBot from "../Components/AIBot";
 
 export default function Home() {
 
@@ -49,6 +50,7 @@ export default function Home() {
                         {page === "Dashboard" && <DashBoard></DashBoard>}
                         {page === "Trash" && <Trash></Trash>}
                     </div>
+                    <AIBot/>
                 </div>
             </FolderContext>
         </AuthenticationContext>

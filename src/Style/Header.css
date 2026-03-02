@@ -42,6 +42,7 @@
     padding: 0px 30px;
     color: gray;
     border-bottom: 1px solid rgb(212, 212, 212);
+    position: relative;
 }
 .userName h3{
     padding: 7px 12px;
@@ -53,4 +54,61 @@
 .userName h3:hover{
     background-color: rgb(197, 197, 197);
     color: rgb(73, 73, 73);
+}
+
+.profile-menu{
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    top: 2.75vw;
+    right: 20px;
+    min-width: 150px;
+    background-color: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 5px;
+    box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+    padding: 6px;
+    z-index: 100;
+    animation: profileMenuFade 0.18s ease;
+}
+
+.profile-menu button{
+    border: none;
+    background: transparent;
+    color: #2c2f36;
+    display: flex;
+    justify-content: flex-start;
+    gap: 5px;
+    align-items: center;
+    padding: 9px 12px;
+    border-radius: 5px;
+    font-size: 0.92rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.18s ease, color 0.18s ease;
+}
+
+.profile-menu button:hover{
+    background-color: #f1f5f9;
+    color: #111827;
+}
+
+.profile-menu button:last-child{
+    color: #c62828;
+}
+
+.profile-menu button:last-child:hover{
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+@keyframes profileMenuFade{
+    from{
+        opacity: 0;
+        transform: translateY(-6px);
+    }
+    to{
+        opacity: 1;
+        transform: translateY(0);
+    }
 }

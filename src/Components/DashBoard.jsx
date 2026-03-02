@@ -25,7 +25,6 @@ export default function DashBoard() {
         });
         const data = await response.json();
 
-        console.log(data);
 
         setData(data);
         set_s_size(data.storageBytesValue);

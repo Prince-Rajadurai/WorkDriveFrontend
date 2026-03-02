@@ -6,7 +6,7 @@ import { TbCloudUpload } from "react-icons/tb";
 
 export default function Progress({ value = 0, total = 100, type, fileName, show }) {
 
-    if (value === 0) {
+    if (Math.floor(value) === 0) {
         return (
             <div id={show ? "progress-show" : ""} className="card" >
                 <div className="progress-label">

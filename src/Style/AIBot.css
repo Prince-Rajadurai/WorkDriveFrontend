@@ -1,7 +1,7 @@
 .ai-bot-wrapper {
     position: fixed;
-    right: 22px;
-    bottom: 22px;
+    right: 20px;
+    bottom: 10px;
     z-index: 1300;
 }
 

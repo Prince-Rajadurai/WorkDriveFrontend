@@ -11,6 +11,13 @@ export default function SideNavPar({ pageLink, page }) {
         <>
             <div className="side-nav-parent">
 
+                <div style={page == "Dashboard" ? { backgroundColor: "#293B5F" } : {}}
+                    className="dash-board"
+                    onClick={() => { pageLink("Dashboard") }}
+                >
+                    <MdOutlineDashboard size={22} />
+                    <p>Dashboard</p>
+                </div>
 
                 <div style={page == "My Folders" ? { backgroundColor: "#293B5F" } : {}}
                     className="my-folder"
@@ -27,15 +34,6 @@ export default function SideNavPar({ pageLink, page }) {
                     <MdDeleteOutline size={26} />
                     <p>Trash</p>
                 </div>
-                
-                <div style={page == "Dashboard" ? { backgroundColor: "#293B5F" } : {}}
-                    className="dash-board"
-                    onClick={() => { pageLink("Dashboard") }}
-                >
-                    <MdOutlineDashboard size={22} />
-                    <p>Dashboard</p>
-                </div>
-
 
             </div>
 

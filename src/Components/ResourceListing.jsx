@@ -216,7 +216,7 @@ export default function ResourceListing() {
             a.click();
             a.remove();
             window.URL.revokeObjectURL(url);
-            showResult(200, "File downloaded successfully", true);
+            showResult(201, "⬇ File downloading...", true);
 
         } catch (err) {
             console.error("Download error:", err);

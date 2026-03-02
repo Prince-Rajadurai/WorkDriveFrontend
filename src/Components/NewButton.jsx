@@ -7,9 +7,9 @@ import Button from "./Button.jsx";
 import FolderUpload from "./FolderUpload.jsx";
 import Input from "./Input.jsx";
 import Popup from "./Popup.jsx";
+import Progress from "./Progress.jsx";
 import UpdateFile from "./UpdateFile.jsx";
 import UploadButton from "./UploadButton.jsx";
-import Progress from "./Progress.jsx";
 
 import generateSnowflakeId from '../api/snowflakeIdGenerator.js';
 
@@ -81,10 +81,7 @@ export default function NewButton({ fetchFolder }) {
          form.append("uploadId", uploadId);
          form.append("size", fileSize);
 
-
-         setCode(200);
-         setMsg(" ⬇ File Uploading ...");
-         setShow(true);
+         showResult(201, "⬇ File Uploading ...", true)
 
          const progress = setInterval(() => {
             getProgress(uploadId, progress, fileSize, "FILE", fName);
@@ -135,9 +132,7 @@ export default function NewButton({ fetchFolder }) {
       form.append("uploadId", uploadId);
       form.append("size", fileSize);
 
-      setCode(200);
-      setMsg(" ⬇ File Uploading ...");
-      setShow(true);
+      showResult(201, "⬇ File Uploading ...", true)
 
       const progress = setInterval(() => {
          getProgress(uploadId, progress, fileSize, "FILE", fName);
@@ -186,9 +181,7 @@ export default function NewButton({ fetchFolder }) {
       formData.append("parentId", parentId);
       formData.append("uploadId", uploadId);
 
-      setCode(200);
-      setMsg(" ⬇ Folder Uploading ...");
-      setShow(true);
+      showResult(201, "⬇ Folder Uploading ...", true)
 
       let folderName = files[0].webkitRelativePath.split("/")[0];
 
@@ -260,7 +253,7 @@ export default function NewButton({ fetchFolder }) {
       setCode(Code);
       setMsg(msg);
       setShow(chk);
-      setTimeout(() => { setShow(false) }, 2000)
+      setTimeout(() => { setShow(false) }, 1500)
    }
 
    function getValue(name) {

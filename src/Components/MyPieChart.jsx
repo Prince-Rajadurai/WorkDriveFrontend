@@ -11,16 +11,16 @@ import {
 
 export default function MyPieChart({senData , tSize , cSize}) {
 
+  console.log(cSize);
     const data = [
-        { name: "Size", storage: Number(tSize)/1073741824 },
-        { name: "Compressed Size", storage: Number(cSize)/1073741824},
-        { name: "Files", storage: senData.total_files },
-        { name: "File Deduplicate", storage: senData.deduplicate_files},
+        { name: "Size", storage: Math.floor(Number(tSize)/1073741824) },
+        { name: "Compressed Size", storage: Math.floor(Number(cSize)/1073741824)},
+        { name : "Deduplicate Size" , storage: Math.floor(Number(senData.deduplicateSize)/1073741824)}
     ];
     return (
       <div
         style={{
-          width: "670px",
+          width: "650px",
           background: "#ffffff",
           padding: "20px",
           borderRadius: "12px",

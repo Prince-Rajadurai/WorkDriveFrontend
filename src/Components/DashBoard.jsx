@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
+import { FaFolder } from "react-icons/fa";
 import { GrStorage } from "react-icons/gr";
 import { HiOutlineDuplicate } from "react-icons/hi";
 import { LiaFileSolid } from "react-icons/lia";
 import { MdCompress } from "react-icons/md";
-import { FaFolder } from "react-icons/fa";
 import '../Style/DashBoard.css';
 import MyPieChart from './MyPieChart';
 
@@ -51,7 +51,7 @@ export default function DashBoard() {
                     <div className="dash-board-storage">
                         <div className="storage-icon-view">
                             <MdCompress size={40} className='compress-icon' color='#10B981' style={{ backgroundColor: "#ECFDF5" }} />
-                            <p>Reduced File Size</p>
+                            <p>Compressed Size</p>
                         </div>
                         <h2>{data.total_size}</h2>
                     </div>
@@ -147,7 +147,9 @@ export default function DashBoard() {
                             <h2 id='heading'>Storage Segmentation Report</h2>
                             <p>Comparison across different data states.</p>
                         </div>
-                        <MyPieChart className="chart" senData={data} tSize={s_size} cSize={c_size}></MyPieChart>
+                        <div className="chart-view">
+                            <MyPieChart className="chart" senData={data} tSize={s_size} cSize={c_size}></MyPieChart>
+                        </div>
                     </div>
                 </div>
             </div>

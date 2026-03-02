@@ -14,6 +14,7 @@ export default function AccountsPage() {
 
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [showPasswordFields, setShowPasswordFields] = useState(false);
 
     const [editMode, setEditMode] = useState(false);
     const [formError, setFormError] = useState({ field: "", message: "" });
@@ -50,12 +51,16 @@ export default function AccountsPage() {
     const handleEdit = () => {
         setPassword("");
         setConfirmPassword("");
+        setShowPasswordFields(false);
         setFormError({ field: "", message: "" });
         setEditMode(true);
     };
 
     const handleCancel = async () => {
         await getDetails();
+        setShowPasswordFields(false);
+        setPassword("");
+        setConfirmPassword("");
         setEditMode(false);
     };
 
@@ -132,6 +137,9 @@ export default function AccountsPage() {
             showResult(data.StatusCode, "Failed to update profile", true)
         }
 
+        setShowPasswordFields(false);
+        setPassword("");
+        setConfirmPassword("");
         setEditMode(false);
     };
 
@@ -168,9 +176,24 @@ export default function AccountsPage() {
                     <div className="field">
                         <label>Password :</label>
                         {editMode ?
-                            <div className="passwordGroup">
-                                <input type="password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ borderColor: formError.field === "password" ? "red" : "" }} />
-                                <input type="password" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={{ borderColor: formError.field === "confirmPassword" ? "red" : "" }} />
+                            <div className="passwordAction">
+                                {!showPasswordFields ?
+                                    <button
+                                        type="button"
+                                        className="changePasswordBtn"
+                                        onClick={() => {
+                                            setShowPasswordFields(true);
+                                            setFormError({ field: "", message: "" });
+                                        }}
+                                    >
+                                        Change Password
+                                    </button>
+                                    :
+                                    <div className="passwordGroup">
+                                        <input type="password" placeholder="New password" value={password} onChange={(e) => setPassword(e.target.value)} style={{ borderColor: formError.field === "password" ? "red" : "" }} />
+                                        <input type="password" placeholder="Confirm password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} style={{ borderColor: formError.field === "confirmPassword" ? "red" : "" }} />
+                                    </div>
+                                }
                             </div>
                             : <span>● ● ● ● ● ● ● ●</span>}
                     </div>

@@ -280,7 +280,6 @@ export default function ResourceListing() {
             setFolderCursor(cursors.folderCursor ?? -1);
             setFileCursor(cursors.fileCursor ?? -1);
             setHasMore(Boolean(cursors.hasMore));
-            console.log(resourcesArr);
         } catch (err) {
             console.log("Error fetching resources ", err);
         } finally {

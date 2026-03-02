@@ -16,7 +16,7 @@ export default function DetailsPage({cancel, resource}) {
 
                 <div className="details-row">
                     <p>Type</p>
-                    <p>Personal Space</p>
+                    <p>My Folders</p>
                 </div>
 
                 <div className="details-row">

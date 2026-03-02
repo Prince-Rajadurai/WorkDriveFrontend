@@ -114,7 +114,6 @@
     background: #f8fafc;
 }
 
-.field input:focus,
 .field select:focus {
     outline: none;
     background: white;
@@ -124,9 +123,31 @@
 
 
 .passwordGroup {
+    width: 100%;
     display: flex;
     flex-direction: column;
     gap: 8px;
+}
+
+.passwordAction {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.changePasswordBtn {
+    background-color: transparent;
+    border: none;
+    padding: 0;
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2C66DD;
+    cursor: pointer;
+    text-underline-offset: 2px;
+    text-decoration: underline #2C66DD;
+    
+    transition: 0.2s;
 }
 
 .errorText {
